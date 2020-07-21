@@ -19,12 +19,11 @@ class ActionUtil private constructor(plugin: Plugin) {
         executor.executeActions(player, actions)
     }
 
-    private fun registerTranslators() { // Java Types
+    private fun registerTranslators() {
         registerTranslator(StringTranslator(), String::class.java)
         registerTranslator(BooleanTranslator(), Boolean::class.java)
         registerTranslator(IntTranslator(), Int::class.java, Int::class.java)
         registerTranslator(DecimalTranslator(), Double::class.java, Double::class.java)
-        // Bukkit Types
         registerTranslator(SoundTranslator(), Sound::class.java)
         registerTranslator(WorldTranslator(), World::class.java)
     }
@@ -46,6 +45,7 @@ class ActionUtil private constructor(plugin: Plugin) {
         registerActionClass("TITLEBROADCAST", TitleBroadcastAction::class.java, String::class.java, String::class.java, Int::class.java, Int::class.java, Int::class.java)
         registerActionClass("BUNGEE", BungeeAction::class.java, String::class.java)
         registerActionClass("TELEPORT", TeleportAction::class.java, World::class.java, Double::class.java, Double::class.java, Double::class.java, Float::class.java, Float::class.java)
+        registerActionClass("EQUIP", EquipItemAction::class.java, String::class.java, String::class.java, MutableList::class.java, Int::class.java, Int::class.java)
     }
 
     private fun registerTranslator(translator: Translator<*>, vararg classes: Class<*>) {

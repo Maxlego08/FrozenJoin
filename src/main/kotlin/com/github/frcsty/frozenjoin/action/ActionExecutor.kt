@@ -107,7 +107,7 @@ internal class ActionExecutor(private val plugin: Plugin) {
             val method = actionClass.getMethod("execute", *prependPlayerType(parameterTypes))
             actionDatas[key] = ActionData(key, method, parameterTypes)
         } catch (ex: NoSuchMethodException) {
-            logger.severe("Unable to register action $key: missing execute(...) method")
+            logger.severe("Unable to register action $key: missing execute(${parameterTypes.joinToString(", ")}) method")
         }
     }
 

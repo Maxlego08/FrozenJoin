@@ -6,7 +6,7 @@ import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 
 class StringTranslator : Translator<String?> {
-    private val placeholderApi: Boolean
+    private val placeholderApi: Boolean = Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null
 
     @Throws(TranslationException::class)
     override fun translate(player: Player, input: String): String {
@@ -14,9 +14,5 @@ class StringTranslator : Translator<String?> {
         message = message.replace("<nl>", System.lineSeparator())
         message = if (placeholderApi) PlaceholderAPI.setPlaceholders(player, message) else message.replace("%player_name%", player.name)
         return message
-    }
-
-    init {
-        placeholderApi = Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null
     }
 }

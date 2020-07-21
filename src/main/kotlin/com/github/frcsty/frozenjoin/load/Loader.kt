@@ -21,12 +21,11 @@ import java.util.logging.Level
 
 class Loader(private val plugin: FrozenJoinPlugin) {
 
-    lateinit var actionUtil: ActionUtil
+    val actionUtil: ActionUtil = ActionUtil.init(plugin)
     val formatManager = FormatManager(plugin)
 
     fun initialize() {
         plugin.saveDefaultConfig()
-        ActionUtil.init(plugin)
 
         if (Settings.METRICS) {
             val metrics = Metrics(plugin, 6743)
