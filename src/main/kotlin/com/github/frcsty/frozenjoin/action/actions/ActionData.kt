@@ -6,7 +6,6 @@ import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 
 class ActionData(val key: String, private val executionMethod: Method, val parameterTypes: Array<out Class<*>>) {
-
     fun execute(player: Player, parameters: Array<Any?>) {
         var params = parameters
         params = prepend(params, player)

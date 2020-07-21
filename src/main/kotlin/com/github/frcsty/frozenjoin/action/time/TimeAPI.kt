@@ -51,23 +51,17 @@ class TimeAPI {
         return seconds.toDouble()
     }
 
-    val minutes: Double
-        get() = seconds / 60.0
+    val minutes: Double get() = seconds / 60.0
 
-    val hours: Double
-        get() = seconds / 3600.0
+    val hours: Double get() = seconds / 3600.0
 
-    val days: Double
-        get() = seconds / 86400.0
+    val days: Double get() = seconds / 86400.0
 
-    val weeks: Double
-        get() = days / DAYS_IN_WEEK
+    val weeks: Double get() = days / DAYS_IN_WEEK
 
-    val months: Double
-        get() = days / DAYS_IN_MONTH
+    val months: Double get() = days / DAYS_IN_MONTH
 
-    val years: Double
-        get() = days / DAYS_IN_YEAR
+    val years: Double get() = days / DAYS_IN_YEAR
 
     companion object {
         private const val DAYS_IN_WEEK: Long = 7
