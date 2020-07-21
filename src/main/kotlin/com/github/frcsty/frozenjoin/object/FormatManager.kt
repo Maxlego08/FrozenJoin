@@ -2,6 +2,7 @@ package com.github.frcsty.frozenjoin.`object`
 
 import com.github.frcsty.frozenjoin.FrozenJoinPlugin
 import com.github.frcsty.frozenjoin.load.Settings
+import com.github.frcsty.frozenjoin.load.logError
 import java.util.logging.Level
 
 class FormatManager(private val plugin: FrozenJoinPlugin) {
@@ -10,7 +11,7 @@ class FormatManager(private val plugin: FrozenJoinPlugin) {
     val motdsMap: MutableMap<String, MOTD> = HashMap()
 
     fun setFormats() {
-        if (formatsMap.isEmpty().not()) {
+        if (formatsMap.isNotEmpty()) {
             formatsMap.clear()
         }
 
@@ -18,43 +19,43 @@ class FormatManager(private val plugin: FrozenJoinPlugin) {
         val formats = config.getConfigurationSection("formats")
         val motds = config.getConfigurationSection("motds")
 
-        if (formats == null) {
-            Settings.LOGGER.log(Level.WARNING, "Configuration section 'formats' is undefined!")
-            return
-        }
-        if (motds == null) {
-            Settings.LOGGER.log(Level.WARNING, "Configuration section 'motds' is undefined!")
-            return
-        }
-
-        for (format in formats.getKeys(false)) {
-            val formatSection = formats.getConfigurationSection(format)?: continue
-
-            val newFormat = Format.create()
-                    .withPriority(formatSection.getInt("priority"))
-                    .withType(formatSection.getString("type"))
-                    .withPermission(formatSection.getString( "permission"))
-                    .withJoinActions(formatSection.getStringList("join"))
-                    .withLeaveActions(formatSection.getStringList("quit"))
-
-            if (formatSection.get("inverted") != null) {
-                newFormat.isInverted(formatSection.getBoolean("inverted"))
+        when {
+            formats == null -> {
+                logError("Configuration section 'formats' is undefined!")
+                return
             }
-            formatsMap[format] = newFormat
+            motds == null -> {
+                logError("Configuration section 'motds' is undefined!")
+                return
+            }
+            else -> Unit
         }
 
-        for (motd in motds.getKeys(false)) {
-            val motdSection = motds.getConfigurationSection(motd)?: continue
-
-            val newMotd = MOTD.create()
-                    .withMessage(motdSection.getStringList("actions"))
-                    .withPriority(motdSection.getInt("priority"))
-                    .withPermission(motdSection.getString("permission"))
-
-            motdsMap[motd] = newMotd
+        formats.getKeys(false).forEach{ format ->
+            val formatSection = formats.getConfigurationSection(format) ?: return@forEach
+            formatsMap[format] = Format(
+                    priority = formatSection.getInt("priority"),
+                    type = formatSection.getString("type") ?: "",
+                    permission = formatSection.getString( "permission") ?: "",
+                    joinActions = formatSection.getStringList("join"),
+                    leaveActions = formatSection.getStringList("quit"),
+                    isInverted =  formatSection.getBoolean("inverted")
+            )
+        }
+        motds.getKeys(false).forEach{ motd ->
+            val motdSection = motds.getConfigurationSection(motd) ?: return@forEach
+            motdsMap[motd] = MOTD(
+                    message = motdSection.getStringList("actions"),
+                    priority = motdSection.getInt("priority"),
+                    permission = motdSection.getString("permission") ?: ""  // Permission can no longer be null
+            )
         }
 
-        motdsMap["firstJoin"] = MOTD.create().withMessage(plugin.config.getStringList("firstJoinMessage"))
+        motdsMap["firstJoin"] = MOTD(
+                message = plugin.config.getStringList("firstJoinMessage")
+        )
     }
 
+
 }
+

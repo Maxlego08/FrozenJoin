@@ -5,112 +5,87 @@ import com.github.frcsty.frozenjoin.`object`.FormatManager
 import com.github.frcsty.frozenjoin.`object`.MOTD
 import com.github.frcsty.frozenjoin.action.ActionUtil
 import com.github.frcsty.frozenjoin.load.Settings
+import com.github.frcsty.frozenjoin.load.logInfo
 import org.bukkit.entity.Player
 import org.bukkit.permissions.PermissionAttachmentInfo
 import java.util.*
 import java.util.function.Consumer
 import java.util.logging.Level
 
-class MessageFormatter {
-    companion object {
-        private val random = SplittableRandom()
+object MessageFormatter {
+    private val random = SplittableRandom()
 
-        fun executeMotd(player: Player, manager: FormatManager, actionUtil: ActionUtil) {
-            var motds: MutableMap<Int?, String?> = HashMap()
+    fun executeMotd(player: Player, manager: FormatManager, actionUtil: ActionUtil) {
+        val motds: Map<Int, MOTD> = manager.motdsMap.filter { (key, value) ->
+            !("firstJoin".equals(key, true)) &&
+            player.hasEffectivePermission(value.permission)
+        }.mapKeys{
+            it.value.priority
+        }.toSortedMap(Comparator.reverseOrder<Int>())
 
-            for (motd in manager.motdsMap.keys) {
+        val motd: Map.Entry<Int, MOTD> = motds.entries.firstOrNull() ?: return
 
-                if (motd.equals("firstJoin", ignoreCase = true)) {
-                    continue
-                }
+        val motdObject: MOTD = motd.value
 
-                val motdObject: MOTD = manager.motdsMap[motd] ?: continue
+        val actions: List<String> = motdObject.message
 
-                val permission: String = motdObject.permission ?: return
-                val priority: Int = motdObject.priority
-                handlePermission(priority, motd, permission, motds, player)
-            }
+        actionUtil.executeActions(player, actions)
+        if (Settings.DEBUG)
+            logInfo("Executing '${manager.motdsMap.values.firstOrNull { it == motdObject }}' motd for user ${player.name} (${player.uniqueId})")
+    }
 
-            motds = motds.toSortedMap(Comparator.reverseOrder<Int>())
+    fun executeFormat(player: Player, manager: FormatManager, actionUtil: ActionUtil, action: String): List<String> {
+        val formats: Map<Int, String> = manager.formatsMap.filter { (key, value) ->
+            player.hasEffectivePermission(value.permission)
+        }.map{
+            it.value.priority to it.key
+        }.toMap().toSortedMap(Comparator.reverseOrder<Int>())
 
-            if (motds.isEmpty()) {
-                return
-            }
-
-            val motd: Map.Entry<Int?, String?> = motds.entries.iterator().next()
-            val motdObject: MOTD = manager.motdsMap[motd.value] ?: return
-            val actions: List<String> = motdObject.message
-
-            actionUtil.executeActions(player, actions)
-            if (Settings.DEBUG) Settings.LOGGER.log(Level.INFO, String.format("Executing '%s' motd for user %s (%s)", motd.value, player.name, player.uniqueId))
+        val format: Map.Entry<Int, String> = formats.entries.firstOrNull() ?: return emptyList()
+        val formatObject: Format = manager.formatsMap[format.value] ?: return emptyList()
+        val actions = if (action.equals("join", ignoreCase = true)) {
+            formatObject.joinActions
+        } else {
+            formatObject.leaveActions
         }
 
-        fun executeFormat(player: Player, manager: FormatManager, actionUtil: ActionUtil, action: String): List<String> {
-            var formats: MutableMap<Int?, String?> = HashMap()
+        val type: String = formatObject.type
 
-            for (format in manager.formatsMap.keys) {
-                val formatObject: Format = manager.formatsMap[format] ?: continue
-                val permission: String = formatObject.permission ?: return Collections.emptyList()
-                val priority: Int = formatObject.priority
-                handlePermission(priority, format, permission, formats, player)
+        if (actions.isEmpty()) {
+            return emptyList()
+        }
+
+        val actionType = type.toUpperCase()
+
+        when (actionType) {
+            "NORMAL" -> {
+                actionUtil.executeActions(player, actions)
             }
-
-            formats = formats.toSortedMap(Comparator.reverseOrder<Int>())
-
-            if (formats.isEmpty()) {
-                return Collections.emptyList()
+            "RANDOM" -> {
+                actionUtil.executeActions(player, actions[random.nextInt(actions.size) - 1])
             }
-
-            val format: Map.Entry<Int?, String?> = formats.entries.iterator().next()
-            val formatObject: Format = manager.formatsMap[format.value] ?: return Collections.emptyList()
-            val actions: List<String>
-            actions = if (action.equals("join", ignoreCase = true)) {
-                formatObject.joinActions
-            } else {
-                formatObject.leaveActions
-            }
-
-            val type: String = formatObject.type ?: return Collections.emptyList()
-            if (actions.isEmpty()) {
-                return Collections.emptyList()
-            }
-
-            var actionType = ""
-            when (type.toUpperCase()) {
-                "NORMAL" -> {
-                    actionType = "NORMAL"
+            "VANISH" -> {
+                val inverted: Boolean = formatObject.isInverted
+                if (isVanished(player, inverted)) {
                     actionUtil.executeActions(player, actions)
                 }
-                "RANDOM" -> {
-                    actionType = "RANDOM"
-                    actionUtil.executeActions(player, actions[random.nextInt(actions.size) - 1])
-                }
-                "VANISH" -> {
-                    actionType = "VANISH"
-                    val inverted: Boolean = formatObject.isInverted
-                    if (isVanished(player, inverted)) {
-                        actionUtil.executeActions(player, actions)
-                    }
-                }
             }
-
-            if (Settings.DEBUG) Settings.LOGGER.log(Level.INFO, String.format("Executing '%s' action for user %s (%s)", actionType, player.name, player.uniqueId))
-            return actions
         }
 
-        private fun handlePermission(key: Int, value: String, permission: String, map: MutableMap<Int?, String?>, player: Player) {
-            player.effectivePermissions.forEach(Consumer { perm: PermissionAttachmentInfo -> if (perm.permission.equals(permission, ignoreCase = true)) map[key] = value })
-        }
+        if (Settings.DEBUG)
+            logInfo("Executing '$actionType' action for user ${player.name} (${player.uniqueId})")
 
-        private fun isVanished(player: Player, inverted: Boolean): Boolean {
-            var isVanish = false
-
-            for (meta in player.getMetadata("vanished")) {
-                if (meta.asBoolean()) isVanish = true
-            }
-
-            return if (inverted) !isVanish
-            else isVanish
-        }
+        return actions
     }
+
+
+    private fun isVanished(player: Player, inverted: Boolean): Boolean {
+        val isVanish = player.getMetadata("vanished").any { it.asBoolean() }
+        return !inverted == isVanish
+    }
+}
+
+
+private fun Player.hasEffectivePermission(permission: String): Boolean {
+    return effectivePermissions.any { it.permission.equals(permission, true) }
 }
