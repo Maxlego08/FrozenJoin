@@ -1,0 +1,4 @@
+name: FrozenJoin
+version: @version@
+main: com.github.frcsty.frozenjoin.FrozenJoinPlugin
+author: Frcsty
