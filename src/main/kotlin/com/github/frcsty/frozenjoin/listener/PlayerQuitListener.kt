@@ -19,10 +19,10 @@ class PlayerQuitListener(private val loader: Loader) : Listener {
         event.quitMessage = ""
 
         val manager = loader.formatManager
-        val actionUtil = loader.actionUtil
+        val actionHandler = loader.actionHandler
         val player = event.player
 
-        val actions = MessageFormatter.executeFormat(player, manager, actionUtil, ACTION)
+        val actions = MessageFormatter.executeFormat(player, manager, actionHandler, ACTION)
         Bukkit.getServer().pluginManager.callEvent(FrozenQuitEvent(player, actions))
     }
 }

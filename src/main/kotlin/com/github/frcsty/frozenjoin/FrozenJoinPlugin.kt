@@ -1,7 +1,5 @@
 package com.github.frcsty.frozenjoin
 
-import com.github.frcsty.frozenjoin.`object`.FormatManager
-import com.github.frcsty.frozenjoin.`object`.MOTD
 import com.github.frcsty.frozenjoin.load.Loader
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -11,7 +9,6 @@ class FrozenJoinPlugin : JavaPlugin() {
 
     override fun onEnable() {
         loader.initialize()
-
     }
 
     override fun onDisable() {

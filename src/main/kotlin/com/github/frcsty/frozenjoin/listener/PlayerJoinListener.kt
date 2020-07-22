@@ -19,20 +19,20 @@ class PlayerJoinListener(private val loader: Loader) : Listener {
     fun onPlayerJoin(event: PlayerJoinEvent) {
         event.joinMessage = ""
 
-        val actionUtil = loader.actionUtil
+        val actionHandler = loader.actionHandler
         val manager = loader.formatManager
         val player = event.player
 
         if (!player.hasPlayedBefore()) {
             val motdObject = manager.motdsMap[FIRST_JOIN] ?: return
             val actions = motdObject.message
-            actionUtil.executeActions(player, actions)
+            actionHandler.execute(player, actions)
             Bukkit.getServer().pluginManager.callEvent(FrozenJoinEvent(player, actions))
             return
         }
 
-        MessageFormatter.executeMotd(player, manager, actionUtil)
-        val actions = MessageFormatter.executeFormat(player, manager, actionUtil, ACTION)
+        MessageFormatter.executeMotd(player, manager, actionHandler)
+        val actions = MessageFormatter.executeFormat(player, manager, actionHandler, ACTION)
         Bukkit.getServer().pluginManager.callEvent(FrozenJoinEvent(player, actions))
     }
 }

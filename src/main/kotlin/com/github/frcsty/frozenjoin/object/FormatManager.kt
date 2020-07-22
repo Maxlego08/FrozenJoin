@@ -1,9 +1,7 @@
 package com.github.frcsty.frozenjoin.`object`
 
 import com.github.frcsty.frozenjoin.FrozenJoinPlugin
-import com.github.frcsty.frozenjoin.load.Settings
 import com.github.frcsty.frozenjoin.load.logError
-import java.util.logging.Level
 
 class FormatManager(private val plugin: FrozenJoinPlugin) {
 
@@ -31,23 +29,23 @@ class FormatManager(private val plugin: FrozenJoinPlugin) {
             else -> Unit
         }
 
-        formats.getKeys(false).forEach{ format ->
+        formats.getKeys(false).forEach { format ->
             val formatSection = formats.getConfigurationSection(format) ?: return@forEach
             formatsMap[format] = Format(
                     priority = formatSection.getInt("priority"),
                     type = formatSection.getString("type") ?: "",
-                    permission = formatSection.getString( "permission") ?: "",
+                    permission = formatSection.getString("permission") ?: "frozenjoin.format.$format",
                     joinActions = formatSection.getStringList("join"),
                     leaveActions = formatSection.getStringList("quit"),
-                    isInverted =  formatSection.getBoolean("inverted")
+                    isInverted = formatSection.getBoolean("inverted")
             )
         }
-        motds.getKeys(false).forEach{ motd ->
+        motds.getKeys(false).forEach { motd ->
             val motdSection = motds.getConfigurationSection(motd) ?: return@forEach
             motdsMap[motd] = MOTD(
                     message = motdSection.getStringList("actions"),
                     priority = motdSection.getInt("priority"),
-                    permission = motdSection.getString("permission") ?: ""  // Permission can no longer be null
+                    permission = motdSection.getString("permission") ?: "frozenjoin.motd.$motd"
             )
         }
 
