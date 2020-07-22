@@ -4,27 +4,35 @@ import java.util.*
 import java.util.function.Predicate
 
 internal class TimeScanner(time: String) {
-    private val time: CharArray
+    private val time: CharArray = time.toCharArray()
     private var index = 0
+
     operator fun hasNext(): Boolean {
         return index < time.size - 1
     }
 
     fun nextLong(): Long {
-        return String(next(Predicate { ch: Char? -> Character.isDigit(ch!!) })).toLong()
+        return String(
+                next(
+                        Predicate(Char::isDigit)
+                )
+        ).toLong()
     }
 
     fun nextString(): String {
-        return String(next(Predicate { codePoint: Char -> Character.isAlphabetic(codePoint.toInt()) }))
+        return String(
+                next(
+                        Predicate { codePoint: Char ->
+                            Character.isAlphabetic(codePoint.toInt())
+                        }
+                )
+        )
     }
 
     private fun next(whichSatisfies: Predicate<Char>): CharArray {
         val startIndex = index
         while (++index < time.size && whichSatisfies.test(time[index]));
-        return Arrays.copyOfRange(time, startIndex, index)
+        return time.copyOfRange(startIndex, index)
     }
 
-    init {
-        this.time = time.toCharArray()
-    }
 }
