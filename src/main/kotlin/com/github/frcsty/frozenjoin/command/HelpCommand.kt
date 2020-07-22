@@ -3,7 +3,6 @@ package com.github.frcsty.frozenjoin.command
 import com.github.frcsty.frozenjoin.FrozenJoinPlugin
 import com.github.frcsty.frozenjoin.extension.color
 import com.github.frcsty.frozenjoin.load.Settings
-import me.mattstudios.mf.annotations.Alias
 import me.mattstudios.mf.annotations.Command
 import me.mattstudios.mf.annotations.Permission
 import me.mattstudios.mf.annotations.SubCommand
@@ -12,7 +11,7 @@ import org.bukkit.command.CommandSender
 import java.util.logging.Level
 
 @Command("frozenjoin")
-class HelpCommand(private val plugin: FrozenJoinPlugin): CommandBase() {
+class HelpCommand(private val plugin: FrozenJoinPlugin) : CommandBase() {
 
     companion object {
         private const val COMMAND: String = "help"

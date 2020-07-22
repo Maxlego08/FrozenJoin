@@ -2,7 +2,7 @@ package com.github.frcsty.frozenjoin.load
 
 import com.github.frcsty.frozenjoin.FrozenJoinPlugin
 import com.github.frcsty.frozenjoin.`object`.FormatManager
-import com.github.frcsty.frozenjoin.action.ActionUtil
+import com.github.frcsty.frozenjoin.action.ActionHandler
 import com.github.frcsty.frozenjoin.command.HelpCommand
 import com.github.frcsty.frozenjoin.command.InfoCommand
 import com.github.frcsty.frozenjoin.command.MotdCommand
@@ -16,12 +16,11 @@ import org.bukkit.Bukkit.getServer
 import org.bukkit.command.CommandSender
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.event.Listener
-import java.util.*
 import java.util.logging.Level
 
 class Loader(private val plugin: FrozenJoinPlugin) {
 
-    val actionUtil: ActionUtil = ActionUtil.init(plugin)
+    val actionHandler: ActionHandler = ActionHandler(plugin)
     val formatManager = FormatManager(plugin)
 
     fun initialize() {
@@ -61,28 +60,24 @@ class Loader(private val plugin: FrozenJoinPlugin) {
     private fun registerMessages(manager: CommandManager, messages: ConfigurationSection?) {
         val handler = manager.messageHandler
         val console = messages?.getString("player-only-message")
-                    ?: "&8[&bFrozenJoin&8] &cThis command can not be executed through console!"
+                ?: "&8[&bFrozenJoin&8] &cThis command can not be executed through console!"
         val permission = messages?.getString("deny-message")
-                    ?: "&8[&bFrozenJoin&8] &7You do not have permission to execute this."
+                ?: "&8[&bFrozenJoin&8] &7You do not have permission to execute this."
         val exists = messages?.getString("unknown-command-message")
-                    ?: "&8[&bFrozenJoin&8] &7Executed command is invalid!"
+                ?: "&8[&bFrozenJoin&8] &7Executed command is invalid!"
         val usage = messages?.getString("usage-message")
-                    ?: "&8[&bFrozenJoin&8] &7Incorrect usage for specified command!"
-        with (handler) {
-            register("cmd.no.console") {
-                sender: CommandSender ->
+                ?: "&8[&bFrozenJoin&8] &7Incorrect usage for specified command!"
+        with(handler) {
+            register("cmd.no.console") { sender: CommandSender ->
                 sender.sendMessage(console.color())
             }
-            register("cmd.no.permission") {
-                sender: CommandSender ->
+            register("cmd.no.permission") { sender: CommandSender ->
                 sender.sendMessage(permission.color())
             }
-            register("cmd.no.exists") {
-                sender: CommandSender ->
+            register("cmd.no.exists") { sender: CommandSender ->
                 sender.sendMessage(exists.color())
             }
-            register("cmd.wrong.usage") {
-                sender: CommandSender ->
+            register("cmd.wrong.usage") { sender: CommandSender ->
                 sender.sendMessage(usage.color())
             }
         }

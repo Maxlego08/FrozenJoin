@@ -1,8 +1,12 @@
 package com.github.frcsty.frozenjoin.action.actions
 
 import org.bukkit.entity.Player
-import org.bukkit.plugin.Plugin
 
-object MessageAction : Action {
-    fun execute(player: Player, plugin: Plugin, msg: String) = player.sendMessage(msg)
+class MessageAction : Action {
+    override val id: String
+        get() = "MESSAGE"
+
+    override fun run(player: Player, data: String) {
+        println(data)
+    }
 }

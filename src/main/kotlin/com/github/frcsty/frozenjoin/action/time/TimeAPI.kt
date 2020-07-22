@@ -2,7 +2,6 @@ package com.github.frcsty.frozenjoin.action.time
 
 import java.util.concurrent.TimeUnit
 
-
 class TimeAPI {
     private var seconds: Long = 0
 
@@ -47,8 +46,8 @@ class TimeAPI {
     val milliseconds: Double
         get() = TimeUnit.SECONDS.toMillis(seconds).toDouble()
 
-    fun getSeconds(): Double {
-        return seconds.toDouble()
+    fun getSeconds(): Long {
+        return seconds
     }
 
     val minutes: Double get() = seconds / 60.0

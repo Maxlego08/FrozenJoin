@@ -12,7 +12,7 @@ import org.bukkit.scheduler.BukkitRunnable
 import java.util.logging.Level
 
 @Command("frozenjoin")
-class ReloadCommand(private val plugin: FrozenJoinPlugin): CommandBase() {
+class ReloadCommand(private val plugin: FrozenJoinPlugin) : CommandBase() {
 
     companion object {
         private const val COMMAND: String = "reload"
@@ -37,18 +37,15 @@ class ReloadCommand(private val plugin: FrozenJoinPlugin): CommandBase() {
             return
         }
 
+        object : BukkitRunnable() {
+            override fun run() {
+                plugin.reloadConfig()
+            }
+        }.runTaskAsynchronously(plugin)
+
         val estimatedTime = System.currentTimeMillis() - startTime
         sender.sendMessage((message.replace("%time%", estimatedTime.toString()).color()))
 
         if (Settings.DEBUG) Settings.LOGGER.log(Level.INFO, String.format("Executor %s executed action 'reload'", sender.name))
-    }
-
-    init {
-        object : BukkitRunnable() {
-            override fun run() {
-                plugin.reloadConfig()
-
-            }
-        }.runTaskAsynchronously(plugin)
     }
 }
