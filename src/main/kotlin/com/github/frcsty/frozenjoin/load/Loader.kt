@@ -34,19 +34,24 @@ class Loader(private val plugin: FrozenJoinPlugin) {
             }
         }
 
-        if (Settings.METRICS) {
-            Settings.LOGGER.log(Level.INFO, "Hex support enabled! (#hex)")
+        if (Settings.HEX_USE) {
+            logInfo("Hex support enabled! (#hex)")
         }
 
         val manager = CommandManager(plugin)
-        manager.register(HelpCommand(plugin), InfoCommand(plugin), MotdCommand(this), ReloadCommand(plugin))
+        manager.register(
+                HelpCommand(plugin),
+                InfoCommand(plugin),
+                MotdCommand(this),
+                ReloadCommand(plugin)
+        )
 
         formatManager.setFormats()
 
         val messages = plugin.config.getConfigurationSection("messages")
 
         if (messages == null) {
-            Settings.LOGGER.log(Level.WARNING, "Configuration section 'messages' not found!")
+            logError("Configuration section 'messages' not found!")
         }
 
         registerMessages(manager, messages)
@@ -55,31 +60,39 @@ class Loader(private val plugin: FrozenJoinPlugin) {
 
     private fun registerMessages(manager: CommandManager, messages: ConfigurationSection?) {
         val handler = manager.messageHandler
-
-        if (messages == null) {
-            handler.register("cmd.no.console") { sender: CommandSender -> sender.sendMessage("&8[&bFrozenJoin&8] &cThis command can not be executed through console!".color()) }
-            handler.register("cmd.no.permission") { sender: CommandSender -> sender.sendMessage("&8[&bFrozenJoin&8] &7You do not have permission to execute this.".color()) }
-            handler.register("cmd.no.exists") { sender: CommandSender -> sender.sendMessage("&8[&bFrozenJoin&8] &7Executed command is invalid!".color()) }
-            handler.register("cmd.wrong.usage") { sender: CommandSender -> sender.sendMessage("&8[&bFrozenJoin&8] &7Incorrect usage for specified command!".color()) }
-        } else {
-            val console = messages.getString("player-only-message")
+        val console = messages?.getString("player-only-message")
                     ?: "&8[&bFrozenJoin&8] &cThis command can not be executed through console!"
-            val permission = messages.getString("deny-message")
+        val permission = messages?.getString("deny-message")
                     ?: "&8[&bFrozenJoin&8] &7You do not have permission to execute this."
-            val exists = messages.getString("unknown-command-message")
+        val exists = messages?.getString("unknown-command-message")
                     ?: "&8[&bFrozenJoin&8] &7Executed command is invalid!"
-            val usage = messages.getString("usage-message")
+        val usage = messages?.getString("usage-message")
                     ?: "&8[&bFrozenJoin&8] &7Incorrect usage for specified command!"
-
-            handler.register("cmd.no.console") { sender: CommandSender -> sender.sendMessage(console.color()) }
-            handler.register("cmd.no.permission") { sender: CommandSender -> sender.sendMessage(permission.color()) }
-            handler.register("cmd.no.exists") { sender: CommandSender -> sender.sendMessage(exists.color()) }
-            handler.register("cmd.wrong.usage") { sender: CommandSender -> sender.sendMessage(usage.color()) }
+        with (handler) {
+            register("cmd.no.console") {
+                sender: CommandSender ->
+                sender.sendMessage(console.color())
+            }
+            register("cmd.no.permission") {
+                sender: CommandSender ->
+                sender.sendMessage(permission.color())
+            }
+            register("cmd.no.exists") {
+                sender: CommandSender ->
+                sender.sendMessage(exists.color())
+            }
+            register("cmd.wrong.usage") {
+                sender: CommandSender ->
+                sender.sendMessage(usage.color())
+            }
         }
     }
 
     private fun registerListeners(vararg listeners: Listener) {
-        Arrays.stream(listeners).forEach { listener: Listener? -> getServer().pluginManager.registerEvents(listener!!, plugin) }
+        listeners.forEach { listener: Listener? ->
+            if (listener != null)
+                getServer().pluginManager.registerEvents(listener, plugin)
+        }
     }
 
     fun terminate() {
