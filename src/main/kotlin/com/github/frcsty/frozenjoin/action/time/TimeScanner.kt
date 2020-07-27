@@ -1,6 +1,5 @@
 package com.github.frcsty.frozenjoin.action.time
 
-import java.util.*
 import java.util.function.Predicate
 
 internal class TimeScanner(time: String) {

@@ -1,16 +1,13 @@
 package com.github.frcsty.frozenjoin.action
 
 import com.github.frcsty.frozenjoin.FrozenJoinPlugin
-import com.github.frcsty.frozenjoin.action.actions.Action
-import com.github.frcsty.frozenjoin.action.actions.BroadcastAction
-import com.github.frcsty.frozenjoin.action.actions.MessageAction
+import com.github.frcsty.frozenjoin.action.actions.*
 import com.github.frcsty.frozenjoin.action.time.TimeAPI
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
-import java.util.stream.Stream
 
 private val ACTION_PATTERN = Pattern.compile("(.*) ?\\[(?<action>[A-Z]+?)] ?(?<arguments>.+)", Pattern.CASE_INSENSITIVE)
 private val DELAY_PATTERN = Pattern.compile("\\[DELAY=(?<delay>\\d+[a-z])]", Pattern.CASE_INSENSITIVE)
@@ -19,18 +16,32 @@ private val RANDOM = SplittableRandom()
 
 class ActionHandler(private val plugin: FrozenJoinPlugin) {
 
-    private val actions: Map<String, Action> = setOf (
+    private val actions: Map<String, Action> = setOf(
+            ActionbarBroadcastAction(),
+            ActionbarMessageAction(),
+            BroadcastAction(),
+            BungeeAction(),
+            CenterBroadcastAction(),
+            CenterMessageAction(),
+            ConsoleCommandAction(),
+            EquipItemAction(),
+            JsonBroadcastAction(),
+            JsonMessageAction(),
             MessageAction(),
-            BroadcastAction()
+            PlayerCommandAction(),
+            SoundAction(),
+            SoundBroadcastAction(),
+            TeleportAction(),
+            TitleBroadcastAction(),
+            TitleMessageAction()
     ).associateBy { it.id }
 
     private val matcher: Matcher = ACTION_PATTERN.matcher("")
     private val chanceMatcher: Matcher = CHANCE_PATTERN.matcher("")
     private val delayMatcher: Matcher = DELAY_PATTERN.matcher("")
 
-
     fun execute(player: Player, input: List<String>) {
-        input.forEach{ execute(player, it) }
+        input.forEach { execute(player, it) }
     }
 
     fun execute(player: Player, input: String) {

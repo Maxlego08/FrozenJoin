@@ -2,17 +2,19 @@ package com.github.frcsty.frozenjoin.command
 
 import com.github.frcsty.frozenjoin.FrozenJoinPlugin
 import com.github.frcsty.frozenjoin.extension.color
+import com.github.frcsty.frozenjoin.load.Loader
 import com.github.frcsty.frozenjoin.load.Settings
+import com.github.frcsty.frozenjoin.load.logError
+import com.github.frcsty.frozenjoin.load.logInfo
 import me.mattstudios.mf.annotations.Command
 import me.mattstudios.mf.annotations.Permission
 import me.mattstudios.mf.annotations.SubCommand
 import me.mattstudios.mf.base.CommandBase
 import org.bukkit.command.CommandSender
 import org.bukkit.scheduler.BukkitRunnable
-import java.util.logging.Level
 
 @Command("frozenjoin")
-class ReloadCommand(private val plugin: FrozenJoinPlugin) : CommandBase() {
+class ReloadCommand(private val plugin: FrozenJoinPlugin, private val loader: Loader) : CommandBase() {
 
     companion object {
         private const val COMMAND: String = "reload"
@@ -25,27 +27,32 @@ class ReloadCommand(private val plugin: FrozenJoinPlugin) : CommandBase() {
         val startTime = System.currentTimeMillis()
         val messages = plugin.config.getConfigurationSection("messages")
 
+
         if (messages == null) {
-            Settings.LOGGER.log(Level.WARNING, "Configuration section 'messages' not found!")
+            logError("Configuration section 'messages' not found!")
             return
         }
 
-        val message = messages.getString("reload-message")
+        val message = messages.getString("reloadMessage")
 
         if (message == null) {
-            Settings.LOGGER.log(Level.WARNING, "Configuration message 'messages.reload-message' is incomplete!")
+            logError("Configuration message 'messages.reloadMessage' is incomplete!")
             return
         }
+
+        loader.formatManager.formatsMap.clear()
+        loader.formatManager.motdsMap.clear()
 
         object : BukkitRunnable() {
             override fun run() {
                 plugin.reloadConfig()
+                loader.formatManager.setFormats()
             }
         }.runTaskAsynchronously(plugin)
 
         val estimatedTime = System.currentTimeMillis() - startTime
         sender.sendMessage((message.replace("%time%", estimatedTime.toString()).color()))
 
-        if (Settings.DEBUG) Settings.LOGGER.log(Level.INFO, String.format("Executor %s executed action 'reload'", sender.name))
+        if (Settings.DEBUG) logInfo("Executor ${sender.name} executed action 'reload'")
     }
 }

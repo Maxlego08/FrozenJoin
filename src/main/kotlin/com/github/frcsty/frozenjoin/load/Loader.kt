@@ -41,8 +41,10 @@ class Loader(private val plugin: FrozenJoinPlugin) {
         manager.register(
                 HelpCommand(plugin),
                 InfoCommand(plugin),
-                MotdCommand(this),
-                ReloadCommand(plugin)
+                MotdCommand(
+                        message = plugin.config.getString("messages.noMotdMessage") ?: "&8[&bFrozenJoin&8] &8» &cYou do not have an motd applicable.",
+                        loader = this),
+                ReloadCommand(plugin, this)
         )
 
         formatManager.setFormats()

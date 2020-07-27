@@ -7,7 +7,7 @@ private const val DAYS_IN_MONTH: Long = 30
 private const val DAYS_IN_YEAR: Long = 365
 
 class TimeAPI(val seconds: Long) {
-    constructor(time: String): this(parseTime(time))
+    constructor(time: String) : this(parseTime(time))
 
     val nanoseconds: Double by lazy {
         TimeUnit.SECONDS.toNanos(seconds).toDouble()
@@ -27,11 +27,11 @@ class TimeAPI(val seconds: Long) {
 
     val days: Double by lazy { seconds / 86400.0 }
 
-    val weeks: Double by lazy { days/ DAYS_IN_WEEK }
+    val weeks: Double by lazy { days / DAYS_IN_WEEK }
 
-    val months: Double by lazy { days/ DAYS_IN_MONTH }
+    val months: Double by lazy { days / DAYS_IN_MONTH }
 
-    val years: Double by lazy { days/ DAYS_IN_YEAR }
+    val years: Double by lazy { days / DAYS_IN_YEAR }
 }
 
 
@@ -39,10 +39,10 @@ private fun parseTime(time: String): Long {
     var seconds = 0L
     val scanner = TimeScanner(
             time
-            .replace(" ", "")
-            .replace("and", "")
-            .replace(",", "")
-            .toLowerCase()
+                    .replace(" ", "")
+                    .replace("and", "")
+                    .replace(",", "")
+                    .toLowerCase()
     )
     var next: Long
     while (scanner.hasNext()) {

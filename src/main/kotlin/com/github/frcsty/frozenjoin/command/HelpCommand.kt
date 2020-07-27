@@ -3,6 +3,7 @@ package com.github.frcsty.frozenjoin.command
 import com.github.frcsty.frozenjoin.FrozenJoinPlugin
 import com.github.frcsty.frozenjoin.extension.color
 import com.github.frcsty.frozenjoin.load.Settings
+import com.github.frcsty.frozenjoin.load.logInfo
 import me.mattstudios.mf.annotations.Command
 import me.mattstudios.mf.annotations.Permission
 import me.mattstudios.mf.annotations.SubCommand
@@ -21,10 +22,10 @@ class HelpCommand(private val plugin: FrozenJoinPlugin) : CommandBase() {
     @SubCommand(COMMAND)
     @Permission(PERMISSION)
     fun helpCommand(sender: CommandSender) {
-        val help: List<String> = plugin.config.getStringList("messages.help-message")
+        val help: List<String> = plugin.config.getStringList("messages.helpMessage")
 
         if (help.isEmpty()) {
-            Settings.LOGGER.log(Level.WARNING, "Configuration message 'messages.help-message' is incomplete!")
+            Settings.LOGGER.log(Level.WARNING, "Configuration message 'messages.helpMessage' is incomplete!")
             return
         }
 
@@ -32,6 +33,6 @@ class HelpCommand(private val plugin: FrozenJoinPlugin) : CommandBase() {
             sender.sendMessage(line.color())
         }
 
-        if (Settings.DEBUG) Settings.LOGGER.log(Level.INFO, String.format("Executor %s executed action 'help'", sender.name))
+        if (Settings.DEBUG) logInfo("Executor ${sender.name} executed action 'help'")
     }
 }

@@ -4,6 +4,7 @@ import com.github.frcsty.frozenjoin.`object`.Format
 import com.github.frcsty.frozenjoin.`object`.FormatManager
 import com.github.frcsty.frozenjoin.`object`.MOTD
 import com.github.frcsty.frozenjoin.action.ActionHandler
+import com.github.frcsty.frozenjoin.extension.sendTranslatedMessage
 import com.github.frcsty.frozenjoin.load.Settings
 import com.github.frcsty.frozenjoin.load.logInfo
 import org.bukkit.entity.Player
@@ -12,7 +13,7 @@ import java.util.*
 object MessageFormatter {
     private val random = SplittableRandom()
 
-    fun executeMotd(player: Player, manager: FormatManager, actionHandler: ActionHandler) {
+    fun executeMotd(player: Player, manager: FormatManager, actionHandler: ActionHandler, command: Boolean, message: String) {
         val motds: Map<Int, MOTD> = manager.motdsMap.filter { (key, value) ->
             !("firstJoin".equals(key, true)) &&
                     player.hasEffectivePermission(value.permission)
@@ -20,15 +21,20 @@ object MessageFormatter {
             it.value.priority
         }.toSortedMap(Comparator.reverseOrder<Int>())
 
-        val motd: Map.Entry<Int, MOTD> = motds.entries.firstOrNull() ?: return
+        val motd: Map.Entry<Int, MOTD>? = motds.entries.firstOrNull()
 
+        if (motd == null) {
+            if (command) {
+                if (Settings.DEBUG) logInfo("Executor ${player.name} executed action 'motd'")
+                player.sendTranslatedMessage(message)
+            }
+            return
+        }
         val motdObject: MOTD = motd.value
-
         val actions: List<String> = motdObject.message
 
         actionHandler.execute(player, actions)
-        if (Settings.DEBUG)
-            logInfo("Executing '${manager.motdsMap.values.firstOrNull { it == motdObject }}' motd for user ${player.name} (${player.uniqueId})")
+        if (Settings.DEBUG) logInfo("Executing '${manager.motdsMap.values.firstOrNull { it == motdObject }}' motd for user ${player.name} (${player.uniqueId})")
     }
 
     fun executeFormat(player: Player, manager: FormatManager, actionHandler: ActionHandler, action: String): List<String> {

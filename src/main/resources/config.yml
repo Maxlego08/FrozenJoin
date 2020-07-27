@@ -71,13 +71,16 @@
 # • [MESSAGE] &cHello &2World
 # • [EQUIP] <STONE;&aTest Stone;Some~Lore;3;2>
 #
+# » Looking for a feature to be added?
+# Feel free to shoot me a DM on discord (Frosty#3308) and it'll be added,
+# if I feel it addition worthy: https://cdn.discordapp.com/attachments/165129131770511360/735541444760174662/sooon.png
 #
 # » Console Message Logging
 # Determines what level of message importance should be displayed in console
-# while the plugin is operational. (Ranges from DISABLED to ENABLED).
+# while the plugin is operational.
 # Available Levels: ENABLED, DISABLED
 #
-consoleMessages: 'DISABLED'
+consoleMessages: 'ENABLED'
 #
 #
 settings:
@@ -118,6 +121,7 @@ messages:
   usageMessage: '&8[&bFrozenJoin&8] &8» &7Incorrect usage! &b{usage}'
   playerOnlyMessage: '&8[&bFrozenJoin&8] &8» &7This command can only be executed by a player!'
   unknownCommandMessage: '&8[&bFrozenJoin&8] &8» &7Unknown Command.'
+  noMotdMessage: '&8[&bFrozenJoin&8] &8» &cYou do not have an motd applicable.'
   helpMessage:
     - ''
     - '&bBase Command&8: &f/join'

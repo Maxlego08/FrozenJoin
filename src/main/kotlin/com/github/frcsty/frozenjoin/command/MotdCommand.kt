@@ -9,7 +9,7 @@ import me.mattstudios.mf.base.CommandBase
 import org.bukkit.entity.Player
 
 @Command("motd")
-class MotdCommand(private val loader: Loader) : CommandBase() {
+class MotdCommand(private val message: String, private val loader: Loader) : CommandBase() {
 
     companion object {
         private const val PERMISSION: String = "join.command.motd"
@@ -17,6 +17,11 @@ class MotdCommand(private val loader: Loader) : CommandBase() {
 
     @Default
     @Permission(PERMISSION)
-    fun motdCommand(player: Player) = MessageFormatter.executeMotd(player, loader.formatManager, loader.actionUtil)
+    fun motdCommand(player: Player) = MessageFormatter.executeMotd(
+            player,
+            loader.formatManager,
+            loader.actionHandler,
+            command = true,
+            message = message)
 
 }
