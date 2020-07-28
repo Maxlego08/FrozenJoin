@@ -9,19 +9,20 @@ import com.github.frcsty.frozenjoin.load.Settings
 import com.github.frcsty.frozenjoin.load.logInfo
 import org.bukkit.entity.Player
 import java.util.*
+import kotlin.collections.Map.Entry
 
 object MessageFormatter {
     private val random = SplittableRandom()
 
     fun executeMotd(player: Player, manager: FormatManager, actionHandler: ActionHandler, command: Boolean, message: String) {
-        val motds: Map<Int, MOTD> = manager.motdsMap.filter { (key, value) ->
-            !("firstJoin".equals(key, true)) &&
-                    player.hasEffectivePermission(value.permission)
+        //This is not the most readable thing in the world, but I'm kind of scared to change anything since there's no test suite
+        val motds = manager.motdsMap.filter { (key, value) ->
+            !("firstJoin".equals(key, true)) && player.hasEffectivePermission(value.permission)
         }.mapKeys {
             it.value.priority
         }.toSortedMap(Comparator.reverseOrder<Int>())
 
-        val motd: Map.Entry<Int, MOTD>? = motds.entries.firstOrNull()
+        val motd = motds.entries.firstOrNull()
 
         if (motd == null) {
             if (command) {
@@ -30,7 +31,7 @@ object MessageFormatter {
             }
             return
         }
-        val motdObject: MOTD = motd.value
+        val motdObject = motd.value
         val actions: List<String> = motdObject.message
 
         actionHandler.execute(player, actions)
@@ -38,21 +39,22 @@ object MessageFormatter {
     }
 
     fun executeFormat(player: Player, manager: FormatManager, actionHandler: ActionHandler, action: String): List<String> {
-        val formats: Map<Int, String> = manager.formatsMap.filter { (_, value) ->
+        val formats = manager.formatsMap.filter { (_, value) ->
             player.hasEffectivePermission(value.permission)
         }.map {
             it.value.priority to it.key
         }.toMap().toSortedMap(Comparator.reverseOrder<Int>())
 
-        val format: Map.Entry<Int, String> = formats.entries.firstOrNull() ?: return emptyList()
-        val formatObject: Format = manager.formatsMap[format.value] ?: return emptyList()
+        val format = formats.entries.firstOrNull() ?: return emptyList()
+        val formatObject = manager.formatsMap[format.value] ?: return emptyList()
+
         val actions = if (action.equals("join", ignoreCase = true)) {
             formatObject.joinActions
         } else {
             formatObject.leaveActions
         }
 
-        val type: String = formatObject.type
+        val type = formatObject.type
 
         if (actions.isEmpty()) {
             return emptyList()
@@ -65,10 +67,10 @@ object MessageFormatter {
                 actionHandler.execute(player, actions)
             }
             "RANDOM" -> {
-                actionHandler.execute(player, actions[random.nextInt(actions.size) - 1])
+                actionHandler.execute(player, actions.random())
             }
             "VANISH" -> {
-                val inverted: Boolean = formatObject.isInverted
+                val inverted = formatObject.isInverted
                 if (isVanished(player, inverted)) {
                     actionHandler.execute(player, actions)
                 }

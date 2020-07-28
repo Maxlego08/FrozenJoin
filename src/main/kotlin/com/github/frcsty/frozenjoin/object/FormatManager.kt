@@ -5,8 +5,8 @@ import com.github.frcsty.frozenjoin.load.logError
 
 class FormatManager(private val plugin: FrozenJoinPlugin) {
 
-    val formatsMap: MutableMap<String, Format> = HashMap()
-    val motdsMap: MutableMap<String, MOTD> = HashMap()
+    val formatsMap = mutableMapOf<String, Format>()
+    val motdsMap = mutableMapOf<String, MOTD>()
 
     fun setFormats() {
         if (formatsMap.isNotEmpty()) {
@@ -17,16 +17,13 @@ class FormatManager(private val plugin: FrozenJoinPlugin) {
         val formats = config.getConfigurationSection("formats")
         val motds = config.getConfigurationSection("motds")
 
-        when {
-            formats == null -> {
-                logError("Configuration section 'formats' is undefined!")
-                return
-            }
-            motds == null -> {
-                logError("Configuration section 'motds' is undefined!")
-                return
-            }
-            else -> Unit
+        if (formats == null) {
+            logError("Configuration section 'formats' is undefined!")
+            return
+        }
+        if (motds == null) {
+            logError("Configuration section 'motds' is undefined!")
+            return
         }
 
         formats.getKeys(false).forEach { format ->

@@ -3,7 +3,7 @@ package com.github.frcsty.frozenjoin.action.actions
 import org.bukkit.Location
 import org.bukkit.entity.Player
 
-class TeleportAction : Action {
+object TeleportAction : Action {
 
     override val id = "TELEPORT"
 
