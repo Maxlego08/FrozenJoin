@@ -4,7 +4,7 @@ import org.bukkit.Bukkit
 import org.bukkit.Sound
 import org.bukkit.entity.Player
 
-class SoundBroadcastAction : Action {
+object SoundBroadcastAction : Action {
 
     override val id = "SOUNDBROADCAST"
 

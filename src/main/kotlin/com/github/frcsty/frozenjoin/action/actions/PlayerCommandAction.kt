@@ -2,7 +2,7 @@ package com.github.frcsty.frozenjoin.action.actions
 
 import org.bukkit.entity.Player
 
-class PlayerCommandAction : Action {
+object PlayerCommandAction : Action {
 
     override val id = "PLAYER"
 

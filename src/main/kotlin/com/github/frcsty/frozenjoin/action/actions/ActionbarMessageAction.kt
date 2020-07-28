@@ -7,7 +7,7 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import java.util.*
 
-class ActionbarMessageAction : Action {
+object ActionbarMessageAction : Action {
     override val id = "ACTIONBARMESSAGE"
 
     override fun run(player: Player, data: String) {

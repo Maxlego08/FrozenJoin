@@ -3,7 +3,7 @@ package com.github.frcsty.frozenjoin.action.actions
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
-class ConsoleCommandAction : Action {
+object ConsoleCommandAction : Action {
 
     override val id = "CONSOLE"
 

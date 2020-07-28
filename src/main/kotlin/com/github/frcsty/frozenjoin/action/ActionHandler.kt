@@ -14,44 +14,48 @@ private val DELAY_PATTERN = Pattern.compile("\\[DELAY=(?<delay>\\d+[a-z])]", Pat
 private val CHANCE_PATTERN = Pattern.compile("\\[CHANCE=(?<chance>\\d+)]", Pattern.CASE_INSENSITIVE)
 private val RANDOM = SplittableRandom()
 
-class ActionHandler(private val plugin: FrozenJoinPlugin) {
+class ActionHandler(private val plugin: FrozenJoinPlugin)
+{
 
     private val actions: Map<String, Action> = setOf(
-            ActionbarBroadcastAction(),
-            ActionbarMessageAction(),
-            BroadcastAction(),
-            BungeeAction(),
-            CenterBroadcastAction(),
-            CenterMessageAction(),
-            ConsoleCommandAction(),
-            EquipItemAction(),
-            JsonBroadcastAction(),
-            JsonMessageAction(),
-            MessageAction(),
-            PlayerCommandAction(),
-            SoundAction(),
-            SoundBroadcastAction(),
-            TeleportAction(),
-            TitleBroadcastAction(),
-            TitleMessageAction()
-    ).associateBy { it.id }
+            ActionbarBroadcastAction,
+            ActionbarMessageAction,
+            BroadcastAction,
+            BungeeAction,
+            CenterBroadcastAction,
+            CenterMessageAction,
+            ConsoleCommandAction,
+            EquipItemAction,
+            JsonBroadcastAction,
+            JsonMessageAction,
+            MessageAction,
+            PlayerCommandAction,
+            SoundAction,
+            SoundBroadcastAction,
+            TeleportAction,
+            TitleBroadcastAction,
+            TitleMessageAction
+    ).associateBy(Action::id)
 
     private val matcher: Matcher = ACTION_PATTERN.matcher("")
     private val chanceMatcher: Matcher = CHANCE_PATTERN.matcher("")
     private val delayMatcher: Matcher = DELAY_PATTERN.matcher("")
 
-    fun execute(player: Player, input: List<String>) {
+    fun execute(player: Player, input: List<String>)
+    {
         input.forEach { execute(player, it) }
     }
 
-    fun execute(player: Player, input: String) {
+    fun execute(player: Player, input: String)
+    {
         val actionHolder = getDelayAction(
                 hasChanceAction(input) ?: return
         )
         val inputAction = actionHolder.action
         matcher.reset(inputAction)
 
-        if (!matcher.matches()) {
+        if (!matcher.matches())
+        {
             println("Action does not matches regex $inputAction")
             return
         }
@@ -69,33 +73,40 @@ class ActionHandler(private val plugin: FrozenJoinPlugin) {
         )
     }
 
-    private fun hasChanceAction(input: String): String? {
+    private fun hasChanceAction(input: String): String?
+    {
         chanceMatcher.reset(input)
-        if (!chanceMatcher.find()) {
+        if (!chanceMatcher.find())
+        {
             return input
         }
         val chance: Int = Integer.valueOf(
                 chanceMatcher.group("chance")
         )
         val value: Int = RANDOM.nextInt(100) + 1
-        return if (value <= chance) {
+        return if (value <= chance)
+        {
             input.replace(chanceMatcher.group(), "")
         } else null
     }
 
-    private fun getDelayAction(input: String): ActionHolder {
+    private fun getDelayAction(input: String): ActionHolder
+    {
         delayMatcher.reset(input)
-        if (!delayMatcher.find()) {
+        if (!delayMatcher.find())
+        {
             return ActionHolder(input, 0L)
         }
         val delay = delayMatcher.group("delay")
-        return try {
+        return try
+        {
             val time = TimeAPI(delay)
             ActionHolder(
                     action = input.replace(delayMatcher.group(), ""),
                     delay = time.seconds * 20L
             )
-        } catch (ex: IllegalArgumentException) {
+        } catch (ex: IllegalArgumentException)
+        {
             ex.printStackTrace()
             ActionHolder(input, 0L)
         }

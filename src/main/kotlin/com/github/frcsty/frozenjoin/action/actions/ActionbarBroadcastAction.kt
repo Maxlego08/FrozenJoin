@@ -6,7 +6,7 @@ import com.github.frcsty.frozenjoin.load.Settings
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
-class ActionbarBroadcastAction : Action {
+object ActionbarBroadcastAction : Action {
     override val id = "ACTIONBARBROADCAST"
 
     override fun run(player: Player, data: String) {

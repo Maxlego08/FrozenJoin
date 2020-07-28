@@ -3,7 +3,7 @@ package com.github.frcsty.frozenjoin.action.actions
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
-class JsonBroadcastAction : Action {
+object JsonBroadcastAction : Action {
 
     override val id = "JSONBROADCAST";
 

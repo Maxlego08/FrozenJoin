@@ -3,7 +3,7 @@ package com.github.frcsty.frozenjoin.action.actions
 import org.bukkit.Sound
 import org.bukkit.entity.Player
 
-class SoundAction : Action {
+object SoundAction : Action {
 
     override val id = "SOUND"
 

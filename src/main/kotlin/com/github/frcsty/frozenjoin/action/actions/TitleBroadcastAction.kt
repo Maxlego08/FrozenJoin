@@ -2,7 +2,7 @@ package com.github.frcsty.frozenjoin.action.actions
 
 import org.bukkit.entity.Player
 
-class TitleBroadcastAction : Action {
+object TitleBroadcastAction : Action {
 
     override val id = "TITLEBROADCAST"
 
