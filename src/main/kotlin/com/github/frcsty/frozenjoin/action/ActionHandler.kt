@@ -6,16 +6,13 @@ import com.github.frcsty.frozenjoin.action.time.TimeAPI
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import java.util.*
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 
-private val ACTION_PATTERN = Pattern.compile("(.*) ?\\[(?<action>[A-Z]+?)] ?(?<arguments>.+)", Pattern.CASE_INSENSITIVE)
-private val DELAY_PATTERN = Pattern.compile("\\[DELAY=(?<delay>\\d+[a-z])]", Pattern.CASE_INSENSITIVE)
-private val CHANCE_PATTERN = Pattern.compile("\\[CHANCE=(?<chance>\\d+)]", Pattern.CASE_INSENSITIVE)
+private val ACTION_PATTERN = Regex("(.*) ?\\[(?<action>[A-Z]+?)] ?(?<arguments>.+)", RegexOption.IGNORE_CASE)
+private val DELAY_PATTERN = Regex("\\[DELAY=(?<delay>\\d+[a-z])]", RegexOption.IGNORE_CASE)
+private val CHANCE_PATTERN = Regex("\\[CHANCE=(?<chance>\\d+)]", RegexOption.IGNORE_CASE)
 private val RANDOM = SplittableRandom()
 
-class ActionHandler(private val plugin: FrozenJoinPlugin)
-{
+class ActionHandler(private val plugin: FrozenJoinPlugin) {
 
     private val actions: Map<String, Action> = setOf(
             ActionbarBroadcastAction,
@@ -37,35 +34,28 @@ class ActionHandler(private val plugin: FrozenJoinPlugin)
             TitleMessageAction
     ).associateBy(Action::id)
 
-    private val matcher: Matcher = ACTION_PATTERN.matcher("")
-    private val chanceMatcher: Matcher = CHANCE_PATTERN.matcher("")
-    private val delayMatcher: Matcher = DELAY_PATTERN.matcher("")
 
-    fun execute(player: Player, input: List<String>)
-    {
+    fun execute(player: Player, input: List<String>) {
         input.forEach { execute(player, it) }
     }
 
-    fun execute(player: Player, input: String)
-    {
-        val actionHolder = getDelayAction(
-                hasChanceAction(input) ?: return
-        )
+    fun execute(player: Player, input: String) {
+        val actionHolder = getDelayAction(hasChanceAction(input) ?: return)
         val inputAction = actionHolder.action
-        matcher.reset(inputAction)
+        val match = ACTION_PATTERN.matchEntire(inputAction)
 
-        if (!matcher.matches())
-        {
-            println("Action does not matches regex $inputAction")
+        if (match == null) {
+            println("Action does not match regex $inputAction")
             return
         }
 
-        val arguments = matcher.group("arguments")
+        val arguments = match.groups["arguments"]?.value ?: return
         val delay = actionHolder.delay
 
-        val actionName = matcher.group("action").toUpperCase()
+        val actionName = match.groups["action"]?.value?.toUpperCase()
 
-        val action: Action = actions[actionName] ?: return
+        val action = actions[actionName] ?: return
+
         Bukkit.getScheduler().runTaskLater(
                 plugin,
                 Runnable { action.run(player, arguments) },
@@ -73,40 +63,35 @@ class ActionHandler(private val plugin: FrozenJoinPlugin)
         )
     }
 
-    private fun hasChanceAction(input: String): String?
-    {
-        chanceMatcher.reset(input)
-        if (!chanceMatcher.find())
-        {
-            return input
-        }
-        val chance: Int = Integer.valueOf(
-                chanceMatcher.group("chance")
-        )
-        val value: Int = RANDOM.nextInt(100) + 1
-        return if (value <= chance)
-        {
-            input.replace(chanceMatcher.group(), "")
+    /*
+    TODO the contract of this function is a bit vague. If there's no match, we return the input,
+    but then we return null based on if a chance succeeded or not?
+     */
+    private fun hasChanceAction(input: String): String? {
+        val match = CHANCE_PATTERN.matchEntire(input) ?: return input
+        val chanceGroup = match.groups["chance"] ?: return null
+        val chance = chanceGroup.value.toInt()
+
+        val randomValue = RANDOM.nextInt(100) + 1
+
+        return if (randomValue <= chance) {
+            input.replace(chanceGroup.value, "")
         } else null
     }
 
-    private fun getDelayAction(input: String): ActionHolder
-    {
-        delayMatcher.reset(input)
-        if (!delayMatcher.find())
-        {
-            return ActionHolder(input, 0L)
-        }
-        val delay = delayMatcher.group("delay")
-        return try
-        {
-            val time = TimeAPI(delay)
+    private fun getDelayAction(input: String): ActionHolder {
+        val match = DELAY_PATTERN.matchEntire(input) ?: return ActionHolder(input, 0L)
+
+        val delayGroup = match.groups["delay"] ?: return ActionHolder(input, 0L)
+        val delay = delayGroup.value
+
+        return try {
+            val time = TimeAPI(delay) //this line is kinda gross...
             ActionHolder(
-                    action = input.replace(delayMatcher.group(), ""),
+                    action = input.replace(delayGroup.value, ""),
                     delay = time.seconds * 20L
             )
-        } catch (ex: IllegalArgumentException)
-        {
+        } catch (ex: IllegalArgumentException) {
             ex.printStackTrace()
             ActionHolder(input, 0L)
         }
