@@ -5,8 +5,8 @@ import com.github.frcsty.frozenjoin.load.logError
 
 class FormatManager(private val plugin: FrozenJoinPlugin) {
 
-    val formatsMap: MutableMap<String, Format> = HashMap()
-    val motdsMap: MutableMap<String, MOTD> = HashMap()
+    val formatsMap = mutableMapOf<String, Format>()
+    val motdsMap = mutableMapOf<String, MOTD>()
 
     fun setFormats() {
         if (formatsMap.isNotEmpty()) {
