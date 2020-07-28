@@ -2,10 +2,11 @@ package com.github.frcsty.frozenjoin.action
 
 import com.github.frcsty.frozenjoin.FrozenJoinPlugin
 import com.github.frcsty.frozenjoin.action.actions.*
-import com.github.frcsty.frozenjoin.action.time.TimeAPI
+import com.github.frcsty.frozenjoin.action.time.parseTime
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 private val ACTION_PATTERN = Regex("(.*) ?\\[(?<action>[A-Z]+?)] ?(?<arguments>.+)", RegexOption.IGNORE_CASE)
 private val DELAY_PATTERN = Regex("\\[DELAY=(?<delay>\\d+[a-z])]", RegexOption.IGNORE_CASE)
@@ -86,10 +87,10 @@ class ActionHandler(private val plugin: FrozenJoinPlugin) {
         val delay = delayGroup.value
 
         return try {
-            val time = TimeAPI(delay) //this line is kinda gross...
+            val time = delay.parseTime()
             ActionHolder(
                     action = input.replace(delayGroup.value, ""),
-                    delay = time.seconds * 20L
+                    delay = time.to(TimeUnit.SECONDS) * 20L
             )
         } catch (ex: IllegalArgumentException) {
             ex.printStackTrace()

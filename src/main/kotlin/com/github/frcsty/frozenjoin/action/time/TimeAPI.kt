@@ -2,43 +2,17 @@ package com.github.frcsty.frozenjoin.action.time
 
 import java.util.concurrent.TimeUnit
 
-private const val DAYS_IN_WEEK: Long = 7
-private const val DAYS_IN_MONTH: Long = 30
-private const val DAYS_IN_YEAR: Long = 365
+private const val DAYS_IN_WEEK = 7
+private const val DAYS_IN_MONTH = 30
+private const val DAYS_IN_YEAR = 365
 
-class TimeAPI(val seconds: Long) {
-    constructor(time: String) : this(parseTime(time))
-
-    val nanoseconds: Double by lazy {
-        TimeUnit.SECONDS.toNanos(seconds).toDouble()
-    }
-
-    val microseconds: Double by lazy {
-        TimeUnit.SECONDS.toMicros(seconds).toDouble()
-    }
-
-    val milliseconds: Double by lazy {
-        TimeUnit.SECONDS.toMillis(seconds).toDouble()
-    }
-
-    val minutes: Double by lazy { seconds / 60.0 }
-
-    val hours: Double by lazy { seconds / 3600.0 }
-
-    val days: Double by lazy { seconds / 86400.0 }
-
-    val weeks: Double by lazy { days / DAYS_IN_WEEK }
-
-    val months: Double by lazy { days / DAYS_IN_MONTH }
-
-    val years: Double by lazy { days / DAYS_IN_YEAR }
-}
-
-
-private fun parseTime(time: String): Long {
+/**
+ * Parses a String in a "time" format (eg 3m2s) and returns the actual time value in seconds
+ */
+fun String.parseTime(): TimeResult {
     var seconds = 0L
     val scanner = TimeScanner(
-            time
+            this
                     .replace(" ", "")
                     .replace("and", "")
                     .replace(",", "")
@@ -58,5 +32,15 @@ private fun parseTime(time: String): Long {
             else -> throw IllegalArgumentException()
         }
     }
-    return seconds
+    return TimeResult(seconds)
+}
+
+/**
+ * Possibly over-engineering, but this allows us to keep a meaningful return value from [parseTime] while not basically copying [TimeUnit]
+ */
+inline class TimeResult(private val seconds: Long) {
+
+    fun to(unit: TimeUnit): Long {
+        return unit.convert(seconds, TimeUnit.SECONDS)
+    }
 }
