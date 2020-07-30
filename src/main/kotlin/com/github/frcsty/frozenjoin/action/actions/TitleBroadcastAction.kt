@@ -9,7 +9,7 @@ object TitleBroadcastAction : Action {
     override val id = "TITLEBROADCAST"
 
     override fun run(player: Player, data: String) {
-        val args = data.split(" ")
+        val args = data.split(";")
 
         val (scope, title, subtitle) = args
         val fadeIn = args.getOrNull(3)?.toIntOrNull() ?: DEFAULT_FADE_IN
@@ -26,7 +26,6 @@ object TitleBroadcastAction : Action {
             it.sendPlayerTitle(title, subtitle, fadeIn, stay, fadeOut)
         }
     }
-
 
     private const val DEFAULT_FADE_IN = 5
     private const val DEFAULT_STAY = 10

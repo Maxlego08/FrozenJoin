@@ -1,10 +1,10 @@
 package com.github.frcsty.frozenjoin.command
 
 import com.github.frcsty.frozenjoin.FrozenJoinPlugin
+import com.github.frcsty.frozenjoin.configuration.MessageLoader
 import com.github.frcsty.frozenjoin.extension.color
 import com.github.frcsty.frozenjoin.load.Loader
 import com.github.frcsty.frozenjoin.load.Settings
-import com.github.frcsty.frozenjoin.load.logError
 import com.github.frcsty.frozenjoin.load.logInfo
 import me.mattstudios.mf.annotations.Command
 import me.mattstudios.mf.annotations.Permission
@@ -14,7 +14,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.scheduler.BukkitRunnable
 
 @Command("frozenjoin")
-class ReloadCommand(private val plugin: FrozenJoinPlugin, private val loader: Loader) : CommandBase() {
+class ReloadCommand(private val plugin: FrozenJoinPlugin, private val loader: Loader, private val messageLoader: MessageLoader) : CommandBase() {
 
     companion object {
         private const val COMMAND: String = "reload"
@@ -25,20 +25,7 @@ class ReloadCommand(private val plugin: FrozenJoinPlugin, private val loader: Lo
     @Permission(PERMISSION)
     fun reloadCommand(sender: CommandSender) {
         val startTime = System.currentTimeMillis()
-        val messages = plugin.config.getConfigurationSection("messages")
-
-
-        if (messages == null) {
-            logError("Configuration section 'messages' not found!")
-            return
-        }
-
-        val message = messages.getString("reloadMessage")
-
-        if (message == null) {
-            logError("Configuration message 'messages.reloadMessage' is incomplete!")
-            return
-        }
+        val message = messageLoader.getMessage("reloadMessage")
 
         loader.formatManager.formatsMap.clear()
         loader.formatManager.motdsMap.clear()
@@ -47,6 +34,7 @@ class ReloadCommand(private val plugin: FrozenJoinPlugin, private val loader: Lo
             override fun run() {
                 plugin.reloadConfig()
                 loader.formatManager.setFormats()
+                messageLoader.load()
             }
         }.runTaskAsynchronously(plugin)
 

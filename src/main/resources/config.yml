@@ -69,11 +69,11 @@
 # • [PLAYERCOMMAND] balance
 # • [BROADCAST] &aHello Players
 # • [MESSAGE] &cHello &2World
-# • [EQUIP] <STONE;&aTest Stone;Some~Lore;3;2>
+# • [EQUIP] STONE;&aTest Stone;Some~Lore;3;2
 #
 # » Looking for a feature to be added?
 # Feel free to shoot me a DM on discord (Frosty#3308) and it'll be added,
-# if I feel it addition worthy: https://cdn.discordapp.com/attachments/165129131770511360/735541444760174662/sooon.png
+# if I feel it's addition worthy: https://cdn.discordapp.com/attachments/165129131770511360/735541444760174662/sooon.png
 #
 # » Console Message Logging
 # Determines what level of message importance should be displayed in console
@@ -116,6 +116,13 @@ motds:
 # and not having permission for any of the commands.
 #
 messages:
+  convertArgumentMessage: '&8[&bFrozenJoin&8] &8» &7Invalid convert arguments! Available&8: &bgenerate&7, &bstart&7, &bdumb&7.'
+  convertDirectoryExistsMessage: '&8[&bFrozenJoin&8] &8» &7Directory &bFrozenJoin/converter &7already exists, use &b/frozenjoin convert dump &7if you wish to delete it.'
+  convertGeneratedDirectoryMessage: '&8[&bFrozenJoin&8] &8» &7Generated directory &bFrozenJoin/converter&7, place your DeluxeJoin &bconfig.yml&7, in it and run &b/frozenjoin convert start &7to convert it.'
+  convertDumpMissingDirectoryMessage: '&8[&bFrozenJoin&8] &8» &7Converter directory has already been deleted.'
+  convertDirectoryDeletedMessage: '&8[&bFrozenJoin&8] &8» &7Converter directory has been successfully deleted!'
+  convertDirectoryEmptyMessage: "&8[&bFrozenJoin&8] &8» &7Converter directory is empty or does't exist! You can generate it using &b/frozenjoin convert generate&7."
+  convertSuccessfullyConvertedMessage: '&8[&bFrozenJoin&8] &8» &7Successfully converted all files within the converter directory (Took &b%time%&7ms), you can find the converted files within &bFrozenJoin/converted &7directory, use &b/frozenjoin convert dump &7to delete the directory.'
   reloadMessage: '&8[&bFrozenJoin&8] &8» &7Reloaded configuration in &b%time%ms&7.'
   denyMessage: '&8[&bFrozenJoin&8] &8» &7You do not have permission to execute this command!'
   usageMessage: '&8[&bFrozenJoin&8] &8» &7Incorrect usage! &b{usage}'
@@ -167,7 +174,6 @@ formats:
   default:
     priority: 3
     type: 'NORMAL'
-    scope: 'SERVER'
     join:
       - '[BROADCAST] &8[&a+&8] &b%player_name%'
       - '[CENTERMESSAGE] #<0cf797>Smexy'
@@ -179,7 +185,6 @@ formats:
   random:
     priority: 2
     type: 'RANDOM'
-    scope: 'WORLD'
     join:
       - '[BROADCAST] &8[&a+&8] &7Everyone welcome &f%player_name%&7!'
       - '[BROADCAST] &8[&a+&8] &f%player_name% &7hopped into the server.'
@@ -193,7 +198,6 @@ formats:
   vanish:
     priority: 1
     type: 'VANISH'
-    scope: 'SERVER'
     # Special modifier only available to the vanish format!
     # Indicates whether or not the check should be inverted
     # true = sends a message when vanished, vice versa

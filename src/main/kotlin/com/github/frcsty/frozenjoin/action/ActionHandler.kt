@@ -35,7 +35,6 @@ class ActionHandler(private val plugin: FrozenJoinPlugin) {
             TitleMessageAction
     ).associateBy(Action::id)
 
-
     fun execute(player: Player, input: List<String>) {
         input.forEach { execute(player, it) }
     }

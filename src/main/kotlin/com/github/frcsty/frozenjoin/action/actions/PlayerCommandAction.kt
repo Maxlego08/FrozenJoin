@@ -4,7 +4,7 @@ import org.bukkit.entity.Player
 
 object PlayerCommandAction : Action {
 
-    override val id = "PLAYER"
+    override val id = "PLAYERCOMMAND"
 
     override fun run(player: Player, data: String) {
         player.performCommand(data)

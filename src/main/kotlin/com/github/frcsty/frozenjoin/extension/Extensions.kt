@@ -33,6 +33,10 @@ fun String.color(): String {
     return ChatColor.translateAlternateColorCodes('&', translation)
 }
 
+fun String.replacePlaceholder(placeholder: String, value: String): String {
+    return this.replace(placeholder, value)
+}
+
 fun Player.sendTranslatedMessage(msg: String) {
     var message = msg
     val daddy: Plugin? = Bukkit.getPluginManager().getPlugin("PlaceholderAPI")

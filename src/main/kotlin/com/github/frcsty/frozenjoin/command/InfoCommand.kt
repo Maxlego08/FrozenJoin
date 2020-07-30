@@ -1,6 +1,7 @@
 package com.github.frcsty.frozenjoin.command
 
 import com.github.frcsty.frozenjoin.FrozenJoinPlugin
+import com.github.frcsty.frozenjoin.configuration.MessageLoader
 import com.github.frcsty.frozenjoin.extension.color
 import com.github.frcsty.frozenjoin.load.Settings
 import com.github.frcsty.frozenjoin.load.logInfo
@@ -9,10 +10,9 @@ import me.mattstudios.mf.annotations.Default
 import me.mattstudios.mf.annotations.Permission
 import me.mattstudios.mf.base.CommandBase
 import org.bukkit.command.CommandSender
-import java.util.logging.Level
 
 @Command("frozenjoin")
-class InfoCommand(private val plugin: FrozenJoinPlugin): CommandBase() {
+class InfoCommand(private val plugin: FrozenJoinPlugin, private val messageLoader: MessageLoader) : CommandBase() {
 
     companion object {
         private const val PERMISSION: String = "join.command.base"
@@ -25,14 +25,9 @@ class InfoCommand(private val plugin: FrozenJoinPlugin): CommandBase() {
     @Default
     @Permission(PERMISSION)
     fun infoCommand(sender: CommandSender) {
-        val info: List<String> = plugin.config.getStringList("messages.infoMessage")
+        val lines = messageLoader.getMessageList("infoMessage")
 
-        if (info.isEmpty()) {
-            Settings.LOGGER.log(Level.WARNING, "Configuration message 'messages.infoMessage' is incomplete!")
-            return
-        }
-
-        for (line in info) {
+        for (line in lines) {
             sender.sendMessage((line.replace("{version}", plugin.description.version)).color())
         }
 

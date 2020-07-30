@@ -1,11 +1,8 @@
 package com.github.frcsty.frozenjoin.util
 
+import com.github.frcsty.frozenjoin.extension.color
 import org.bukkit.entity.Player
 
-
-/*
-Player Data
- */
 private val entityPlayerClass by lazy {
     Reflection.getNMSClass("EntityPlayer")
 }
@@ -51,6 +48,14 @@ private val packetPlayOutTitleConstructor by lazy {
             .getConstructor(enumTitleActionClass, iChatBaseComponentClass, Int::class.java, Int::class.java, Int::class.java)
 }
 
+private val packetPlayOutChatClass by lazy {
+    Reflection.getNMSClass("PacketPlayOutChat")
+}
+
+private val packetPlayOutChatConstructor by lazy {
+    Reflection.getNMSClass("PacketPlayOutChat")
+            .getConstructor(packetPlayOutChatClass, iChatBaseComponentClass, Byte::class.java)
+}
 
 private val titleEnum by lazy {
     enumTitleActionClass.getField("TITLE").get(null)
@@ -77,6 +82,16 @@ fun Player.sendPlayerTitle(title: String, subtitle: String?, fadeIn: Int, stay: 
     }
 }
 
+fun Player.sendActionBarMessage(message: String) {
+    if (Reflection.is1_8) {
+        val actionBarBaseComponent = createIChatBaseComponent(message)
+        val actionBarPacket: Any = packetPlayOutChatConstructor.newInstance(actionBarBaseComponent)
+
+        sendPacket(actionBarPacket)
+    } else {
+        this.sendActionBar(message.color())
+    }
+}
 
 private fun Player.sendPacket(packet: Any) {
     val entityPlayer = entityPlayerClass.cast(getHandleMethod.invoke(this))

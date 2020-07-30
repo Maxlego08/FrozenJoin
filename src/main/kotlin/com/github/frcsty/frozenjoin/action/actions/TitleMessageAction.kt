@@ -4,11 +4,11 @@ import org.bukkit.entity.Player
 
 object TitleMessageAction : Action {
 
-    override val id = "TITLE"
+    override val id = "TITLEMESSAGE"
 
     override fun run(player: Player, data: String) {
-        val args = data.split(" ")
+        val args = data.split(";")
 
-        TitleBroadcastAction.run(player, (listOf("PLAYER") + args.drop(1)).joinToString(" "))
+        TitleBroadcastAction.run(player, (listOf("PLAYER") + args.drop(1)).joinToString(";"))
     }
 }
