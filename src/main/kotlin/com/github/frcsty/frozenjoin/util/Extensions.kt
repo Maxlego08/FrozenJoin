@@ -1,10 +1,11 @@
-package com.github.frcsty.frozenjoin.extension
+package com.github.frcsty.frozenjoin.util
 
 import com.github.frcsty.frozenjoin.load.Settings
 import me.clip.placeholderapi.PlaceholderAPI
 import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.Bukkit
+import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
 import java.util.regex.Pattern
@@ -38,17 +39,34 @@ fun String.replacePlaceholder(placeholder: String, value: String): String {
 }
 
 fun Player.sendTranslatedMessage(msg: String) {
-    var message = msg
-    val daddy: Plugin? = Bukkit.getPluginManager().getPlugin("PlaceholderAPI")
-
-    if (daddy != null && daddy.isEnabled) {
-        message = PlaceholderAPI.setPlaceholders(this, message)
-    }
+    val message = getTranslatedMessage(this, msg)
 
     if (Settings.HEX_USE) {
-        this.spigot().sendMessage(TextComponent.fromLegacyText(msg.color())[0])
+        this.spigot().sendMessage(TextComponent.fromLegacyText(message.color())[0])
         return
     }
 
     this.sendMessage(message.color())
+}
+
+fun CommandSender.sendTranslatedMessage(player: Player, msg: String) {
+    val message = getTranslatedMessage(player, msg)
+
+    if (Settings.HEX_USE) {
+        this.spigot().sendMessage(TextComponent.fromLegacyText(message.color())[0])
+        return
+    }
+
+    this.sendMessage(message.color())
+}
+
+private fun getTranslatedMessage(player: Player, msg: String): String {
+    var message = msg
+    val daddy: Plugin? = Bukkit.getPluginManager().getPlugin("PlaceholderAPI")
+
+    if (daddy != null && daddy.isEnabled) {
+        message = PlaceholderAPI.setPlaceholders(player, msg)
+    }
+
+    return message
 }

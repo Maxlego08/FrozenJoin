@@ -2,7 +2,7 @@ package com.github.frcsty.frozenjoin.command
 
 import com.github.frcsty.frozenjoin.FrozenJoinPlugin
 import com.github.frcsty.frozenjoin.configuration.MessageLoader
-import com.github.frcsty.frozenjoin.extension.color
+import com.github.frcsty.frozenjoin.util.color
 import com.github.frcsty.frozenjoin.load.Loader
 import com.github.frcsty.frozenjoin.load.Settings
 import com.github.frcsty.frozenjoin.load.logInfo

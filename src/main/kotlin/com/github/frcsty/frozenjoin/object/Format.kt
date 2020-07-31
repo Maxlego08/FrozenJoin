@@ -1,6 +1,7 @@
 package com.github.frcsty.frozenjoin.`object`
 
 class Format(
+        val identifier: String = "",
         val priority: Int = 0,
         val type: String = "",
         val permission: String = "",

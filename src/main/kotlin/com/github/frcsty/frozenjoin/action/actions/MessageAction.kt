@@ -1,6 +1,6 @@
 package com.github.frcsty.frozenjoin.action.actions
 
-import com.github.frcsty.frozenjoin.extension.sendTranslatedMessage
+import com.github.frcsty.frozenjoin.util.sendTranslatedMessage
 import org.bukkit.entity.Player
 
 object MessageAction : Action {

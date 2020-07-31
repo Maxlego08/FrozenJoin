@@ -116,13 +116,17 @@ motds:
 # and not having permission for any of the commands.
 #
 messages:
-  convertArgumentMessage: '&8[&bFrozenJoin&8] &8» &7Invalid convert arguments! Available&8: &bgenerate&7, &bstart&7, &bdumb&7.'
+  convertArgumentMessage: '&8[&bFrozenJoin&8] &8» &7Invalid convert arguments! Available&8: &bgenerate&7, &bstart&7, &bdump&7.'
   convertDirectoryExistsMessage: '&8[&bFrozenJoin&8] &8» &7Directory &bFrozenJoin/converter &7already exists, use &b/frozenjoin convert dump &7if you wish to delete it.'
   convertGeneratedDirectoryMessage: '&8[&bFrozenJoin&8] &8» &7Generated directory &bFrozenJoin/converter&7, place your DeluxeJoin &bconfig.yml&7, in it and run &b/frozenjoin convert start &7to convert it.'
   convertDumpMissingDirectoryMessage: '&8[&bFrozenJoin&8] &8» &7Converter directory has already been deleted.'
   convertDirectoryDeletedMessage: '&8[&bFrozenJoin&8] &8» &7Converter directory has been successfully deleted!'
   convertDirectoryEmptyMessage: "&8[&bFrozenJoin&8] &8» &7Converter directory is empty or does't exist! You can generate it using &b/frozenjoin convert generate&7."
   convertSuccessfullyConvertedMessage: '&8[&bFrozenJoin&8] &8» &7Successfully converted all files within the converter directory (Took &b%time%&7ms), you can find the converted files within &bFrozenJoin/converted &7directory, use &b/frozenjoin convert dump &7to delete the directory.'
+  customMessageInvalidPlayerMessage: '&8[&bFrozenJoin&8] &8» &7Invalid player.'
+  customMessageInvalidArgumentMessage: '&8[&bFrozenJoin&8] &8» &7Invalid custom message arguments! Available&8: &bjoin&7, &bquit'
+  customMessageSetTargetMessage: "&8[&bFrozenJoin&8] &8» &7You have set &b%player_name%&7's &b%type% &7message to &b'%message%'"
+  customMessageRemoveTargetMessage: "&8[&bFrozenJoin&8] &8» &7You have removed &b%player_name%&7's custom &b%type% &7message"
   reloadMessage: '&8[&bFrozenJoin&8] &8» &7Reloaded configuration in &b%time%ms&7.'
   denyMessage: '&8[&bFrozenJoin&8] &8» &7You do not have permission to execute this command!'
   usageMessage: '&8[&bFrozenJoin&8] &8» &7Incorrect usage! &b{usage}'
@@ -130,21 +134,23 @@ messages:
   unknownCommandMessage: '&8[&bFrozenJoin&8] &8» &7Unknown Command.'
   noMotdMessage: '&8[&bFrozenJoin&8] &8» &cYou do not have an motd applicable.'
   helpMessage:
+    - '&bFrozenJoin &8- &b{version}'
     - ''
-    - '&bBase Command&8: &f/join'
-    - '&bAlias&8: &f/fjoin&8, &f/frozenjoin'
+    - '&8* &bBase Command&8: &f/join'
+    - '&8* &bAlias&8: &f/fjoin&8, &f/frozenjoin'
     - ''
-    - '&8• &freload &8- &7Reloads the config'
-    - '&8• &finfo    &8- &7Displays the plugins info'
-    - '&8• &fmotd &8- &7Shows motd message'
-    - '&8• &fhelp   &8- &7Displays help message'
+    - ' &8• &freload &8- &7Reloads the config'
+    - ' &8• &finfo    &8- &7Displays the plugins info'
+    - ' &8• &fmotd &8- &7Shows motd message'
+    - ' &8• &fhelp   &8- &7Displays help message'
+    - ' &8• &fset   &8- &7Set a users custom message'
+    - ' &8• &fremove &8- &7Remove a users custom message'
     - ''
   infoMessage:
+    - '&bFrozenJoin &8- &b{version}'
     - ''
-    - '&bFrozenJoin'
-    - ''
-    - ' &8• &7Version&8: &f{version}'
     - ' &8• &7Author&8: &fFrosty'
+    - ' &8• &7Page&8: &f&nhttps://www.spigotmc.org/resources/frozen-join.73288/'
     - ''
 #
 # » Join/Quit Formats

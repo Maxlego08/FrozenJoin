@@ -29,6 +29,7 @@ class FormatManager(private val plugin: FrozenJoinPlugin) {
         formats.getKeys(false).forEach { format ->
             val formatSection = formats.getConfigurationSection(format) ?: return@forEach
             formatsMap[format] = Format(
+                    identifier = format,
                     priority = formatSection.getInt("priority"),
                     type = formatSection.getString("type") ?: "",
                     permission = formatSection.getString("permission") ?: "frozenjoin.format.$format",
@@ -40,6 +41,7 @@ class FormatManager(private val plugin: FrozenJoinPlugin) {
         motds.getKeys(false).forEach { motd ->
             val motdSection = motds.getConfigurationSection(motd) ?: return@forEach
             motdsMap[motd] = MOTD(
+                    identifier = motd,
                     message = motdSection.getStringList("actions"),
                     priority = motdSection.getInt("priority"),
                     permission = motdSection.getString("permission") ?: "frozenjoin.motd.$motd"

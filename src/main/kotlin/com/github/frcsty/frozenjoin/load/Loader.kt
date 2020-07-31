@@ -5,9 +5,9 @@ import com.github.frcsty.frozenjoin.`object`.FormatManager
 import com.github.frcsty.frozenjoin.action.ActionHandler
 import com.github.frcsty.frozenjoin.command.*
 import com.github.frcsty.frozenjoin.configuration.MessageLoader
-import com.github.frcsty.frozenjoin.extension.color
 import com.github.frcsty.frozenjoin.listener.PlayerJoinListener
 import com.github.frcsty.frozenjoin.listener.PlayerQuitListener
+import com.github.frcsty.frozenjoin.util.color
 import me.mattstudios.mf.base.CommandManager
 import org.bstats.bukkit.Metrics
 import org.bukkit.Bukkit.getServer
@@ -47,6 +47,10 @@ class Loader(private val plugin: FrozenJoinPlugin) {
                 ConvertCommand(plugin, messageLoader)
         )
 
+        if (Settings.VERSION >= 15) {
+            manager.register(FormatCommand(messageLoader))
+        }
+
         formatManager.setFormats()
 
         registerMessages(manager, messageLoader)
@@ -57,16 +61,16 @@ class Loader(private val plugin: FrozenJoinPlugin) {
         val handler = manager.messageHandler
         with(handler) {
             register("cmd.no.console") { sender: CommandSender ->
-                sender.sendMessage(messages.getMessage("player-only-message").color())
+                sender.sendMessage(messages.getMessage("playerOnlyMessage").color())
             }
             register("cmd.no.permission") { sender: CommandSender ->
-                sender.sendMessage(messages.getMessage("deny-message").color())
+                sender.sendMessage(messages.getMessage("denyMessage").color())
             }
             register("cmd.no.exists") { sender: CommandSender ->
-                sender.sendMessage(messages.getMessage("unknown-command-message").color())
+                sender.sendMessage(messages.getMessage("unknownCommandMessage").color())
             }
             register("cmd.wrong.usage") { sender: CommandSender ->
-                sender.sendMessage(messages.getMessage("usage-message").color())
+                sender.sendMessage(messages.getMessage("usageMessage").color())
             }
         }
     }

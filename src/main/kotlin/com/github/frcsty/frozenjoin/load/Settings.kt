@@ -8,13 +8,16 @@ import java.util.logging.Level
 object Settings {
     private val plugin = JavaPlugin.getPlugin(FrozenJoinPlugin::class.java)
     private val config = plugin.config
+    private val server = Bukkit.getServer()
 
     val LOGGER = plugin.logger
     val DEBUG: Boolean = config.getString("consoleMessages", "ENABLED").equals("ENABLED", ignoreCase = true)
     val METRICS: Boolean = config.getBoolean("stonks", true)
-    val FULL_VERSION = Bukkit.getServer().javaClass.`package`.name
+    val FULL_VERSION = server.javaClass.`package`.name
     val VERSION: Int = Integer.valueOf(FULL_VERSION.split("_")[1])
     val HEX_USE: Boolean = VERSION == 16
+    val PLUGIN_VERSION = plugin.description.version
+    val LUCK_PERMS = server.pluginManager.getPlugin("LuckPerms")
 }
 
 fun logError(message: String): Unit = Settings.LOGGER.log(Level.WARNING, message)

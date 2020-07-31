@@ -3,7 +3,9 @@ package com.github.frcsty.frozenjoin.command
 import com.github.frcsty.frozenjoin.FrozenJoinPlugin
 import com.github.frcsty.frozenjoin.configuration.MessageLoader
 import com.github.frcsty.frozenjoin.convert.FileConverter
-import com.github.frcsty.frozenjoin.extension.replacePlaceholder
+import com.github.frcsty.frozenjoin.load.Settings
+import com.github.frcsty.frozenjoin.load.logInfo
+import com.github.frcsty.frozenjoin.util.replacePlaceholder
 import me.mattstudios.mf.annotations.Command
 import me.mattstudios.mf.annotations.Permission
 import me.mattstudios.mf.annotations.SubCommand
@@ -27,12 +29,15 @@ class ConvertCommand(plugin: FrozenJoinPlugin, private val messageLoader: Messag
         when (command) {
             "generate" -> {
                 generate(sender)
+                if (Settings.DEBUG) logInfo("Executor ${sender.name} executed action 'convert generate'")
             }
             "start" -> {
                 start(sender)
+                if (Settings.DEBUG) logInfo("Executor ${sender.name} executed action 'convert start'")
             }
             "dump" -> {
                 dump(sender)
+                if (Settings.DEBUG) logInfo("Executor ${sender.name} executed action 'convert dump'")
             }
             else -> {
                 sender.sendMessage(messageLoader.getMessage("convertArgumentMessage"))

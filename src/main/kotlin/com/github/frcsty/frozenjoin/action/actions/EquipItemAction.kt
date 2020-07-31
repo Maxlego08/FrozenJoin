@@ -1,6 +1,6 @@
 package com.github.frcsty.frozenjoin.action.actions
 
-import com.github.frcsty.frozenjoin.extension.color
+import com.github.frcsty.frozenjoin.util.color
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack

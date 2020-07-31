@@ -1,7 +1,7 @@
 package com.github.frcsty.frozenjoin.configuration
 
 import com.github.frcsty.frozenjoin.FrozenJoinPlugin
-import com.github.frcsty.frozenjoin.extension.color
+import com.github.frcsty.frozenjoin.util.color
 import org.bukkit.configuration.ConfigurationSection
 
 class MessageLoader(private val plugin: FrozenJoinPlugin) {

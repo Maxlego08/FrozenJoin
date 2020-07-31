@@ -1,6 +1,5 @@
 package com.github.frcsty.frozenjoin.util
 
-import com.github.frcsty.frozenjoin.extension.color
 import org.bukkit.entity.Player
 
 private val entityPlayerClass by lazy {
