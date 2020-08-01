@@ -1,4 +1,4 @@
-package com.github.frcsty.frozenjoin.listener
+package com.github.frcsty.frozenjoin.listener.base
 
 import com.github.frcsty.frozenjoin.listener.event.FrozenJoinEvent
 import com.github.frcsty.frozenjoin.load.Loader
@@ -35,4 +35,5 @@ class PlayerJoinListener(private val loader: Loader) : Listener {
         val actions = MessageFormatter.executeFormat(player, manager, actionHandler, ACTION)
         Bukkit.getServer().pluginManager.callEvent(FrozenJoinEvent(player, actions))
     }
+
 }

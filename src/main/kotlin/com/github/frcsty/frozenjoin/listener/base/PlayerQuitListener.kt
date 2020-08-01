@@ -1,4 +1,4 @@
-package com.github.frcsty.frozenjoin.listener
+package com.github.frcsty.frozenjoin.listener.base
 
 import com.github.frcsty.frozenjoin.listener.event.FrozenQuitEvent
 import com.github.frcsty.frozenjoin.load.Loader

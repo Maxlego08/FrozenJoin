@@ -5,8 +5,8 @@ import com.github.frcsty.frozenjoin.`object`.FormatManager
 import com.github.frcsty.frozenjoin.action.ActionHandler
 import com.github.frcsty.frozenjoin.command.*
 import com.github.frcsty.frozenjoin.configuration.MessageLoader
-import com.github.frcsty.frozenjoin.listener.PlayerJoinListener
-import com.github.frcsty.frozenjoin.listener.PlayerQuitListener
+import com.github.frcsty.frozenjoin.listener.base.PlayerJoinListener
+import com.github.frcsty.frozenjoin.listener.base.PlayerQuitListener
 import com.github.frcsty.frozenjoin.util.color
 import me.mattstudios.mf.base.CommandManager
 import org.bstats.bukkit.Metrics

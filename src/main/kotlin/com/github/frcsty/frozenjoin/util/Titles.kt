@@ -97,7 +97,6 @@ private fun Player.sendPacket(packet: Any) {
     val playerConnection = playerConnectionField.get(entityPlayer)
 
     sendPacketMethod.invoke(playerConnection, packet)
-
 }
 
 private fun createIChatBaseComponent(text: String): Any {
