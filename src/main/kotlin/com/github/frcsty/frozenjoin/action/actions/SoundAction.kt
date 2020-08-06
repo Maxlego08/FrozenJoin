@@ -10,8 +10,8 @@ object SoundAction : Action {
     override fun run(player: Player, data: String) {
         val args = data.split(";")
         val sound = Sound.valueOf(args[0])
-        val volume: Float = Float.fromBits(args[1].toInt())
-        val pitch: Float = Float.fromBits(args[2].toInt())
+        val volume: Float = args[1].toFloat()
+        val pitch: Float = args[2].toFloat()
 
         player.playSound(player.location, sound, volume, pitch)
     }

@@ -5,8 +5,8 @@ import org.bukkit.entity.Player
 
 /**
  * @author AlexL
+ * Soon:tm:
  */
-
 fun Player.getRecipients(scope: String): Set<Player> {
     return when (scope) {
         "WORLD" /*TODO Make constant. */ -> {

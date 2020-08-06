@@ -7,7 +7,7 @@ import org.bukkit.Bukkit
  */
 object Reflection {
     private val version by lazy {
-        Bukkit.getServer().javaClass.`package`.name.split("\\.")[3]
+        Bukkit.getServer().javaClass.`package`.name.split(".")[3]
     }
 
     val is1_8: Boolean

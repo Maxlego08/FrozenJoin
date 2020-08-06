@@ -16,7 +16,7 @@ object TeleportAction : Action {
                 args[2].toDouble(),
                 args[3].toDouble(),
                 args[4].toFloat(),
-                 args[5].toFloat()
+                args[5].toFloat()
         )
 
         player.teleport(location)

@@ -39,10 +39,10 @@ fun String.replacePlaceholder(placeholder: String, value: String): String {
 }
 
 fun Player.sendTranslatedMessage(msg: String) {
-    val message = getTranslatedMessage(this, msg)
+    val message = msg.getTranslatedMessage(this)
 
     if (Settings.HEX_USE) {
-        this.spigot().sendMessage(TextComponent.fromLegacyText(message.color())[0])
+        this.spigot().sendMessage(*TextComponent.fromLegacyText(message.color()))
         return
     }
 
@@ -50,22 +50,22 @@ fun Player.sendTranslatedMessage(msg: String) {
 }
 
 fun CommandSender.sendTranslatedMessage(player: Player, msg: String) {
-    val message = getTranslatedMessage(player, msg)
+    val message = msg.getTranslatedMessage(player)
 
     if (Settings.HEX_USE) {
-        this.spigot().sendMessage(TextComponent.fromLegacyText(message.color())[0])
+        this.spigot().sendMessage(*TextComponent.fromLegacyText(message.color()))
         return
     }
 
     this.sendMessage(message.color())
 }
 
-private fun getTranslatedMessage(player: Player, msg: String): String {
-    var message = msg
+fun String.getTranslatedMessage(player: Player): String {
+    var message = this
     val daddy: Plugin? = Bukkit.getPluginManager().getPlugin("PlaceholderAPI")
 
     if (daddy != null && daddy.isEnabled) {
-        message = PlaceholderAPI.setPlaceholders(player, msg)
+        message = PlaceholderAPI.setPlaceholders(player, message)
     }
 
     return message

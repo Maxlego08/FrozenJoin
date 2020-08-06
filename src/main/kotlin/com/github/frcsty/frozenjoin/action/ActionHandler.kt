@@ -58,7 +58,10 @@ class ActionHandler(private val plugin: FrozenJoinPlugin) {
 
         Bukkit.getScheduler().runTaskLater(
                 plugin,
-                Runnable { action.run(player, arguments) },
+                Runnable {
+                    action.run(player, arguments)
+                    action.run(plugin, player, arguments)
+                },
                 delay
         )
     }
@@ -95,5 +98,9 @@ class ActionHandler(private val plugin: FrozenJoinPlugin) {
             ex.printStackTrace()
             ActionHolder(input, 0L)
         }
+    }
+
+    init {
+        Bukkit.getMessenger().registerOutgoingPluginChannel(plugin, "BungeeCord")
     }
 }
