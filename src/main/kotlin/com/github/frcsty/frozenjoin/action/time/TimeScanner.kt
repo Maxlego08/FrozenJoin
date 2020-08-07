@@ -1,9 +1,7 @@
 package com.github.frcsty.frozenjoin.action.time
 
-import java.util.function.Predicate
-
 internal class TimeScanner(time: String) {
-    private val time: CharArray = time.toCharArray()
+    private val time = time.toCharArray()
     private var index = 0
 
     operator fun hasNext(): Boolean {
@@ -11,26 +9,18 @@ internal class TimeScanner(time: String) {
     }
 
     fun nextLong(): Long {
-        return String(
-                next(
-                        Predicate(Char::isDigit)
-                )
-        ).toLong()
+        return String(next(Char::isDigit)).toLong()
     }
 
     fun nextString(): String {
-        return String(
-                next(
-                        Predicate { codePoint: Char ->
-                            Character.isAlphabetic(codePoint.toInt())
-                        }
-                )
-        )
+        return String(next { codePoint ->
+            Character.isAlphabetic(codePoint.toInt())
+        }) //Hurry up kotlin 1.4 :)
     }
 
-    private fun next(whichSatisfies: Predicate<Char>): CharArray {
+    private fun next(condition: (Char) -> Boolean): CharArray {
         val startIndex = index
-        while (++index < time.size && whichSatisfies.test(time[index]));
+        while (++index < time.size && condition(time[index]));
         return time.copyOfRange(startIndex, index)
     }
 
