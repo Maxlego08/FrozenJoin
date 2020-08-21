@@ -1,7 +1,7 @@
 package com.github.frcsty.frozenjoin.message
 
+import com.github.frcsty.Handler
 import com.github.frcsty.frozenjoin.`object`.FormatManager
-import com.github.frcsty.frozenjoin.action.ActionHandler
 import com.github.frcsty.frozenjoin.load.Settings
 import com.github.frcsty.frozenjoin.load.logInfo
 import com.github.frcsty.frozenjoin.util.getCustomMessage
@@ -17,7 +17,7 @@ object MessageFormatter {
 
     private val provider = getProvider()
 
-    fun executeMotd(player: Player, manager: FormatManager, actionHandler: ActionHandler, command: Boolean, message: String) {
+    fun executeMotd(player: Player, manager: FormatManager, actionHandler: Handler, command: Boolean, message: String) {
         //This is not the most readable thing in the world, but I'm kind of scared to change anything since there's no test suite
         val motds = manager.motdsMap.filter { (key, value) ->
             !("firstJoin".equals(key, true)) && player.hasEffectivePermission(value.permission, provider)
@@ -40,7 +40,7 @@ object MessageFormatter {
         if (Settings.DEBUG) logInfo("Executing '${motdObject.identifier}' motd for user ${player.name} (${player.uniqueId})")
     }
 
-    fun executeFormat(player: Player, manager: FormatManager, actionHandler: ActionHandler, action: String): List<String> {
+    fun executeFormat(player: Player, manager: FormatManager, actionHandler: Handler, action: String): List<String> {
         if (Settings.VERSION >= 15) {
             val customMessage = player.getCustomMessage(action)
             if (customMessage != "emptyValue") {

@@ -1,17 +1,15 @@
 package com.github.frcsty.frozenjoin.load
 
+import com.github.frcsty.Handler
 import com.github.frcsty.frozenjoin.FrozenJoinPlugin
 import com.github.frcsty.frozenjoin.`object`.FormatManager
-import com.github.frcsty.frozenjoin.action.ActionHandler
 import com.github.frcsty.frozenjoin.command.*
 import com.github.frcsty.frozenjoin.configuration.MessageLoader
 import com.github.frcsty.frozenjoin.listener.base.PlayerJoinListener
 import com.github.frcsty.frozenjoin.listener.base.PlayerQuitListener
 import com.github.frcsty.frozenjoin.util.color
 import me.mattstudios.mf.base.CommandManager
-import net.luckperms.api.LuckPerms
 import org.bstats.bukkit.Metrics
-import org.bukkit.Bukkit
 import org.bukkit.Bukkit.getServer
 import org.bukkit.command.CommandSender
 import org.bukkit.event.Listener
@@ -19,7 +17,7 @@ import java.util.logging.Level
 
 class Loader(private val plugin: FrozenJoinPlugin) {
 
-    val actionHandler: ActionHandler = ActionHandler(plugin)
+    val actionHandler = Handler()
     val formatManager = FormatManager(plugin)
     private val messageLoader = MessageLoader(plugin)
 
