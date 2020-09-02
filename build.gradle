@@ -4,10 +4,10 @@ plugins {
 }
 
 group = "com.github.frcsty"
-version = "2.1.2"
+version = "2.1.3"
 
 def path = "com.github.frcsty.frozenjoin"
-def version = JavaVersion.VERSION_1_8
+def javaVersion = JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
@@ -19,15 +19,9 @@ repositories {
 }
 
 dependencies {
-    testImplementation "org.junit.jupiter:junit-jupiter:5.6.2"
-    testImplementation "io.kotest:kotest-runner-junit5-jvm:4.0.6"
-    testImplementation "io.kotest:kotest-assertions-core-jvm:4.0.6"
     implementation "me.mattstudios.utils:matt-framework:1.4"
     implementation "org.bstats:bstats-bukkit:1.7"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.72"
-    implementation("com.github.frcsty:FrozenActions:1.0.0") {
-        exclude group: "com.github.frcsty.libs.kotlin"
-    }
     compileOnly "net.luckperms:api:5.1"
     compileOnly "com.destroystokyo.paper:paper-api:1.16.1-R0.1-SNAPSHOT"
     compileOnly "me.clip:placeholderapi:2.10.6"
@@ -41,13 +35,15 @@ processResources {
 
 shadowJar {
     relocate "org.bstats", "${path}.bstats"
-    relocate "me.mattstudios.utils", "${path}.utils"
+    relocate "me.mattstudios.mf", "${path}.mf-utils"
     relocate "kotlin", "${path}.kotlin"
+
+    archiveFileName.set("${project.name}-${version}.jar")
 }
 
-sourceCompatibility = version
-targetCompatibility = version
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
 
 compileKotlin {
-    kotlinOptions.jvmTarget = version
+    kotlinOptions.jvmTarget = javaVersion
 }

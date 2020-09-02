@@ -108,6 +108,7 @@ settings:
 #
 firstJoinMessage:
   - '[MESSAGE] &8[&aWelcome&8] &7Please welcome &f%player_name% &7to the server!'
+  - '[BROADCAST] &8[&bWelcome&8] &f%player_name% &8(&7%frozenjoin_player-position%&8)'
 #
 #
 # » Message of The Day
@@ -196,6 +197,7 @@ formats:
     priority: 3
     type: 'NORMAL'
     join:
+      - '[BROADCAST] &8[&a+&8] &7Everyone welcome &f%player_name% &8(&7%frozenjoin_player-position%&8)&7!'
       - '[BROADCAST] &8[&a+&8] &b%player_name%'
       - '[CENTERMESSAGE] #<0cf797>Smexy'
       - '[DELAY=5s][MESSAGE] &aYou had a message sent to you, with a delay of &f5 seconds&a.'

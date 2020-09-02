@@ -1,6 +1,6 @@
 name: FrozenJoin
 version: @version@
-main: com.github.frcsty.frozenjoin.FrozenJoinPlugin
+main: com.github.frcsty.FrozenJoinPlugin
 author: Frcsty
 api-version: 1.13
 softdepend: ["PlaceholderAPI", "LuckPerms"]
