@@ -6,8 +6,8 @@
 #
 #   Version: @version@
 #   Author: Frosty, maintained by Starmism
-#   Discord: Starmism#2805
-#   SpigotMC: https://www.spigotmc.org/resources/frozen-join.newNumber
+#   Discord: https://discord.gg/helpchat
+#   SpigotMC: https://www.spigotmc.org/resources/frozenjoin.93473/
 #   Description: An Advanced Join/Quit Plugin With 100% Customisation
 #
 #
@@ -166,7 +166,7 @@ messages:
     - '&bFrozenJoin &8- &b{version}'
     - ''
     - ' &8• &7Author&8: &fFrosty &8• &fMaintained by Starmism <3'
-    - ' &8• &7Page&8: &f&nhttps://www.spigotmc.org/resources/frozen-join.newLINK/'
+    - ' &8• &7Page&8: &f&nhttps://www.spigotmc.org/resources/frozenjoin.93473/'
     - ''
 #
 # » Join/Quit Formats
