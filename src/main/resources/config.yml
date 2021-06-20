@@ -5,9 +5,9 @@
 #    |__|  |_| |___|___|___|_|_|  |_____|___|_|_|_|
 #
 #   Version: @version@
-#   Author: Frosty
-#   Discord: Frosty#3308
-#   SpigotMC: https://www.spigotmc.org/resources/frozen-join.73288/
+#   Author: Frosty, maintained by Starmism
+#   Discord: Starmism#2805
+#   SpigotMC: https://www.spigotmc.org/resources/frozen-join.newNumber
 #   Description: An Advanced Join/Quit Plugin With 100% Customisation
 #
 #
@@ -18,7 +18,7 @@
 #
 # » Actions
 # The plugin supports actions within most of the messages to allow for max
-# customisation (does not currently support objects), below are
+# customization (does not currently support objects), below are
 # listed all the currently available actions which can be run through the
 # different messages.
 #
@@ -71,8 +71,8 @@
 # • [EQUIP] STONE;&aTest Stone;Some~Lore;3;2
 #
 # » Looking for a feature to be added?
-# Feel free to shoot me a DM on discord (Frosty#3308) and it'll be added,
-# if I feel it's addition worthy: https://cdn.discordapp.com/attachments/165129131770511360/735541444760174662/sooon.png
+# Submit a GitHub Issue and it will be looked at!
+# https://github.com/Frcsty/FrozenJoin/issues
 #
 # » Console Message Logging
 # Determines what level of message importance should be displayed in console
@@ -112,8 +112,8 @@ firstJoinMessage:
 #
 #
 # » Message of The Day
-# Here you can create new motd whom you can apply with permissions
-# to your players. You may create infinite motds with fully custom
+# Here you can create new MOTD whom you can apply with permissions
+# to your players. You may create infinite MOTDs with fully custom
 # actions.
 #
 motds:
@@ -165,8 +165,8 @@ messages:
   infoMessage:
     - '&bFrozenJoin &8- &b{version}'
     - ''
-    - ' &8• &7Author&8: &fFrosty'
-    - ' &8• &7Page&8: &f&nhttps://www.spigotmc.org/resources/frozen-join.73288/'
+    - ' &8• &7Author&8: &fFrosty &8• &fMaintained by Starmism <3'
+    - ' &8• &7Page&8: &f&nhttps://www.spigotmc.org/resources/frozen-join.newLINK/'
     - ''
 #
 # » Join/Quit Formats
@@ -178,7 +178,7 @@ messages:
 # » Priorities
 # Priorities are used to define which format gets used if the user has access
 # to multiple, they are listed from lowest to highest, 1 being lowest and above being highest.
-# Meaning highest priority format (in the example bellow 2), will be applied to the player
+# Meaning highest priority format (in the example below 2), will be applied to the player
 # if they have access to both.
 #
 #
