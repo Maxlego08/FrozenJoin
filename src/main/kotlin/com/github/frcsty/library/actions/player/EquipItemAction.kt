@@ -23,8 +23,7 @@ object EquipItemAction : Action {
         val slot = args[4].toInt()
         val lore = args[2].split("~")
 
-        val item: ItemStack
-        item = if (useData) {
+        val item: ItemStack = if (useData) {
             ItemStack(material, amount, data.toShort())
         } else {
             ItemStack(material, amount)

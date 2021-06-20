@@ -16,7 +16,7 @@ fun String.parseTime(): TimeResult {
                     .replace(" ", "")
                     .replace("and", "")
                     .replace(",", "")
-                    .toLowerCase()
+                    .lowercase()
     )
     var next: Long
     while (scanner.hasNext()) {
@@ -39,7 +39,8 @@ fun String.parseTime(): TimeResult {
  * Possibly over-engineering, but this allows us to keep a meaningful return value from [parseTime] while not basically copying [TimeUnit]
  */
 @Suppress("EXPERIMENTAL_FEATURE_WARNING")
-inline class TimeResult(private val seconds: Long) {
+@JvmInline
+value class TimeResult(private val seconds: Long) {
 
     fun to(unit: TimeUnit): Long {
         return unit.convert(seconds, TimeUnit.SECONDS)

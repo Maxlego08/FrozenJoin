@@ -62,7 +62,7 @@ class ActionHandler(private val plugin: Plugin) {
         val arguments = match.groups["arguments"]?.value ?: return
         val delay = actionHolder.delay
 
-        val actionName = match.groups["action"]?.value?.toUpperCase()
+        val actionName = match.groups["action"]?.value?.uppercase()
 
         val action = actions[actionName] ?: return
 
