@@ -31,9 +31,6 @@ class Loader(private val plugin: FrozenJoinPlugin) {
 
         if (Settings.METRICS) {
             val metrics = Metrics(plugin, 6743)
-            if (metrics.isEnabled) {
-                Settings.LOGGER.log(Level.INFO, "bStats Metrics Running!")
-            }
         }
 
         if (Settings.HEX_USE) {

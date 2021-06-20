@@ -70,7 +70,7 @@ object MessageFormatter {
             return emptyList()
         }
 
-        when (type.toUpperCase()) {
+        when (type.uppercase()) {
             "NORMAL" -> {
                 actionHandler.execute(player, actions)
             }

@@ -14,7 +14,7 @@ internal class TimeScanner(time: String) {
 
     fun nextString(): String {
         return String(next { codePoint ->
-            Character.isAlphabetic(codePoint.toInt())
+            Character.isAlphabetic(codePoint.code)
         })
     }
 
