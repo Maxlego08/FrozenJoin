@@ -1,3 +1,5 @@
+# FrozenJoin
+
 bruh this some wack code yo but anyway whalecum to my project frozenjoin
 
 u can ask for heglp in https://discord.gg/helpchat and tag me a couple times ye
