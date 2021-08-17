@@ -23,6 +23,7 @@ class ActionHandler(private val plugin: Plugin) {
         setOf(
                 ActionbarBroadcastAction,
                 ActionbarMessageAction,
+                AudienceBroadcastAction,
                 BroadcastAction,
                 BungeeAction,
                 CenterBroadcastAction,
