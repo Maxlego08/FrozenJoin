@@ -1,7 +1,7 @@
 package com.github.frcsty.library.actions.player
 
 import com.github.frcsty.library.actions.Action
-import com.github.frcsty.library.util.color
+import com.github.frcsty.util.color
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack

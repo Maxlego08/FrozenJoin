@@ -2,7 +2,7 @@ package com.github.frcsty.library.actions.player
 
 import com.github.frcsty.library.actions.Action
 import com.github.frcsty.library.util.DefaultFontInfo
-import com.github.frcsty.library.util.color
+import com.github.frcsty.util.color
 import org.bukkit.entity.Player
 
 object CenterMessageAction : Action {
