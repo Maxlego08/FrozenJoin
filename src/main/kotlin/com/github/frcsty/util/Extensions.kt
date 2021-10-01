@@ -35,16 +35,16 @@ fun String.replacePlaceholder(placeholder: String, value: String): String {
     return this.replace(placeholder, value)
 }
 
-fun Player.sendTranslatedMessage(msg: String) {
-    val message = msg.getTranslatedMessage(this)
-
-    this.spigot().sendMessage(*TextComponent.fromLegacyText(message.color()))
+fun Player.sendTranslatedMessage(message: String) {
+    this.spigot().sendMessage(*TextComponent.fromLegacyText(message.getTranslatedMessage(this).color()))
 }
 
-fun CommandSender.sendTranslatedMessage(player: Player, msg: String) {
-    val message = msg.getTranslatedMessage(player)
+fun Player.sendTranslatedMessage(message: String, player: Player) {
+    this.spigot().sendMessage(*TextComponent.fromLegacyText(message.getTranslatedMessage(player).color()))
+}
 
-    this.spigot().sendMessage(*TextComponent.fromLegacyText(message.color()))
+fun CommandSender.sendTranslatedMessage(player: Player, message: String) {
+    this.spigot().sendMessage(*TextComponent.fromLegacyText(message.getTranslatedMessage(player).color()))
 }
 
 fun String.getTranslatedMessage(player: Player): String {

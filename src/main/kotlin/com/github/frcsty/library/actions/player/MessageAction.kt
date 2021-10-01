@@ -1,7 +1,7 @@
 package com.github.frcsty.library.actions.player
 
 import com.github.frcsty.library.actions.Action
-import com.github.frcsty.library.util.sendTranslatedMessage
+import com.github.frcsty.util.sendTranslatedMessage
 import org.bukkit.entity.Player
 
 object MessageAction : Action {
