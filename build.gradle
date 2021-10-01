@@ -2,7 +2,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 plugins {
     id "com.github.johnrengelman.shadow" version "7.0.0"
-    id "org.jetbrains.kotlin.jvm" version "1.5.10"
+    id "org.jetbrains.kotlin.jvm" version "1.5.31"
 }
 
 group = "com.github.frcsty"
@@ -21,11 +21,11 @@ repositories {
 }
 
 dependencies {
-    implementation "me.mattstudios.utils:matt-framework:1.4"
+    implementation "me.mattstudios.utils:matt-framework:1.4.6"
     implementation "org.bstats:bstats-bukkit:2.2.1"
     compileOnly "net.luckperms:api:5.3"
     compileOnly "io.papermc.paper:paper-api:1.17-R0.1-SNAPSHOT"
-    compileOnly "me.clip:placeholderapi:2.10.9"
+    compileOnly "me.clip:placeholderapi:2.10.10"
 }
 
 processResources {
