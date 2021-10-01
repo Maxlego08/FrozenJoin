@@ -1,7 +1,6 @@
 package com.github.frcsty.library.actions.player
 
 import com.github.frcsty.library.actions.Action
-import com.github.frcsty.library.util.sendPlayerTitle
 import org.bukkit.entity.Player
 
 object TitleMessageAction : Action {
@@ -16,7 +15,7 @@ object TitleMessageAction : Action {
         val stay = args.getOrNull(4)?.toIntOrNull() ?: DEFAULT_STAY
         val fadeOut = args.getOrNull(5)?.toIntOrNull() ?: DEFAULT_FADE_OUT
 
-        player.sendPlayerTitle(title, subtitle, fadeIn, stay, fadeOut)
+        player.sendTitle(title, subtitle, fadeIn, stay, fadeOut)
     }
 
     private const val DEFAULT_FADE_IN = 5

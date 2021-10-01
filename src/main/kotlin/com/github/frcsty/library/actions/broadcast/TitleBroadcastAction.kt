@@ -1,7 +1,6 @@
 package com.github.frcsty.library.actions.broadcast
 
 import com.github.frcsty.library.actions.Action
-import com.github.frcsty.library.util.sendPlayerTitle
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
@@ -17,7 +16,7 @@ object TitleBroadcastAction : Action {
         val fadeOut = args.getOrNull(5)?.toIntOrNull() ?: DEFAULT_FADE_OUT
 
         Bukkit.getServer().onlinePlayers.forEach {
-            it.sendPlayerTitle(title, subtitle, fadeIn, stay, fadeOut)
+            it.sendTitle(title, subtitle, fadeIn, stay, fadeOut)
         }
     }
 

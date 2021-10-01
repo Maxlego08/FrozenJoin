@@ -13,9 +13,6 @@ object Settings {
     val LOGGER = plugin.logger
     val DEBUG: Boolean = config.getString("consoleMessages", "ENABLED").equals("ENABLED", ignoreCase = true)
     val METRICS: Boolean = config.getBoolean("stonks", true)
-    private val FULL_VERSION = server.javaClass.`package`.name
-    val VERSION: Int = Integer.valueOf(FULL_VERSION.split("_")[1])
-    val HEX_USE: Boolean = VERSION > 16
     val PLUGIN_VERSION = plugin.description.version
     val LUCK_PERMS = server.pluginManager.getPlugin("LuckPerms")
     val USE_LUCK_PERMS = config.getBoolean("settings.luckperms-permissions")

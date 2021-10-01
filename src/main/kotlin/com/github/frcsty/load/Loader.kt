@@ -15,7 +15,6 @@ import org.bstats.bukkit.Metrics
 import org.bukkit.Bukkit.getServer
 import org.bukkit.command.CommandSender
 import org.bukkit.event.Listener
-import java.util.logging.Level
 
 class Loader(private val plugin: FrozenJoinPlugin) {
 
@@ -33,10 +32,6 @@ class Loader(private val plugin: FrozenJoinPlugin) {
             val metrics = Metrics(plugin, 6743)
         }
 
-        if (Settings.HEX_USE) {
-            logInfo("Hex support enabled! (#hex)")
-        }
-
         val manager = CommandManager(plugin)
         manager.register(
                 HelpCommand(messageLoader),
@@ -49,9 +44,7 @@ class Loader(private val plugin: FrozenJoinPlugin) {
         )
 
         actionHandler.loadDefault()
-        if (Settings.VERSION >= 15) {
-            manager.register(FormatCommand(messageLoader))
-        }
+        manager.register(FormatCommand(messageLoader))
 
         formatManager.setFormats()
 

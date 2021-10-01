@@ -41,13 +41,11 @@ object MessageFormatter {
     }
 
     fun executeFormat(player: Player, manager: FormatManager, actionHandler: ActionHandler, action: String): List<String> {
-        if (Settings.VERSION >= 15) {
-            val customMessage = player.getCustomMessage(action)
-            if (customMessage != "emptyValue") {
-                actionHandler.execute(player, listOf("[BROADCAST] $customMessage"))
-                if (Settings.DEBUG) logInfo("Executing custom message for user ${player.name} (${player.uniqueId})")
-                return listOf(customMessage)
-            }
+        val customMessage = player.getCustomMessage(action)
+        if (customMessage != "emptyValue") {
+            actionHandler.execute(player, listOf("[BROADCAST] $customMessage"))
+            if (Settings.DEBUG) logInfo("Executing custom message for user ${player.name} (${player.uniqueId})")
+            return listOf(customMessage)
         }
 
         val formats = manager.formatsMap.filter { (_, value) ->
