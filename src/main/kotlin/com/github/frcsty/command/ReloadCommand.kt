@@ -6,6 +6,7 @@ import com.github.frcsty.load.Loader
 import com.github.frcsty.load.Settings
 import com.github.frcsty.load.logInfo
 import com.github.frcsty.util.color
+import me.mattstudios.mf.annotations.Alias
 import me.mattstudios.mf.annotations.Command
 import me.mattstudios.mf.annotations.Permission
 import me.mattstudios.mf.annotations.SubCommand
@@ -14,6 +15,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.scheduler.BukkitRunnable
 
 @Command("frozenjoin")
+@Alias("join", "fjoin")
 class ReloadCommand(private val plugin: FrozenJoinPlugin, private val loader: Loader, private val messageLoader: MessageLoader) : CommandBase() {
 
     companion object {
