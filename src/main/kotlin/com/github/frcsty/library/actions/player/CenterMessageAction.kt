@@ -3,6 +3,7 @@ package com.github.frcsty.library.actions.player
 import com.github.frcsty.library.actions.Action
 import com.github.frcsty.library.util.DefaultFontInfo
 import com.github.frcsty.util.color
+import com.github.frcsty.util.getTranslatedMessage
 import org.bukkit.entity.Player
 
 object CenterMessageAction : Action {
@@ -12,7 +13,7 @@ object CenterMessageAction : Action {
     override val id = "CENTERMESSAGE"
 
     override fun run(player: Player, data: String) {
-        var message = data.color()
+        var message = data.getTranslatedMessage(player).color()
         var messagePxSize = 0
 
         var previousCode = false
