@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.github.frcsty"
-version = "2.2.0"
+version = "2.3.0"
 
 def path = "com.github.frcsty.frozenjoin"
 def javaVersion = JavaVersion.VERSION_16
