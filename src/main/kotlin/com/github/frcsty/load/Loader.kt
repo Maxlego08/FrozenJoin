@@ -35,7 +35,7 @@ class Loader(private val plugin: FrozenJoinPlugin) {
         val manager = CommandManager(plugin)
         manager.register(
                 HelpCommand(messageLoader),
-                InfoCommand(plugin, messageLoader),
+                InfoCommand(messageLoader),
                 MotdCommand(
                         loader = this,
                         messageLoader = messageLoader),

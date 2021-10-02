@@ -12,8 +12,10 @@ import me.mattstudios.mf.annotations.SubCommand
 import me.mattstudios.mf.base.CommandBase
 import org.bukkit.command.CommandSender
 import java.io.File
+import me.mattstudios.mf.annotations.Alias
 
 @Command("frozenjoin")
+@Alias("join", "fjoin")
 class ConvertCommand(plugin: FrozenJoinPlugin, private val messageLoader: MessageLoader) : CommandBase() {
 
     private val data = plugin.dataFolder

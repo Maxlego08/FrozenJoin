@@ -2,6 +2,7 @@ package com.github.frcsty.command
 
 import com.github.frcsty.configuration.MessageLoader
 import com.github.frcsty.util.*
+import me.mattstudios.mf.annotations.Alias
 import me.mattstudios.mf.annotations.Command
 import me.mattstudios.mf.annotations.Permission
 import me.mattstudios.mf.annotations.SubCommand
@@ -11,6 +12,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 @Command("frozenjoin")
+@Alias("join", "fjoin")
 class FormatCommand(private val messageLoader: MessageLoader) : CommandBase() {
 
     companion object {
