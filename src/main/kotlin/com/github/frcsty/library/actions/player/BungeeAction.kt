@@ -4,9 +4,9 @@ package com.github.frcsty.library.actions.player
 
 import com.github.frcsty.library.actions.Action
 import com.google.common.io.ByteStreams
+import java.util.Arrays
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
-import java.util.*
 
 object BungeeAction : Action {
 

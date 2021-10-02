@@ -4,14 +4,16 @@ import com.github.frcsty.library.actions.Action
 import com.github.frcsty.library.actions.broadcast.*
 import com.github.frcsty.library.actions.player.*
 import com.github.frcsty.library.time.parseTime
+import com.github.frcsty.load.Settings
+import com.github.frcsty.load.logInfo
+import java.util.SplittableRandom
+import java.util.concurrent.TimeUnit
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
-import java.util.*
-import java.util.concurrent.TimeUnit
 
 private val ACTION_PATTERN = Regex("(.*) ?\\[(?<action>[A-Z]+?)] ?(?<arguments>.+)", RegexOption.IGNORE_CASE)
-private val DELAY_PATTERN = Regex("\\[DELAY=(?<delay>\\d+[a-z])]", RegexOption.IGNORE_CASE)
+private val DELAY_PATTERN = Regex("\\[DELAY=(?<delay>\\d+[a-z]+)]", RegexOption.IGNORE_CASE)
 private val CHANCE_PATTERN = Regex("\\[CHANCE=(?<chance>\\d+)]", RegexOption.IGNORE_CASE)
 private val RANDOM = SplittableRandom()
 
@@ -56,7 +58,7 @@ class ActionHandler(private val plugin: Plugin) {
         val match = ACTION_PATTERN.matchEntire(inputAction)
 
         if (match == null) {
-            println("Action does not match regex $inputAction")
+            if (Settings.DEBUG) logInfo("Action does not match regex: $inputAction")
             return
         }
 
@@ -78,19 +80,19 @@ class ActionHandler(private val plugin: Plugin) {
     }
 
     private fun hasChanceAction(input: String): String? {
-        val match = CHANCE_PATTERN.matchEntire(input) ?: return input
+        val match = CHANCE_PATTERN.find(input) ?: return input
         val chanceGroup = match.groups["chance"] ?: return null
         val chance = chanceGroup.value.toInt()
 
         val randomValue = RANDOM.nextInt(100) + 1
 
         return if (randomValue <= chance) {
-            input.replace(chanceGroup.value, "")
+            input.replaceFirst(CHANCE_PATTERN, "")
         } else null
     }
 
     private fun getDelayAction(input: String): ActionHolder {
-        val match = DELAY_PATTERN.matchEntire(input) ?: return ActionHolder(input, 0L)
+        val match = DELAY_PATTERN.find(input) ?: return ActionHolder(input, 0L)
 
         val delayGroup = match.groups["delay"] ?: return ActionHolder(input, 0L)
         val delay = delayGroup.value
@@ -98,8 +100,8 @@ class ActionHandler(private val plugin: Plugin) {
         return try {
             val time = delay.parseTime()
             ActionHolder(
-                    action = input.replace(delayGroup.value, ""),
-                    delay = time.to(TimeUnit.SECONDS) * 20L
+                action = input.replaceFirst(DELAY_PATTERN, ""),
+                delay = time.to(TimeUnit.SECONDS) * 20L
             )
         } catch (ex: IllegalArgumentException) {
             ex.printStackTrace()

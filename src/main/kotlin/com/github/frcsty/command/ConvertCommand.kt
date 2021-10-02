@@ -6,13 +6,13 @@ import com.github.frcsty.convert.FileConverter
 import com.github.frcsty.load.Settings
 import com.github.frcsty.load.logInfo
 import com.github.frcsty.util.replacePlaceholder
+import java.io.File
+import me.mattstudios.mf.annotations.Alias
 import me.mattstudios.mf.annotations.Command
 import me.mattstudios.mf.annotations.Permission
 import me.mattstudios.mf.annotations.SubCommand
 import me.mattstudios.mf.base.CommandBase
 import org.bukkit.command.CommandSender
-import java.io.File
-import me.mattstudios.mf.annotations.Alias
 
 @Command("frozenjoin")
 @Alias("join", "fjoin")
