@@ -80,19 +80,19 @@ class ActionHandler(private val plugin: Plugin) {
     }
 
     private fun hasChanceAction(input: String): String? {
-        val match = CHANCE_PATTERN.matchEntire(input) ?: return input
+        val match = CHANCE_PATTERN.find(input) ?: return input
         val chanceGroup = match.groups["chance"] ?: return null
         val chance = chanceGroup.value.toInt()
 
         val randomValue = RANDOM.nextInt(100) + 1
 
         return if (randomValue <= chance) {
-            input.replace(chanceGroup.value, "")
+            input.replaceFirst(CHANCE_PATTERN, "")
         } else null
     }
 
     private fun getDelayAction(input: String): ActionHolder {
-        val match = DELAY_PATTERN.matchEntire(input) ?: return ActionHolder(input, 0L)
+        val match = DELAY_PATTERN.find(input) ?: return ActionHolder(input, 0L)
 
         val delayGroup = match.groups["delay"] ?: return ActionHolder(input, 0L)
         val delay = delayGroup.value
@@ -100,8 +100,8 @@ class ActionHandler(private val plugin: Plugin) {
         return try {
             val time = delay.parseTime()
             ActionHolder(
-                    action = input.replace(delayGroup.value, ""),
-                    delay = time.to(TimeUnit.SECONDS) * 20L
+                action = input.replaceFirst(DELAY_PATTERN, ""),
+                delay = time.to(TimeUnit.SECONDS) * 20L
             )
         } catch (ex: IllegalArgumentException) {
             ex.printStackTrace()
