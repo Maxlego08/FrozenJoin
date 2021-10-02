@@ -4,6 +4,8 @@ import com.github.frcsty.library.actions.Action
 import com.github.frcsty.library.actions.broadcast.*
 import com.github.frcsty.library.actions.player.*
 import com.github.frcsty.library.time.parseTime
+import com.github.frcsty.load.Settings
+import com.github.frcsty.load.logInfo
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
@@ -56,7 +58,7 @@ class ActionHandler(private val plugin: Plugin) {
         val match = ACTION_PATTERN.matchEntire(inputAction)
 
         if (match == null) {
-            println("Action does not match regex $inputAction")
+            if (Settings.DEBUG) logInfo("Action does not match regex: $inputAction")
             return
         }
 
