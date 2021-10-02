@@ -7,11 +7,10 @@ import com.github.frcsty.load.logInfo
 import com.github.frcsty.util.getCustomMessage
 import com.github.frcsty.util.luckPermsCheck
 import com.github.frcsty.util.sendTranslatedMessage
+import java.util.logging.Level
 import net.luckperms.api.LuckPerms
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import java.util.*
-import java.util.logging.Level
 
 object MessageFormatter {
 

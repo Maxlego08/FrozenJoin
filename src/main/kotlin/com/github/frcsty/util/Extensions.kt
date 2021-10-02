@@ -1,5 +1,6 @@
 package com.github.frcsty.util
 
+import java.util.regex.Pattern
 import me.clip.placeholderapi.PlaceholderAPI
 import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.chat.TextComponent
@@ -7,7 +8,6 @@ import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
-import java.util.regex.Pattern
 
 private val HEX_PATTERN: Pattern = Pattern.compile("#<([A-Fa-f0-9]){6}>")
 

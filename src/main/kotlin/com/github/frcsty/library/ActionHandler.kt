@@ -6,11 +6,11 @@ import com.github.frcsty.library.actions.player.*
 import com.github.frcsty.library.time.parseTime
 import com.github.frcsty.load.Settings
 import com.github.frcsty.load.logInfo
+import java.util.SplittableRandom
+import java.util.concurrent.TimeUnit
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
-import java.util.*
-import java.util.concurrent.TimeUnit
 
 private val ACTION_PATTERN = Regex("(.*) ?\\[(?<action>[A-Z]+?)] ?(?<arguments>.+)", RegexOption.IGNORE_CASE)
 private val DELAY_PATTERN = Regex("\\[DELAY=(?<delay>\\d+[a-z]+)]", RegexOption.IGNORE_CASE)

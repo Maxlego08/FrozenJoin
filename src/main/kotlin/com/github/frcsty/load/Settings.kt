@@ -1,9 +1,9 @@
 package com.github.frcsty.load
 
 import com.github.frcsty.FrozenJoinPlugin
+import java.util.logging.Level
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
-import java.util.logging.Level
 
 object Settings {
     private val plugin = JavaPlugin.getPlugin(FrozenJoinPlugin::class.java)

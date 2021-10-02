@@ -1,9 +1,9 @@
 package com.github.frcsty.convert
 
 import com.github.frcsty.load.Settings
-import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
 import java.util.logging.Level
+import org.bukkit.configuration.file.YamlConfiguration
 
 class FileConverter {
 

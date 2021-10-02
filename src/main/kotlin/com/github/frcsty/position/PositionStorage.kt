@@ -1,9 +1,10 @@
 package com.github.frcsty.position
 
 import com.github.frcsty.FrozenJoinPlugin
-import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
-import java.util.*
+import java.util.SortedMap
+import java.util.UUID
+import org.bukkit.configuration.file.YamlConfiguration
 
 object PositionStorage {
 

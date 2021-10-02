@@ -1,10 +1,10 @@
 package com.github.frcsty.util
 
 import com.github.frcsty.load.Settings
+import java.util.logging.Level
 import net.luckperms.api.LuckPerms
 import net.luckperms.api.model.user.User
 import org.bukkit.entity.Player
-import java.util.logging.Level
 
 fun Player.luckPermsCheck(permission: String, provider: LuckPerms?): Boolean {
     val luckPermsAPI: LuckPerms = provider ?: return false

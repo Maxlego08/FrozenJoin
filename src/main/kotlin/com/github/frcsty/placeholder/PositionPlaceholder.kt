@@ -1,9 +1,9 @@
 package com.github.frcsty.placeholder
 
 import com.github.frcsty.load.Loader
+import java.text.DecimalFormat
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
 import org.bukkit.entity.Player
-import java.text.DecimalFormat
 
 class PositionPlaceholder(private val loader: Loader) : PlaceholderExpansion() {
 
