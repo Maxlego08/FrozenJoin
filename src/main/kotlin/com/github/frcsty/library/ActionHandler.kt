@@ -11,7 +11,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 private val ACTION_PATTERN = Regex("(.*) ?\\[(?<action>[A-Z]+?)] ?(?<arguments>.+)", RegexOption.IGNORE_CASE)
-private val DELAY_PATTERN = Regex("\\[DELAY=(?<delay>\\d+[a-z])]", RegexOption.IGNORE_CASE)
+private val DELAY_PATTERN = Regex("\\[DELAY=(?<delay>\\d+[a-z]+)]", RegexOption.IGNORE_CASE)
 private val CHANCE_PATTERN = Regex("\\[CHANCE=(?<chance>\\d+)]", RegexOption.IGNORE_CASE)
 private val RANDOM = SplittableRandom()
 
