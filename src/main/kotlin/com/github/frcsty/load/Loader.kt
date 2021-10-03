@@ -38,7 +38,8 @@ class Loader(private val plugin: FrozenJoinPlugin) {
                 InfoCommand(messageLoader),
                 MotdCommand(
                         loader = this,
-                        messageLoader = messageLoader),
+                        messageLoader = messageLoader,
+                        plugin = plugin),
                 ReloadCommand(plugin, this, messageLoader),
                 ConvertCommand(plugin, messageLoader)
         )
@@ -49,7 +50,7 @@ class Loader(private val plugin: FrozenJoinPlugin) {
         formatManager.setFormats()
 
         registerMessages(manager, messageLoader)
-        registerListeners(PlayerJoinListener(this), PlayerQuitListener(this))
+        registerListeners(PlayerJoinListener(this, plugin), PlayerQuitListener(this))
 
         PositionPlaceholder(this).register()
     }

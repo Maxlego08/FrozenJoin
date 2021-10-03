@@ -102,11 +102,13 @@ firstJoinMessage:
 # » Message of The Day
 # Here you can create new MOTD whom you can apply with permissions
 # to your players. You may create infinite MOTDs with fully custom
-# actions.
-#
+# actions. The delay is fully optional, and it works in addition to
+# the [DELAY] modifier.
 motds:
   default:
     priority: 1
+    delay: 0s
+    delay-on-command: false
     permission: frozenjoin.motd.default
     actions:
       - '[MESSAGE] &7Welcome back &f%player_name%&7,'
