@@ -135,7 +135,7 @@ messages:
   customMessageRemoveTargetMessage: "&8[&bFrozenJoin&8] &8» &7You have removed &b%player_name%&7's custom &b%type% &7message"
   reloadMessage: '&8[&bFrozenJoin&8] &8» &7Reloaded configuration in &b%time%ms&7.'
   denyMessage: '&8[&bFrozenJoin&8] &8» &7You do not have permission to execute this command!'
-  usageMessage: '&8[&bFrozenJoin&8] &8» &7Incorrect usage! &b{usage}'
+  usageMessage: '&8[&bFrozenJoin&8] &8» &7Incorrect usage! &7Use &b/frozenjoin help&7 to get help.'
   playerOnlyMessage: '&8[&bFrozenJoin&8] &8» &7This command can only be executed by a player!'
   unknownCommandMessage: '&8[&bFrozenJoin&8] &8» &7Unknown Command.'
   noMotdMessage: '&8[&bFrozenJoin&8] &8» &cYou do not have an motd applicable.'

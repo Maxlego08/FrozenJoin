@@ -33,6 +33,13 @@ class Loader(private val plugin: FrozenJoinPlugin) {
         }
 
         val manager = CommandManager(plugin)
+
+        registerCompletions(
+            manager,
+            Pair("#format-argument", listOf("join", "quit")),
+            Pair("#format-message", listOf("<message>"))
+        )
+
         manager.register(
                 HelpCommand(messageLoader),
                 InfoCommand(messageLoader),
@@ -70,6 +77,12 @@ class Loader(private val plugin: FrozenJoinPlugin) {
             register("cmd.wrong.usage") { sender: CommandSender ->
                 sender.sendMessage(messages.getMessage("usageMessage").color())
             }
+        }
+    }
+
+    private fun registerCompletions(manager: CommandManager, vararg completions: Pair<String, List<String>>) {
+        completions.forEach { pair ->
+            manager.completionHandler.register(pair.first) { pair.second }
         }
     }
 
