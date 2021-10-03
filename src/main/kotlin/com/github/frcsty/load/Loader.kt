@@ -37,7 +37,8 @@ class Loader(private val plugin: FrozenJoinPlugin) {
         registerCompletions(
             manager,
             Pair("#format-argument", listOf("join", "quit")),
-            Pair("#format-message", listOf("<message>"))
+            Pair("#format-message", listOf("<message>")),
+            Pair("#convert-command", listOf("generate", "start", "dump"))
         )
 
         manager.register(
