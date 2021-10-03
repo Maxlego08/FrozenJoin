@@ -90,16 +90,6 @@ consoleMessages: 'ENABLED'
 # » Custom Command Alias
 # As of right now the feature is disabled due to not working correctly.
 #
-# » LuckPerms Permissions
-# If you are using LuckPerms and want the plugin to perform inheritance
-# permission checks, enable this feature. It is disabled by default to
-# prevent unnecessary checks when a player joins.
-# NOTE: Inheritance permission check is slow due to the fact it directly
-# scans the database for the users permissions, this only occurs on the first
-# join as the permissions are not yet cached.
-settings:
-  luckperms-permissions: false
-#
 # » First Join Message
 # Determines what message is broadcast to the server when a new
 # user joins the server.

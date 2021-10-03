@@ -5,21 +5,15 @@ import com.github.frcsty.library.ActionHandler
 import com.github.frcsty.load.Settings
 import com.github.frcsty.load.logInfo
 import com.github.frcsty.util.getCustomMessage
-import com.github.frcsty.util.luckPermsCheck
 import com.github.frcsty.util.sendTranslatedMessage
-import java.util.logging.Level
-import net.luckperms.api.LuckPerms
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
 object MessageFormatter {
 
-    private val provider = getProvider()
-
     fun executeMotd(player: Player, manager: FormatManager, actionHandler: ActionHandler, command: Boolean, message: String) {
         //This is not the most readable thing in the world, but I'm kind of scared to change anything since there's no test suite
         val motds = manager.motdsMap.filter { (key, value) ->
-            !("firstJoin".equals(key, true)) && player.hasEffectivePermission(value.permission, provider)
+            !("firstJoin".equals(key, true)) && player.hasPermission(value.permission)
         }.mapKeys {
             it.value.priority
         }.toSortedMap(Comparator.reverseOrder<Int>())
@@ -48,10 +42,10 @@ object MessageFormatter {
         }
 
         val formats = manager.formatsMap.filter { (_, value) ->
-            player.hasEffectivePermission(value.permission, provider)
+            player.hasPermission(value.permission)
         }.map {
             it.value.priority to it.key
-        }.toMap().toSortedMap(Comparator.reverseOrder<Int>())
+        }.toMap().toSortedMap(Comparator.reverseOrder())
 
         val format = formats.entries.firstOrNull() ?: return emptyList()
         val formatObject = manager.formatsMap[format.value] ?: return emptyList()
@@ -92,25 +86,4 @@ object MessageFormatter {
         val isVanish = player.getMetadata("vanished").any { it.asBoolean() }
         return !inverted == isVanish
     }
-}
-
-private fun Player.hasEffectivePermission(permission: String, provider: LuckPerms?): Boolean {
-    if (Settings.USE_LUCK_PERMS) {
-        if (Settings.LUCK_PERMS != null && Settings.LUCK_PERMS.isEnabled) {
-            return this.luckPermsCheck(permission, provider)
-        }
-    }
-
-    return effectivePermissions.any { it.permission.equals(permission, true) }
-}
-
-private fun getProvider(): LuckPerms? {
-    val registration = Bukkit.getServicesManager().getRegistration(LuckPerms::class.java)
-
-    if (registration != null) {
-        return registration.provider
-    }
-
-    Settings.LOGGER.log(Level.WARNING, "Failed to load LuckPerms API provider! (Ensure LuckPerms is properly installed!)")
-    return null
 }
