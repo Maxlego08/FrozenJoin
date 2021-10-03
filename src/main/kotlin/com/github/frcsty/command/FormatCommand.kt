@@ -4,6 +4,7 @@ import com.github.frcsty.configuration.MessageLoader
 import com.github.frcsty.util.*
 import me.mattstudios.mf.annotations.Alias
 import me.mattstudios.mf.annotations.Command
+import me.mattstudios.mf.annotations.Completion
 import me.mattstudios.mf.annotations.Permission
 import me.mattstudios.mf.annotations.SubCommand
 import me.mattstudios.mf.base.CommandBase
@@ -25,18 +26,16 @@ class FormatCommand(private val messageLoader: MessageLoader) : CommandBase() {
 
     @SubCommand(SET_COMMAND)
     @Permission(PERMISSION)
-    fun formatSetCommand(sender: CommandSender, target: String, argument: String, message: Array<String>) {
-        val player: Player? = Bukkit.getPlayer(target)
-        val msg = message.joinToString(" ")
+    fun formatSetCommand(sender: CommandSender, @Completion("#players") player: Player?, @Completion("#format-argument") argument: String, @Completion("#format-message") message: String) {
         if (player == null) {
             sender.sendMessage(messageLoader.getMessage("customMessageInvalidPlayerMessage"))
             return
         }
 
-        when (argument) {
+        when (argument.lowercase()) {
             JOIN_COMMAND,
             QUIT_COMMAND -> {
-                player.setCustomMessage(argument, message = msg)
+                player.setCustomMessage(type = argument.lowercase(), message = message)
             }
             else -> {
                 sender.sendMessage(messageLoader.getMessage("customMessageInvalidArgumentMessage"))
@@ -45,23 +44,22 @@ class FormatCommand(private val messageLoader: MessageLoader) : CommandBase() {
         }
 
         sender.sendTranslatedMessage(player, messageLoader.getMessage("customMessageSetTargetMessage")
-                .replacePlaceholder("%type%", argument)
-                .replacePlaceholder("%message%", msg.color()))
+                .replacePlaceholder("%type%", argument.lowercase())
+                .replacePlaceholder("%message%", message.color()))
     }
 
     @SubCommand(REMOVE_COMMAND)
     @Permission(PERMISSION)
-    fun formatRemoveCommand(sender: CommandSender, target: String, argument: String) {
-        val player: Player? = Bukkit.getPlayer(target)
+    fun formatRemoveCommand(sender: CommandSender, @Completion("#players") player: Player?, @Completion("#format-argument") argument: String) {
         if (player == null) {
             sender.sendMessage(messageLoader.getMessage("customMessageInvalidPlayerMessage"))
             return
         }
 
-        when (argument) {
+        when (argument.lowercase()) {
             JOIN_COMMAND,
             QUIT_COMMAND -> {
-                player.removeCustomMessage(type = argument)
+                player.removeCustomMessage(type = argument.lowercase())
             }
             else -> {
                 sender.sendMessage(messageLoader.getMessage("customMessageInvalidArgumentMessage"))
@@ -70,6 +68,6 @@ class FormatCommand(private val messageLoader: MessageLoader) : CommandBase() {
         }
 
         sender.sendTranslatedMessage(player, messageLoader.getMessage("customMessageRemoveTargetMessage")
-                .replacePlaceholder("%type%", argument))
+                .replacePlaceholder("%type%", argument.lowercase()))
     }
 }

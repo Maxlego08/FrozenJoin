@@ -102,11 +102,13 @@ firstJoinMessage:
 # » Message of The Day
 # Here you can create new MOTD whom you can apply with permissions
 # to your players. You may create infinite MOTDs with fully custom
-# actions.
-#
+# actions. The delay is fully optional, and it works in addition to
+# the [DELAY] modifier.
 motds:
   default:
     priority: 1
+    delay: 0s
+    delay-on-command: false
     permission: frozenjoin.motd.default
     actions:
       - '[MESSAGE] &7Welcome back &f%player_name%&7,'
@@ -133,7 +135,7 @@ messages:
   customMessageRemoveTargetMessage: "&8[&bFrozenJoin&8] &8» &7You have removed &b%player_name%&7's custom &b%type% &7message"
   reloadMessage: '&8[&bFrozenJoin&8] &8» &7Reloaded configuration in &b%time%ms&7.'
   denyMessage: '&8[&bFrozenJoin&8] &8» &7You do not have permission to execute this command!'
-  usageMessage: '&8[&bFrozenJoin&8] &8» &7Incorrect usage! &b{usage}'
+  usageMessage: '&8[&bFrozenJoin&8] &8» &7Incorrect usage! &7Use &b/frozenjoin help&7 to get help.'
   playerOnlyMessage: '&8[&bFrozenJoin&8] &8» &7This command can only be executed by a player!'
   unknownCommandMessage: '&8[&bFrozenJoin&8] &8» &7Unknown Command.'
   noMotdMessage: '&8[&bFrozenJoin&8] &8» &cYou do not have an motd applicable.'
@@ -143,10 +145,11 @@ messages:
     - '&8* &bBase Command&8: &f/join'
     - '&8* &bAlias&8: &f/fjoin&8, &f/frozenjoin'
     - ''
-    - ' &8• &freload  &8- &7Reloads the config'
+    - ' &8• &freload   &8- &7Reloads the config'
     - ' &8• &fhelp     &8- &7Displays help message'
-    - ' &8• &fset       &8- &7Set a users custom message'
-    - ' &8• &fremove &8- &7Remove a users custom message'
+    - ' &8• &fset      &8- &7Set a users custom message'
+    - ' &8• &fremove   &8- &7Remove a users custom message'
+    - ' &8• &fconvert  &8- &7Convert a deluxejoin config to frozenjoin'
     - ''
     - '&8* &bOther Commands&8:'
     - ''

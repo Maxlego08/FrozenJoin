@@ -1,5 +1,6 @@
 package com.github.frcsty.listener.base
 
+import com.github.frcsty.FrozenJoinPlugin
 import com.github.frcsty.listener.event.FrozenJoinEvent
 import com.github.frcsty.load.Loader
 import com.github.frcsty.message.MessageFormatter
@@ -8,7 +9,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 
-class PlayerJoinListener(private val loader: Loader) : Listener {
+class PlayerJoinListener(private val loader: Loader, private val plugin: FrozenJoinPlugin) : Listener {
 
     companion object {
         private const val FIRST_JOIN = "firstJoin"
@@ -35,7 +36,7 @@ class PlayerJoinListener(private val loader: Loader) : Listener {
             return
         }
 
-        MessageFormatter.executeMotd(player, manager, actionHandler, command = false, message = "")
+        MessageFormatter.executeMotd(player, manager, actionHandler, command = false, message = "", plugin)
         val actions = MessageFormatter.executeFormat(player, manager, actionHandler, ACTION)
         Bukkit.getServer().pluginManager.callEvent(FrozenJoinEvent(player, actions))
     }

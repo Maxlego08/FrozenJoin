@@ -9,6 +9,7 @@ import com.github.frcsty.util.replacePlaceholder
 import java.io.File
 import me.mattstudios.mf.annotations.Alias
 import me.mattstudios.mf.annotations.Command
+import me.mattstudios.mf.annotations.Completion
 import me.mattstudios.mf.annotations.Permission
 import me.mattstudios.mf.annotations.SubCommand
 import me.mattstudios.mf.base.CommandBase
@@ -27,8 +28,8 @@ class ConvertCommand(plugin: FrozenJoinPlugin, private val messageLoader: Messag
 
     @SubCommand(COMMAND)
     @Permission(PERMISSION)
-    fun convertCommand(sender: CommandSender, command: String) {
-        when (command) {
+    fun convertCommand(sender: CommandSender, @Completion("#convert-command") command: String) {
+        when (command.lowercase()) {
             "generate" -> {
                 generate(sender)
                 if (Settings.DEBUG) logInfo("Executor ${sender.name} executed action 'convert generate'")

@@ -43,6 +43,8 @@ class FormatManager(private val plugin: FrozenJoinPlugin) {
             motdsMap[motd] = MOTD(
                     identifier = motd,
                     message = motdSection.getStringList("actions"),
+                    delay = motdSection.getString("delay") ?: "0s",
+                    delayOnCommand = motdSection.getBoolean("delay-on-command", false),
                     priority = motdSection.getInt("priority"),
                     permission = motdSection.getString("permission") ?: "frozenjoin.motd.$motd"
             )
