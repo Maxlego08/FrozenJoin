@@ -5,7 +5,8 @@
 #    |__|  |_| |___|___|___|_|_|  |_____|___|_|_|_|
 #
 #   Version: ${version}
-#   Author: Frosty, maintained by Starmism
+#   Author: Frosty
+#   Maintainers: BlitzOffline, Starmism
 #   Discord: https://discord.gg/helpchat
 #   SpigotMC: https://www.spigotmc.org/resources/frozenjoin.93473/
 #   Description: An Advanced Join/Quit Plugin With 100% Customisation
@@ -28,7 +29,7 @@
 #    - [ACTION] Arg1;Arg2;Arg3
 #
 #  Example Action with both modifiers:
-#    - [CHANCE=30][DELAY=5s][MESSAGE] &aYou had a &f30% &achance of getting this message, with a &f3s &adelay!
+#    - [CHANCE=30][DELAY=5s][MESSAGE] &aYou had a &f30% &achance of getting this message, with a &f5s &adelay!
 #
 # Player:
 # • [CENTERMESSAGE] <message>
@@ -158,7 +159,8 @@ messages:
   infoMessage:
     - '&bFrozenJoin &8- &b{version}'
     - ''
-    - ' &8• &7Author&8: &fFrosty &8• &fMaintained by Starmism <3'
+    - ' &8• &7Author&8: &fFrosty'
+    - ' &8• &7Maintainers&8: &fBlitzOffline and Starmism'
     - ' &8• &7Page&8: &f&nhttps://www.spigotmc.org/resources/frozenjoin.93473/'
     - ''
 #
@@ -194,7 +196,7 @@ formats:
       - '[BROADCAST] &8[&a+&8] &b%player_name%'
       - '[CENTERMESSAGE] #<0cf797>Smexy'
       - '[DELAY=5s][MESSAGE] &aYou had a message sent to you, with a delay of &f5 seconds&a.'
-      - '[CHANCE=30][DELAY=5s][MESSAGE] &aYou had a &f30% &achance of getting this message, with a &f3s &adelay!'
+      - '[CHANCE=30][DELAY=5s][MESSAGE] &aYou had a &f30% &achance of getting this message, with a &f5s &adelay!'
     quit:
       - '[BROADCAST] &8[&c-&8] &b%player_name%'
     permission: 'frozenjoin.default'
