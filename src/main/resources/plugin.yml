@@ -1,6 +1,6 @@
 name: FrozenJoin
 version: ${version}
 main: com.github.frcsty.FrozenJoinPlugin
-author: Frcsty
+authors: [Frcsty, BlitzOffline, Starmism]
 api-version: 1.17
 softdepend: ["PlaceholderAPI"]
