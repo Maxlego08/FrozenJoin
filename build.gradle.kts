@@ -2,8 +2,8 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("com.github.johnrengelman.shadow") version "7.0.0"
-    kotlin("jvm") version "1.5.31"
+    id("com.github.johnrengelman.shadow") version "7.1.2"
+    kotlin("jvm") version "1.6.10"
 }
 
 group = "com.github.frcsty"
@@ -24,7 +24,7 @@ dependencies {
     implementation("me.mattstudios.utils:matt-framework:1.4.6")
     implementation("org.bstats:bstats-bukkit:2.2.1")
     compileOnly("io.papermc.paper:paper-api:1.17-R0.1-SNAPSHOT")
-    compileOnly("me.clip:placeholderapi:2.10.10")
+    compileOnly("me.clip:placeholderapi:2.11.1")
 }
 
 java {
