@@ -9,12 +9,30 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
 
-private val HEX_PATTERN: Pattern = Pattern.compile("#<([A-Fa-f0-9]){6}>")
+private val LEGACY_HEX_PATTERN: Pattern = Pattern.compile("#<([A-Fa-f0-9]){6}>")
+private val HEX_PATTERN: Pattern = Pattern.compile("#([A-Fa-f0-9]){6}")
 
 fun String.color(): String {
-    var translation = this
+    var translation = this.colorLegacy()
 
     var matcher = HEX_PATTERN.matcher(translation)
+
+    while (matcher.find()) {
+        val hex: ChatColor = ChatColor.of(matcher.group())
+        val before = translation.substring(0, matcher.start())
+        val after = translation.substring(matcher.end())
+
+        translation = before + hex + after
+        matcher = HEX_PATTERN.matcher(translation)
+    }
+
+    return ChatColor.translateAlternateColorCodes('&', translation)
+}
+
+fun String.colorLegacy(): String {
+    var translation = this
+
+    var matcher = LEGACY_HEX_PATTERN.matcher(translation)
 
     while (matcher.find()) {
         var hexString = matcher.group()
@@ -25,10 +43,10 @@ fun String.color(): String {
         val after = translation.substring(matcher.end())
 
         translation = before + hex + after
-        matcher = HEX_PATTERN.matcher(translation)
+        matcher = LEGACY_HEX_PATTERN.matcher(translation)
     }
 
-    return ChatColor.translateAlternateColorCodes('&', translation)
+    return translation
 }
 
 fun String.replacePlaceholder(placeholder: String, value: String): String {
