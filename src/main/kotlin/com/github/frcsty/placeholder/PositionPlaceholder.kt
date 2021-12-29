@@ -16,7 +16,7 @@ class PositionPlaceholder(private val loader: Loader) : PlaceholderExpansion() {
     }
 
     override fun getVersion(): String {
-        return "2.1.2"
+        return "2.3.0"
     }
 
     override fun getAuthor(): String {
