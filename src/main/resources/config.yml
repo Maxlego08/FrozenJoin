@@ -225,6 +225,15 @@ formats:
     quit: []
     permission: 'frozenjoin.vanish'
 
+# Placeholders in this cache are automatically parsed every # ticks and those values are then replaced in messages and
+# actions. This is mainly to fix issues with some placeholders not working when a player leaves.
+placeholder-cache:
+  # The interval in ticks to refresh the placeholder cache. 20 ticks = 1 second.
+  update-interval: 60
+  placeholders:
+    - "%player_name%"
+    - "%luckperms_prefix%"
+
 # If you want bstats to track your server leave this enabled,
 # otherwise disable it by setting it to false
 stonks: true

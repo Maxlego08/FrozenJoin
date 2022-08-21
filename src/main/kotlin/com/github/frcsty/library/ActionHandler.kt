@@ -4,6 +4,7 @@ import com.github.frcsty.library.actions.Action
 import com.github.frcsty.library.actions.broadcast.*
 import com.github.frcsty.library.actions.player.*
 import com.github.frcsty.library.time.parseTime
+import com.github.frcsty.load.Loader
 import com.github.frcsty.load.Settings
 import com.github.frcsty.load.logInfo
 import java.util.SplittableRandom
@@ -17,7 +18,7 @@ private val DELAY_PATTERN = Regex("\\[DELAY=(?<delay>\\d+[a-z]+)]", RegexOption.
 private val CHANCE_PATTERN = Regex("\\[CHANCE=(?<chance>\\d+)]", RegexOption.IGNORE_CASE)
 private val RANDOM = SplittableRandom()
 
-class ActionHandler(private val plugin: Plugin) {
+class ActionHandler(private val plugin: Plugin, private val loader: Loader) {
 
     val actions = mutableMapOf<String, Action>()
 
@@ -72,8 +73,8 @@ class ActionHandler(private val plugin: Plugin) {
         Bukkit.getScheduler().runTaskLater(
                 plugin,
                 Runnable {
-                    action.run(player, arguments)
-                    action.run(plugin, player, arguments)
+                    action.run(player, arguments, loader.placeholderCache)
+                    action.run(plugin, player, arguments, loader.placeholderCache)
                 },
                 delay
         )

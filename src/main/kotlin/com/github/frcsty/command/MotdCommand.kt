@@ -20,11 +20,13 @@ class MotdCommand(private val loader: Loader, private val messageLoader: Message
     @Default
     @Permission(PERMISSION)
     fun motdCommand(player: Player) = MessageFormatter.executeMotd(
-            player,
-            loader.formatManager,
-            loader.actionHandler,
-            command = true,
-            message = messageLoader.getMessage("noMotdMessage"),
-            plugin)
+        player,
+        loader.formatManager,
+        loader.actionHandler,
+        command = true,
+        message = messageLoader.getMessage("noMotdMessage"),
+        plugin,
+        loader.placeholderCache
+    )
 
 }

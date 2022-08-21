@@ -1,5 +1,6 @@
 package com.github.frcsty.library.actions.player
 
+import com.github.frcsty.cache.PlaceholderCache
 import com.github.frcsty.library.actions.Action
 import org.bukkit.Bukkit
 import org.bukkit.Location
@@ -9,7 +10,7 @@ object TeleportAction : Action {
 
     override val id = "TELEPORT"
 
-    override fun run(player: Player, data: String) {
+    override fun run(player: Player, data: String, cache: PlaceholderCache?) {
         val args = data.split(";")
         val location = Location(
                 Bukkit.getWorld(args[0]),

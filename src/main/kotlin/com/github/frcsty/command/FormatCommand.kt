@@ -1,6 +1,7 @@
 package com.github.frcsty.command
 
 import com.github.frcsty.configuration.MessageLoader
+import com.github.frcsty.load.Loader
 import com.github.frcsty.util.*
 import me.mattstudios.mf.annotations.Alias
 import me.mattstudios.mf.annotations.Command
@@ -13,7 +14,7 @@ import org.bukkit.entity.Player
 
 @Command("frozenjoin")
 @Alias("join", "fjoin")
-class FormatCommand(private val messageLoader: MessageLoader) : CommandBase() {
+class FormatCommand(private val messageLoader: MessageLoader, private val loader: Loader) : CommandBase() {
 
     companion object {
         private const val SET_COMMAND = "set"
@@ -42,9 +43,13 @@ class FormatCommand(private val messageLoader: MessageLoader) : CommandBase() {
             }
         }
 
-        sender.sendTranslatedMessage(player, messageLoader.getMessage("customMessageSetTargetMessage")
+        sender.sendTranslatedMessage(
+            player,
+            messageLoader.getMessage("customMessageSetTargetMessage")
                 .replacePlaceholder("%type%", argument.lowercase())
-                .replacePlaceholder("%message%", message.color()))
+                .replacePlaceholder("%message%", message.color()),
+            loader.placeholderCache
+        )
     }
 
     @SubCommand(REMOVE_COMMAND)
@@ -67,6 +72,6 @@ class FormatCommand(private val messageLoader: MessageLoader) : CommandBase() {
         }
 
         sender.sendTranslatedMessage(player, messageLoader.getMessage("customMessageRemoveTargetMessage")
-                .replacePlaceholder("%type%", argument.lowercase()))
+                .replacePlaceholder("%type%", argument.lowercase()), loader.placeholderCache)
     }
 }

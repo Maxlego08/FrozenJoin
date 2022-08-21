@@ -36,7 +36,7 @@ class PlayerJoinListener(private val loader: Loader, private val plugin: FrozenJ
             return
         }
 
-        MessageFormatter.executeMotd(player, manager, actionHandler, command = false, message = "", plugin)
+        MessageFormatter.executeMotd(player, manager, actionHandler, command = false, message = "", plugin, loader.placeholderCache)
         val actions = MessageFormatter.executeFormat(player, manager, actionHandler, ACTION)
         Bukkit.getServer().pluginManager.callEvent(FrozenJoinEvent(player, actions))
     }

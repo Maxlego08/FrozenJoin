@@ -1,5 +1,6 @@
 package com.github.frcsty.library.actions.broadcast
 
+import com.github.frcsty.cache.PlaceholderCache
 import com.github.frcsty.library.actions.Action
 import com.github.frcsty.util.color
 import com.github.frcsty.util.getTranslatedMessage
@@ -9,7 +10,7 @@ import org.bukkit.entity.Player
 object TitleBroadcastAction : Action {
     override val id = "TITLEBROADCAST"
 
-    override fun run(player: Player, data: String) {
+    override fun run(player: Player, data: String, cache: PlaceholderCache?) {
         val args = data.split(";")
 
         val (title, subtitle) = args
@@ -18,7 +19,13 @@ object TitleBroadcastAction : Action {
         val fadeOut = args.getOrNull(5)?.toIntOrNull() ?: DEFAULT_FADE_OUT
 
         Bukkit.getServer().onlinePlayers.forEach {
-            it.sendTitle(title.getTranslatedMessage(player).color(), subtitle.getTranslatedMessage(player).color(), fadeIn, stay, fadeOut)
+            it.sendTitle(
+                title.getTranslatedMessage(player, cache).color(),
+                subtitle.getTranslatedMessage(player, cache).color(),
+                fadeIn,
+                stay,
+                fadeOut
+            )
         }
     }
 

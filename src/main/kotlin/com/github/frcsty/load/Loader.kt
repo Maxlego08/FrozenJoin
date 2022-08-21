@@ -1,6 +1,7 @@
 package com.github.frcsty.load
 
 import com.github.frcsty.FrozenJoinPlugin
+import com.github.frcsty.cache.PlaceholderCache
 import com.github.frcsty.`object`.FormatManager
 import com.github.frcsty.command.*
 import com.github.frcsty.configuration.MessageLoader
@@ -18,7 +19,8 @@ import org.bukkit.event.Listener
 
 class Loader(private val plugin: FrozenJoinPlugin) {
 
-    val actionHandler = ActionHandler(plugin)
+    val placeholderCache = PlaceholderCache(plugin)
+    val actionHandler = ActionHandler(plugin, this)
     val formatManager = FormatManager(plugin)
     val positionStorage = PositionStorage
     private val messageLoader = MessageLoader(plugin)
@@ -53,12 +55,13 @@ class Loader(private val plugin: FrozenJoinPlugin) {
         )
 
         actionHandler.loadDefault()
-        manager.register(FormatCommand(messageLoader))
+        manager.register(FormatCommand(messageLoader, this))
 
         formatManager.setFormats()
 
         registerMessages(manager, messageLoader)
-        registerListeners(PlayerJoinListener(this, plugin), PlayerQuitListener(this))
+        registerListeners(PlayerJoinListener(this, plugin), PlayerQuitListener(this), placeholderCache)
+        placeholderCache.runTaskTimerAsynchronously(plugin, 1, Settings.CACHE_UPDATE_INTERVAL)
 
         PositionPlaceholder(this).register()
     }
@@ -97,5 +100,6 @@ class Loader(private val plugin: FrozenJoinPlugin) {
     fun terminate() {
         plugin.reloadConfig()
         positionStorage.terminate(plugin)
+        if (!placeholderCache.isCancelled) placeholderCache.cancel()
     }
 }

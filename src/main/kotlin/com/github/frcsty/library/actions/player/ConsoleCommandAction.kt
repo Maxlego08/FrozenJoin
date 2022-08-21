@@ -1,5 +1,6 @@
 package com.github.frcsty.library.actions.player
 
+import com.github.frcsty.cache.PlaceholderCache
 import com.github.frcsty.library.actions.Action
 import com.github.frcsty.util.getTranslatedMessage
 import org.bukkit.Bukkit
@@ -9,7 +10,7 @@ object ConsoleCommandAction : Action {
 
     override val id = "CONSOLECOMMAND"
 
-    override fun run(player: Player, data: String) {
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), data.getTranslatedMessage(player))
+    override fun run(player: Player, data: String, cache: PlaceholderCache?) {
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), data.getTranslatedMessage(player, cache))
     }
 }
