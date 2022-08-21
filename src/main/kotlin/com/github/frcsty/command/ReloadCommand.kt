@@ -37,6 +37,7 @@ class ReloadCommand(private val plugin: FrozenJoinPlugin, private val loader: Lo
                 plugin.reloadConfig()
                 loader.formatManager.setFormats()
                 messageLoader.load()
+                Settings.reload()
             }
         }.runTaskAsynchronously(plugin)
 
