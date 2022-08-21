@@ -1,5 +1,6 @@
 package com.github.frcsty.library.actions.broadcast
 
+import com.github.frcsty.cache.PlaceholderCache
 import com.github.frcsty.library.actions.Action
 import com.github.frcsty.util.getTranslatedMessage
 import org.bukkit.Bukkit
@@ -9,7 +10,12 @@ object JsonBroadcastAction : Action {
 
     override val id = "JSONBROADCAST"
 
-    override fun run(player: Player, data: String) {
-        Bukkit.getServer().onlinePlayers.forEach { Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw ${it.name} ${data.getTranslatedMessage(player)}") }
+    override fun run(player: Player, data: String, cache: PlaceholderCache?) {
+        Bukkit.getServer().onlinePlayers.forEach {
+            Bukkit.dispatchCommand(
+                Bukkit.getConsoleSender(),
+                "tellraw ${it.name} ${data.getTranslatedMessage(player, cache)}"
+            )
+        }
     }
 }

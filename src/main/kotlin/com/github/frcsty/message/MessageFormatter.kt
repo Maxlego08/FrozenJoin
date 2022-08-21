@@ -1,5 +1,6 @@
 package com.github.frcsty.message
 
+import com.github.frcsty.cache.PlaceholderCache
 import com.github.frcsty.`object`.FormatManager
 import com.github.frcsty.library.ActionHandler
 import com.github.frcsty.library.time.parseTime
@@ -14,7 +15,15 @@ import org.bukkit.plugin.Plugin
 
 object MessageFormatter {
 
-    fun executeMotd(player: Player, manager: FormatManager, actionHandler: ActionHandler, command: Boolean, message: String, plugin: Plugin) {
+    fun executeMotd(
+        player: Player,
+        manager: FormatManager,
+        actionHandler: ActionHandler,
+        command: Boolean,
+        message: String,
+        plugin: Plugin,
+        cache: PlaceholderCache?
+    ) {
         //This is not the most readable thing in the world, but I'm kind of scared to change anything since there's no test suite
         val motds = manager.motdsMap.filter { (key, value) ->
             !("firstJoin".equals(key, true)) && player.hasPermission(value.permission)
@@ -26,7 +35,7 @@ object MessageFormatter {
         if (motd == null) {
             if (command) {
                 if (Settings.DEBUG) logInfo("Executor ${player.name} executed action 'motd'")
-                player.sendTranslatedMessage(message)
+                player.sendTranslatedMessage(message, cache)
             }
             return
         }

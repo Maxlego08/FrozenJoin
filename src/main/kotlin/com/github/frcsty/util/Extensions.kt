@@ -1,5 +1,6 @@
 package com.github.frcsty.util
 
+import com.github.frcsty.cache.PlaceholderCache
 import java.util.regex.Pattern
 import me.clip.placeholderapi.PlaceholderAPI
 import net.md_5.bungee.api.ChatColor
@@ -49,28 +50,32 @@ fun String.colorLegacy(): String {
     return translation
 }
 
+fun String.setPAPIPlaceholders(player: Player, cache: PlaceholderCache? = null): String {
+    return PlaceholderAPI.setPlaceholders(player, cache?.setPlaceholders(this, player) ?: this)
+}
+
 fun String.replacePlaceholder(placeholder: String, value: String): String {
     return this.replace(placeholder, value)
 }
 
-fun Player.sendTranslatedMessage(message: String) {
-    this.spigot().sendMessage(*TextComponent.fromLegacyText(message.getTranslatedMessage(this).color()))
+fun Player.sendTranslatedMessage(message: String, cache: PlaceholderCache? = null) {
+    this.spigot().sendMessage(*TextComponent.fromLegacyText(message.getTranslatedMessage(this, cache).color()))
 }
 
-fun Player.sendTranslatedMessage(message: String, player: Player) {
-    this.spigot().sendMessage(*TextComponent.fromLegacyText(message.getTranslatedMessage(player).color()))
+fun Player.sendTranslatedMessage(message: String, player: Player, cache: PlaceholderCache? = null) {
+    this.spigot().sendMessage(*TextComponent.fromLegacyText(message.getTranslatedMessage(player, cache).color()))
 }
 
-fun CommandSender.sendTranslatedMessage(player: Player, message: String) {
-    this.spigot().sendMessage(*TextComponent.fromLegacyText(message.getTranslatedMessage(player).color()))
+fun CommandSender.sendTranslatedMessage(player: Player, message: String, cache: PlaceholderCache? = null) {
+    this.spigot().sendMessage(*TextComponent.fromLegacyText(message.getTranslatedMessage(player, cache).color()))
 }
 
-fun String.getTranslatedMessage(player: Player): String {
+fun String.getTranslatedMessage(player: Player, cache: PlaceholderCache? = null): String {
     var message = this
     val daddy: Plugin? = Bukkit.getPluginManager().getPlugin("PlaceholderAPI")
 
     if (daddy != null && daddy.isEnabled) {
-        message = PlaceholderAPI.setPlaceholders(player, message)
+        message = message.setPAPIPlaceholders(player, cache)
     }
 
     return message
