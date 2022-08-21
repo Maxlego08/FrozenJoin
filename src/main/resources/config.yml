@@ -171,14 +171,14 @@ messages:
 #
 #
 # » Priorities
-# Priorities are used to define which format gets used if the user has access
+# are used to define which format gets used if the user has access
 # to multiple, they are listed from lowest to highest, 1 being lowest and above being highest.
 # Meaning highest priority format (in the example below 2), will be applied to the player
 # if they have access to both.
 #
 #
 # » Format Types
-# Format types are used to allow for further customisations when it comes to display
+# are used to allow for further customisations when it comes to display
 # join and quite message, for instance using the "RANDOM" format type you are able to
 # execute a random action specified inside the format, thus randomizing join/quit messages
 # "DEFAULT" format type being the format type as you have known from before, "VANISH" format
@@ -217,7 +217,7 @@ formats:
     priority: 1
     type: 'VANISH'
     # Special modifier only available to the vanish format!
-    # Indicates whether or not the check should be inverted
+    # Indicates whether the check should be inverted
     # true = sends a message when vanished, vice versa
     inverted: false
     join:
@@ -230,10 +230,9 @@ formats:
 placeholder-cache:
   # The interval in ticks to refresh the placeholder cache. 20 ticks = 1 second.
   # If you change this value, the server will need to be restarted to apply the changes.
-  update-interval: 60
+  update-interval: 10
   # List of placeholders that should be cached. The list does update on /fjoin reload.
   placeholders:
-    - "%player_name%"
     - "%luckperms_prefix%"
 
 # If you want bstats to track your server leave this enabled,
