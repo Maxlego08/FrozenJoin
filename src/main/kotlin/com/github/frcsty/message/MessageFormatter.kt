@@ -1,13 +1,12 @@
 package com.github.frcsty.message
 
-import com.github.frcsty.cache.PlaceholderCache
-import com.github.frcsty.`object`.FormatManager
-import com.github.frcsty.library.ActionHandler
-import com.github.frcsty.library.time.parseTime
+import com.github.frcsty.actions.ActionHandler
+import com.github.frcsty.actions.cache.PlaceholderCache
+import com.github.frcsty.actions.time.parseTime
+import com.github.frcsty.actions.util.sendTranslatedMessage
 import com.github.frcsty.load.Settings
-import com.github.frcsty.load.logInfo
+import com.github.frcsty.`object`.FormatManager
 import com.github.frcsty.util.getCustomMessage
-import com.github.frcsty.util.sendTranslatedMessage
 import java.util.concurrent.TimeUnit
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -19,10 +18,11 @@ object MessageFormatter {
         player: Player,
         manager: FormatManager,
         actionHandler: ActionHandler,
+        settings: Settings,
         command: Boolean,
         message: String,
         plugin: Plugin,
-        cache: PlaceholderCache?
+        cache: PlaceholderCache?,
     ) {
         //This is not the most readable thing in the world, but I'm kind of scared to change anything since there's no test suite
         val motds = manager.motdsMap.filter { (key, value) ->
@@ -34,7 +34,7 @@ object MessageFormatter {
         val motd = motds.entries.firstOrNull()
         if (motd == null) {
             if (command) {
-                if (Settings.DEBUG) logInfo("Executor ${player.name} executed action 'motd'")
+                if (settings.debug) plugin.logger.info("Executor ${player.name} executed action 'motd'")
                 player.sendTranslatedMessage(message, cache)
             }
             return
@@ -48,7 +48,7 @@ object MessageFormatter {
                 plugin,
                 Runnable {
                     actionHandler.execute(player, actions)
-                    if (Settings.DEBUG) logInfo("Executing '${motdObject.identifier}' motd for user ${player.name} (${player.uniqueId})")
+                    if (settings.debug) plugin.logger.info("Executing '${motdObject.identifier}' motd for user ${player.name} (${player.uniqueId})")
                 },
                 delay
             )
@@ -56,14 +56,21 @@ object MessageFormatter {
         }
 
         actionHandler.execute(player, actions)
-        if (Settings.DEBUG) logInfo("Executing '${motdObject.identifier}' motd for user ${player.name} (${player.uniqueId})")
+        if (settings.debug) plugin.logger.info("Executing '${motdObject.identifier}' motd for user ${player.name} (${player.uniqueId})")
     }
 
-    fun executeFormat(player: Player, manager: FormatManager, actionHandler: ActionHandler, action: String): List<String> {
+    fun executeFormat(
+        player: Player,
+        manager: FormatManager,
+        actionHandler: ActionHandler,
+        settings: Settings,
+        action: String,
+        plugin: Plugin,
+    ): List<String> {
         val customMessage = player.getCustomMessage(action)
         if (customMessage != "emptyValue") {
             actionHandler.execute(player, listOf("[BROADCAST] $customMessage"))
-            if (Settings.DEBUG) logInfo("Executing custom message for user ${player.name} (${player.uniqueId})")
+            if (settings.debug) plugin.logger.info("Executing custom message for user ${player.name} (${player.uniqueId})")
             return listOf(customMessage)
         }
 
@@ -91,9 +98,11 @@ object MessageFormatter {
             "NORMAL" -> {
                 actionHandler.execute(player, actions)
             }
+
             "RANDOM" -> {
                 actionHandler.execute(player, listOf(actions.random()))
             }
+
             "VANISH" -> {
                 val inverted = formatObject.isInverted
                 if (isVanished(player, inverted)) {
@@ -102,8 +111,8 @@ object MessageFormatter {
             }
         }
 
-        if (Settings.DEBUG)
-            logInfo("Executing '${formatObject.identifier}' format for user ${player.name} (${player.uniqueId})")
+        if (settings.debug)
+            plugin.logger.info("Executing '${formatObject.identifier}' format for user ${player.name} (${player.uniqueId})")
 
         return actions
     }

@@ -1,7 +1,6 @@
 package com.github.frcsty.`object`
 
 import com.github.frcsty.FrozenJoinPlugin
-import com.github.frcsty.load.logError
 
 class FormatManager(private val plugin: FrozenJoinPlugin) {
 
@@ -18,11 +17,11 @@ class FormatManager(private val plugin: FrozenJoinPlugin) {
         val motds = config.getConfigurationSection("motds")
 
         if (formats == null) {
-            logError("Configuration section 'formats' is undefined!")
+            plugin.logger.severe("Configuration section 'formats' is undefined!")
             return
         }
         if (motds == null) {
-            logError("Configuration section 'motds' is undefined!")
+            plugin.logger.severe("Configuration section 'motds' is undefined!")
             return
         }
 

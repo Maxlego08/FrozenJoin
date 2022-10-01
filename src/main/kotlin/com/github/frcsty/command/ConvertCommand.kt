@@ -1,11 +1,10 @@
 package com.github.frcsty.command
 
 import com.github.frcsty.FrozenJoinPlugin
+import com.github.frcsty.actions.util.replacePlaceholder
 import com.github.frcsty.configuration.MessageLoader
 import com.github.frcsty.convert.FileConverter
 import com.github.frcsty.load.Settings
-import com.github.frcsty.load.logInfo
-import com.github.frcsty.util.replacePlaceholder
 import java.io.File
 import me.mattstudios.mf.annotations.Alias
 import me.mattstudios.mf.annotations.Command
@@ -17,7 +16,11 @@ import org.bukkit.command.CommandSender
 
 @Command("frozenjoin")
 @Alias("join", "fjoin")
-class ConvertCommand(plugin: FrozenJoinPlugin, private val messageLoader: MessageLoader) : CommandBase() {
+class ConvertCommand(
+    private val plugin: FrozenJoinPlugin,
+    private val messageLoader: MessageLoader,
+    private val settings: Settings,
+) : CommandBase() {
 
     private val data = plugin.dataFolder
 
@@ -32,16 +35,19 @@ class ConvertCommand(plugin: FrozenJoinPlugin, private val messageLoader: Messag
         when (command.lowercase()) {
             "generate" -> {
                 generate(sender)
-                if (Settings.DEBUG) logInfo("Executor ${sender.name} executed action 'convert generate'")
+                if (settings.debug) plugin.logger.info("Executor ${sender.name} executed action 'convert generate'")
             }
+
             "start" -> {
                 start(sender)
-                if (Settings.DEBUG) logInfo("Executor ${sender.name} executed action 'convert start'")
+                if (settings.debug) plugin.logger.info("Executor ${sender.name} executed action 'convert start'")
             }
+
             "dump" -> {
                 dump(sender)
-                if (Settings.DEBUG) logInfo("Executor ${sender.name} executed action 'convert dump'")
+                if (settings.debug) plugin.logger.info("Executor ${sender.name} executed action 'convert dump'")
             }
+
             else -> {
                 sender.sendMessage(messageLoader.getMessage("convertArgumentMessage"))
             }
@@ -76,11 +82,14 @@ class ConvertCommand(plugin: FrozenJoinPlugin, private val messageLoader: Messag
         }
 
         for (file in files) {
-            FileConverter().convertFile(file, data)
+            FileConverter(settings, plugin.logger).convertFile(file, data)
         }
 
         val estimatedTime = System.currentTimeMillis() - startTime
-        sender.sendMessage(messageLoader.getMessage("convertSuccessfullyConvertedMessage").replacePlaceholder("%time%", estimatedTime.toString()))
+        sender.sendMessage(
+            messageLoader.getMessage("convertSuccessfullyConvertedMessage")
+                .replacePlaceholder("%time%", estimatedTime.toString())
+        )
     }
 
     private fun dump(sender: CommandSender) {

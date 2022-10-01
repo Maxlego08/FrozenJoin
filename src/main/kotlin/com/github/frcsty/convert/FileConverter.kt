@@ -2,10 +2,10 @@ package com.github.frcsty.convert
 
 import com.github.frcsty.load.Settings
 import java.io.File
-import java.util.logging.Level
+import java.util.logging.Logger
 import org.bukkit.configuration.file.YamlConfiguration
 
-class FileConverter {
+class FileConverter(private val settings: Settings, private val logger: Logger) {
 
     fun convertFile(file: File, dir: File) {
         val resultDirectory = File("$dir/converted")
@@ -15,26 +15,26 @@ class FileConverter {
 
         val fileName = file.nameWithoutExtension
         if (file.extension != "yml") {
-            Settings.LOGGER.log(Level.WARNING, "File $fileName")
+            logger.warning("File $fileName")
             return
         }
 
         val startTime = System.currentTimeMillis()
-        if (Settings.DEBUG) Settings.LOGGER.log(Level.INFO, "Converting file '$fileName.yml'")
+        if (settings.debug) logger.info("Converting file '$fileName.yml'")
         val resultFile = File("$dir/converted", "$fileName-converted.yml")
         val resultConfig = YamlConfiguration.loadConfiguration(resultFile)
         val config = YamlConfiguration.loadConfiguration(file)
 
         val firstJoin = config.getConfigurationSection("first_join")
         if (firstJoin == null) {
-            Settings.LOGGER.log(Level.WARNING, "File $fileName does not contain 'first_join' section.")
+            logger.warning("File $fileName does not contain 'first_join' section.")
         } else {
             resultConfig.set("firstJoinMessage", firstJoin.getStringList("actions"))
         }
 
         val motds = config.getConfigurationSection("motds")
         if (motds == null) {
-            Settings.LOGGER.log(Level.WARNING, "File $fileName does not contain 'motds' section.")
+            logger.warning("File $fileName does not contain 'motds' section.")
         } else {
             for (motd in motds.getKeys(false)) {
                 val oldSection = motds.getConfigurationSection(motd) ?: continue
@@ -48,7 +48,7 @@ class FileConverter {
 
         val formats = config.getConfigurationSection("deluxejoin_formats")
         if (formats == null) {
-            Settings.LOGGER.log(Level.WARNING, "File $fileName does not contain 'deluxejoin_formats' section.")
+            logger.warning("File $fileName does not contain 'deluxejoin_formats' section.")
         } else {
             for (format in formats.getKeys(false)) {
                 val oldSection = formats.getConfigurationSection(format) ?: continue
@@ -64,10 +64,10 @@ class FileConverter {
 
         resultConfig.save(resultFile)
         if (file.delete().not()) {
-            Settings.LOGGER.log(Level.WARNING, "Failed to delete file '$fileName'")
+            logger.warning("Failed to delete file '$fileName'")
         }
 
         val estimatedTime = System.currentTimeMillis() - startTime
-        if (Settings.DEBUG) Settings.LOGGER.log(Level.INFO, "Successfully converted file '$fileName.yml'! (New destination: FrozenJoin/converted/$fileName-converted.yml) Took ${estimatedTime}ms.")
+        if (settings.debug) logger.info("Successfully converted file '$fileName.yml'! (New destination: FrozenJoin/converted/$fileName-converted.yml) Took ${estimatedTime}ms.")
     }
 }

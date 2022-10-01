@@ -1,11 +1,9 @@
 package com.github.frcsty.command
 
 import com.github.frcsty.FrozenJoinPlugin
+import com.github.frcsty.actions.util.color
 import com.github.frcsty.configuration.MessageLoader
 import com.github.frcsty.load.Loader
-import com.github.frcsty.load.Settings
-import com.github.frcsty.load.logInfo
-import com.github.frcsty.util.color
 import me.mattstudios.mf.annotations.Alias
 import me.mattstudios.mf.annotations.Command
 import me.mattstudios.mf.annotations.Permission
@@ -16,7 +14,11 @@ import org.bukkit.scheduler.BukkitRunnable
 
 @Command("frozenjoin")
 @Alias("join", "fjoin")
-class ReloadCommand(private val plugin: FrozenJoinPlugin, private val loader: Loader, private val messageLoader: MessageLoader) : CommandBase() {
+class ReloadCommand(
+    private val plugin: FrozenJoinPlugin,
+    private val loader: Loader,
+    private val messageLoader: MessageLoader,
+) : CommandBase() {
 
     companion object {
         private const val COMMAND: String = "reload"
@@ -37,13 +39,13 @@ class ReloadCommand(private val plugin: FrozenJoinPlugin, private val loader: Lo
                 plugin.reloadConfig()
                 loader.formatManager.setFormats()
                 messageLoader.load()
-                Settings.reload()
+                loader.settings.reload()
             }
         }.runTaskAsynchronously(plugin)
 
         val estimatedTime = System.currentTimeMillis() - startTime
         sender.sendMessage((message.replace("%time%", estimatedTime.toString()).color()))
 
-        if (Settings.DEBUG) logInfo("Executor ${sender.name} executed action 'reload'")
+        if (loader.settings.debug) plugin.logger.info("Executor ${sender.name} executed action 'reload'")
     }
 }

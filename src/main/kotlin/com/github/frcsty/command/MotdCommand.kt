@@ -11,7 +11,11 @@ import me.mattstudios.mf.base.CommandBase
 import org.bukkit.entity.Player
 
 @Command("motd")
-class MotdCommand(private val loader: Loader, private val messageLoader: MessageLoader, private val plugin: FrozenJoinPlugin) : CommandBase() {
+class MotdCommand(
+    private val loader: Loader,
+    private val messageLoader: MessageLoader,
+    private val plugin: FrozenJoinPlugin,
+) : CommandBase() {
 
     companion object {
         private const val PERMISSION: String = "join.command.motd"
@@ -20,13 +24,13 @@ class MotdCommand(private val loader: Loader, private val messageLoader: Message
     @Default
     @Permission(PERMISSION)
     fun motdCommand(player: Player) = MessageFormatter.executeMotd(
-        player,
-        loader.formatManager,
-        loader.actionHandler,
+        player = player,
+        manager = loader.formatManager,
+        actionHandler = loader.actionHandler,
+        settings = loader.settings,
         command = true,
         message = messageLoader.getMessage("noMotdMessage"),
-        plugin,
-        loader.placeholderCache
+        plugin = plugin,
+        cache = loader.placeholderCache
     )
-
 }
