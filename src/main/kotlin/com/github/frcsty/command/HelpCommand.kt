@@ -1,10 +1,10 @@
 package com.github.frcsty.command
 
+import com.github.frcsty.actions.util.color
+import com.github.frcsty.actions.util.replacePlaceholder
 import com.github.frcsty.configuration.MessageLoader
 import com.github.frcsty.load.Settings
-import com.github.frcsty.load.logInfo
-import com.github.frcsty.util.color
-import com.github.frcsty.util.replacePlaceholder
+import java.util.logging.Logger
 import me.mattstudios.mf.annotations.Alias
 import me.mattstudios.mf.annotations.Command
 import me.mattstudios.mf.annotations.Permission
@@ -14,7 +14,11 @@ import org.bukkit.command.CommandSender
 
 @Command("frozenjoin")
 @Alias("join", "fjoin")
-class HelpCommand(private val messageLoader: MessageLoader) : CommandBase() {
+class HelpCommand(
+    private val messageLoader: MessageLoader,
+    private val settings: Settings,
+    private val logger: Logger,
+) : CommandBase() {
 
     companion object {
         private const val COMMAND: String = "help"
@@ -27,9 +31,9 @@ class HelpCommand(private val messageLoader: MessageLoader) : CommandBase() {
         val help = messageLoader.getMessageList("helpMessage")
 
         for (line in help) {
-            sender.sendMessage(line.replacePlaceholder("{version}", Settings.PLUGIN_VERSION).color())
+            sender.sendMessage(line.replacePlaceholder("{version}", settings.pluginVersion).color())
         }
 
-        if (Settings.DEBUG) logInfo("Executor ${sender.name} executed action 'help'")
+        if (settings.debug) logger.info("Executor ${sender.name} executed action 'help'")
     }
 }

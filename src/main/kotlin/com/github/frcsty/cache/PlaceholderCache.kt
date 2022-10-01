@@ -1,6 +1,7 @@
 package com.github.frcsty.cache
 
-import com.github.frcsty.load.Settings
+import com.github.frcsty.actions.cache.PlaceholderCache
+import com.github.frcsty.actions.load.Settings
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 import me.clip.placeholderapi.PlaceholderAPI
@@ -13,36 +14,38 @@ import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.plugin.Plugin
 import org.bukkit.scheduler.BukkitRunnable
 
-class PlaceholderCache(private val plugin: Plugin) : Listener, BukkitRunnable() {
+class PlaceholderCache(private val plugin: Plugin, private val settings: Settings) : PlaceholderCache, Listener,
+    BukkitRunnable() {
     private val cache = ConcurrentHashMap<UUID, Map<String, String>>()
 
-    fun updatePlaceholders() {
+    override fun updatePlaceholders() {
         Bukkit.getOnlinePlayers().forEach { updatePlaceholders(it) }
     }
 
-    fun updatePlaceholders(uuid: UUID) {
+    override fun updatePlaceholders(uuid: UUID) {
         Bukkit.getPlayer(uuid)?.let { updatePlaceholders(it) }
     }
 
-    fun updatePlaceholders(player: Player) {
+    override fun updatePlaceholders(player: Player) {
         cache.remove(player.uniqueId)
-        cache[player.uniqueId] = Settings.CACHED_PLACEHOLDERS.associateWith { PlaceholderAPI.setPlaceholders(player, it) }
+        cache[player.uniqueId] =
+            settings.cachedPlaceholders.associateWith { PlaceholderAPI.setPlaceholders(player, it) }
     }
 
-    fun removePlayer(uuid: UUID) {
+    override fun removePlayer(uuid: UUID) {
         cache.remove(uuid)
     }
 
-    fun removePlayer(player: Player) {
+    override fun removePlayer(player: Player) {
         removePlayer(player.uniqueId)
     }
 
-    fun setPlaceholders(message: String, player: Player): String {
+    override fun setPlaceholders(message: String, player: Player): String {
         return setPlaceholders(message, player.uniqueId)
     }
 
-    fun setPlaceholders(message: String, uuid: UUID) : String {
-        val placeholders = cache[uuid] ?: return  message
+    override fun setPlaceholders(message: String, uuid: UUID): String {
+        val placeholders = cache[uuid] ?: return message
 
         var newMessage = message
         placeholders.forEach {
@@ -65,7 +68,7 @@ class PlaceholderCache(private val plugin: Plugin) : Listener, BukkitRunnable() 
         Bukkit.getScheduler().scheduleSyncDelayedTask(
             plugin,
             { removePlayer(event.player) },
-            Settings.CACHE_UPDATE_INTERVAL
+            settings.cacheUpdateInterval
         )
     }
 }

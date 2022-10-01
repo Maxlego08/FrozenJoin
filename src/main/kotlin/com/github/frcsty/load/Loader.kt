@@ -1,26 +1,28 @@
 package com.github.frcsty.load
 
 import com.github.frcsty.FrozenJoinPlugin
+import com.github.frcsty.actions.ActionHandler
+import com.github.frcsty.actions.load.Loader
+import com.github.frcsty.actions.util.color
 import com.github.frcsty.cache.PlaceholderCache
-import com.github.frcsty.`object`.FormatManager
 import com.github.frcsty.command.*
 import com.github.frcsty.configuration.MessageLoader
-import com.github.frcsty.library.ActionHandler
 import com.github.frcsty.listener.base.PlayerJoinListener
 import com.github.frcsty.listener.base.PlayerQuitListener
+import com.github.frcsty.`object`.FormatManager
 import com.github.frcsty.placeholder.PositionPlaceholder
 import com.github.frcsty.position.PositionStorage
-import com.github.frcsty.util.color
 import me.mattstudios.mf.base.CommandManager
 import org.bstats.bukkit.Metrics
 import org.bukkit.Bukkit.getServer
 import org.bukkit.command.CommandSender
 import org.bukkit.event.Listener
 
-class Loader(private val plugin: FrozenJoinPlugin) {
+class Loader(private val plugin: FrozenJoinPlugin) : Loader {
 
-    val placeholderCache = PlaceholderCache(plugin)
-    val actionHandler = ActionHandler(plugin, this)
+    override val settings = Settings(plugin)
+    override val placeholderCache = PlaceholderCache(plugin, settings)
+    override val actionHandler = ActionHandler(plugin, this, settings)
     val formatManager = FormatManager(plugin)
     val positionStorage = PositionStorage
     private val messageLoader = MessageLoader(plugin)
@@ -30,7 +32,7 @@ class Loader(private val plugin: FrozenJoinPlugin) {
         positionStorage.initialize(plugin)
         messageLoader.load()
 
-        if (Settings.METRICS) {
+        if (settings.metrics) {
             val metrics = Metrics(plugin, 6743)
         }
 
@@ -44,14 +46,15 @@ class Loader(private val plugin: FrozenJoinPlugin) {
         )
 
         manager.register(
-                HelpCommand(messageLoader),
-                InfoCommand(messageLoader),
-                MotdCommand(
-                        loader = this,
-                        messageLoader = messageLoader,
-                        plugin = plugin),
-                ReloadCommand(plugin, this, messageLoader),
-                ConvertCommand(plugin, messageLoader)
+            HelpCommand(messageLoader, settings, plugin.logger),
+            InfoCommand(messageLoader, settings, plugin.logger),
+            MotdCommand(
+                loader = this,
+                messageLoader = messageLoader,
+                plugin = plugin
+            ),
+            ReloadCommand(plugin, this, messageLoader),
+            ConvertCommand(plugin, messageLoader, settings)
         )
 
         actionHandler.loadDefault()
@@ -60,8 +63,8 @@ class Loader(private val plugin: FrozenJoinPlugin) {
         formatManager.setFormats()
 
         registerMessages(manager, messageLoader)
-        registerListeners(PlayerJoinListener(this, plugin), PlayerQuitListener(this), placeholderCache)
-        placeholderCache.runTaskTimerAsynchronously(plugin, 1, Settings.CACHE_UPDATE_INTERVAL)
+        registerListeners(PlayerJoinListener(this, plugin), PlayerQuitListener(plugin, this), placeholderCache)
+        placeholderCache.runTaskTimerAsynchronously(plugin, 1, settings.cacheUpdateInterval)
 
         PositionPlaceholder(this).register()
     }

@@ -1,24 +1,18 @@
 package com.github.frcsty.load
 
 import com.github.frcsty.FrozenJoinPlugin
-import java.util.logging.Level
-import org.bukkit.plugin.java.JavaPlugin
+import com.github.frcsty.actions.load.Settings
 
-object Settings {
-    private val plugin = JavaPlugin.getPlugin(FrozenJoinPlugin::class.java)
+class Settings(private val plugin: FrozenJoinPlugin) : Settings {
+    override val cacheUpdateInterval = plugin.config.getLong("placeholder-cache.update-interval", 20L)
+    override var cachedPlaceholders: List<String> = plugin.config.getStringList("placeholder-cache.placeholders")
+    override val debug = plugin.config.getString("consoleMessages", "ENABLED").equals("ENABLED", ignoreCase = true)
+    override val metrics = plugin.config.getBoolean("stonks", true)
 
-    val CACHE_UPDATE_INTERVAL: Long = plugin.config.getLong("placeholder-cache.update-interval", 20L)
-    var CACHED_PLACEHOLDERS: List<String> = plugin.config.getStringList("placeholder-cache.placeholders")
-    val DEBUG: Boolean = plugin.config.getString("consoleMessages", "ENABLED").equals("ENABLED", ignoreCase = true)
-    val METRICS: Boolean = plugin.config.getBoolean("stonks", true)
-
-    val LOGGER = plugin.logger
-    val PLUGIN_VERSION = plugin.description.version
+    override val logger = plugin.logger
+    override val pluginVersion = plugin.description.version
 
     fun reload() {
-        CACHED_PLACEHOLDERS = plugin.config.getStringList("placeholder-cache.placeholders")
+        cachedPlaceholders = plugin.config.getStringList("placeholder-cache.placeholders")
     }
 }
-
-fun logError(message: String): Unit = Settings.LOGGER.log(Level.WARNING, message)
-fun logInfo(message: String): Unit = Settings.LOGGER.log(Level.INFO, message)
