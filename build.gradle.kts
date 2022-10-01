@@ -22,10 +22,11 @@ repositories {
 
 dependencies {
     implementation(projects.actionLib)
-    implementation("me.mattstudios.utils:matt-framework:1.4.6")
-    implementation("org.bstats:bstats-bukkit:2.2.1")
-    compileOnly("io.papermc.paper:paper-api:1.17-R0.1-SNAPSHOT")
-    compileOnly("me.clip:placeholderapi:2.11.1")
+    implementation(libs.triumph.cmds)
+    implementation(libs.bstats)
+
+    compileOnly(libs.spigot)
+    compileOnly(libs.papi)
 }
 
 java {
