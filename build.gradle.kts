@@ -25,7 +25,7 @@ dependencies {
     implementation(libs.triumph.cmds)
     implementation(libs.bstats)
 
-    compileOnly(libs.spigot)
+    compileOnly(libs.paper)
     compileOnly(libs.papi)
 }
 

@@ -1,6 +1,6 @@
 [versions]
 # Compile only
-spigot = "1.17-R0.1-SNAPSHOT"
+paper = "1.17-R0.1-SNAPSHOT"
 papi = "2.11.2"
 bstats = "3.0.0"
 
@@ -9,7 +9,7 @@ triumph-cmds = "1.4.6"
 
 [libraries]
 # Compile only
-spigot = { module = "org.spigotmc:spigot-api", version.ref = "spigot" }
+paper = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
 papi = { module = "me.clip:placeholderapi", version.ref = "papi" }
 bstats = { module = "org.bstats:bstats-bukkit", version.ref = "bstats" }
 

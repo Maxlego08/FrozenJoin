@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly(libs.spigot)
+    compileOnly(libs.paper)
     compileOnly(libs.papi)
 }
 
