@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("com.github.johnrengelman.shadow") version "7.1.2"
-    kotlin("jvm") version "1.6.10"
+    kotlin("jvm") version "1.7.20"
 }
 
 group = "com.github.frcsty"
@@ -22,10 +22,11 @@ repositories {
 
 dependencies {
     implementation(projects.actionLib)
-    implementation("me.mattstudios.utils:matt-framework:1.4.6")
-    implementation("org.bstats:bstats-bukkit:2.2.1")
-    compileOnly("io.papermc.paper:paper-api:1.17-R0.1-SNAPSHOT")
-    compileOnly("me.clip:placeholderapi:2.11.1")
+    implementation(libs.triumph.cmds)
+    implementation(libs.bstats)
+
+    compileOnly(libs.paper)
+    compileOnly(libs.papi)
 }
 
 java {
