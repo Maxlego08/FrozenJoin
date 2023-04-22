@@ -5,5 +5,5 @@ which are completely customizable.
 
 TODO: Write something better
 
-Maintained Fork: https://github.com/BlitzOffline/FrozenJoin
+Maintained Fork: https://github.com/BlitzOffline/FrozenJoin  
 Global WIP Version: https://github.com/Frcsty/FrozenJoinGlobal
