@@ -34,6 +34,7 @@
 # Player:
 # • [CENTERMESSAGE] <message>
 # • [ACTIONBARMESSAGE] <message>
+# • [PERSISTENTACTIONBARMESSAGE] <time>;<message> - time is in seconds
 # • [TITLEMESSAGE] <title;subtitle;fadein;stay;fadeout>
 # • [SOUND] <sound;volume;pitch>
 # • [BUNGEE] <server>
@@ -48,6 +49,7 @@
 # • [JSONBROADCAST] <JSON message>
 # • [CENTERBROADCAST] <message>
 # • [ACTIONBARBROADCAST] <message>
+# • [PERSISTENTACTIONBARBROADCAST] <time>;<message> - time is in seconds
 # • [TITLEBROADCAST] <title;subtitle;fadein;stay;fadeout>
 # • [SOUNDBROADCAST] <sound;volume;pitch>
 # • [AUDIENCEBROADCAST] <message>

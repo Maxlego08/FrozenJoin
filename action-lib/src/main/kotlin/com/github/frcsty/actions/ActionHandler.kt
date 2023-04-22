@@ -23,24 +23,26 @@ class ActionHandler(private val plugin: Plugin, private val loader: Loader, priv
 
     fun loadDefault() {
         setOf(
-                ActionbarBroadcastAction,
-                ActionbarMessageAction,
-                AudienceBroadcastAction,
-                BroadcastAction,
-                BungeeAction,
-                CenterBroadcastAction,
-                CenterMessageAction,
-                ConsoleCommandAction,
-                EquipItemAction,
-                JsonBroadcastAction,
-                JsonMessageAction,
-                MessageAction,
-                PlayerCommandAction,
-                SoundAction,
-                SoundBroadcastAction,
-                TeleportAction,
-                TitleBroadcastAction,
-                TitleMessageAction
+            ActionbarBroadcastAction,
+            ActionbarMessageAction,
+            PersistentActionbarBroadcastAction,
+            PersistentActionbarMessageAction,
+            AudienceBroadcastAction,
+            BroadcastAction,
+            BungeeAction,
+            CenterBroadcastAction,
+            CenterMessageAction,
+            ConsoleCommandAction,
+            EquipItemAction,
+            JsonBroadcastAction,
+            JsonMessageAction,
+            MessageAction,
+            PlayerCommandAction,
+            SoundAction,
+            SoundBroadcastAction,
+            TeleportAction,
+            TitleBroadcastAction,
+            TitleMessageAction
         ).forEach { this.actions[it.id] = it }
     }
 
@@ -70,12 +72,12 @@ class ActionHandler(private val plugin: Plugin, private val loader: Loader, priv
         val action = actions[actionName] ?: return
 
         Bukkit.getScheduler().runTaskLater(
-                plugin,
-                Runnable {
-                    action.run(player, arguments, loader.placeholderCache)
-                    action.run(plugin, player, arguments, loader.placeholderCache)
-                },
-                delay
+            plugin,
+            Runnable {
+                action.run(player, arguments, loader.placeholderCache)
+                action.run(plugin, player, arguments, loader.placeholderCache)
+            },
+            delay
         )
     }
 
