@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.github.frcsty"
-version = "2.3.1"
+version = "2.3.2-builds"
 
 val libsPath = "com.github.frcsty.frozenjoin"
 val javaVersion = JavaVersion.VERSION_16
