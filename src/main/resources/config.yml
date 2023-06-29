@@ -236,6 +236,8 @@ placeholder-cache:
   # List of placeholders that should be cached. The list does update on /fjoin reload.
   placeholders:
     - "%luckperms_prefix%"
+  relational-placeholders:
+    - "%rel_factions_relation%"
 
 # If you want bstats to track your server leave this enabled,
 # otherwise disable it by setting it to false
