@@ -10,6 +10,6 @@ object ActionbarMessageAction : Action {
     override val id = "ACTIONBARMESSAGE"
 
     override fun run(player: Player, data: String, cache: PlaceholderCache?) {
-        player.sendActionBar(data.getTranslatedMessage(player, cache).color())
+        player.sendActionBar(data.getTranslatedMessage(player = player, player2 = null, cache = cache).color())
     }
 }

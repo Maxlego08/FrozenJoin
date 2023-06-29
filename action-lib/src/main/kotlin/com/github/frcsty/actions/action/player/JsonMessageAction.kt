@@ -13,7 +13,7 @@ object JsonMessageAction : Action {
     override fun run(player: Player, data: String, cache: PlaceholderCache?) {
         Bukkit.dispatchCommand(
             Bukkit.getConsoleSender(),
-            "tellraw ${player.name} ${data.getTranslatedMessage(player, cache)}"
+            "tellraw ${player.name} ${data.getTranslatedMessage(player = player, player2 = null, cache = cache)}"
         )
     }
 }

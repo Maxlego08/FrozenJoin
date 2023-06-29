@@ -10,6 +10,6 @@ object BroadcastAction : Action {
     override val id = "BROADCAST"
 
     override fun run(player: Player, data: String, cache: PlaceholderCache?) = Bukkit.getServer().onlinePlayers.forEach {
-        it.sendTranslatedMessage(data, player, cache)
+        it.sendTranslatedMessage(message = data, player = player, player2 = it, cache = cache)
     }
 }

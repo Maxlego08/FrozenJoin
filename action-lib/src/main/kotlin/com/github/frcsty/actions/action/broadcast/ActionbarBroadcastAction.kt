@@ -11,6 +11,6 @@ object ActionbarBroadcastAction : Action {
     override val id = "ACTIONBARBROADCAST"
 
     override fun run(player: Player, data: String, cache: PlaceholderCache?) {
-        Bukkit.getServer().onlinePlayers.forEach { it.sendActionBar(data.getTranslatedMessage(player, cache).color()) }
+        Bukkit.getServer().onlinePlayers.forEach { it.sendActionBar(data.getTranslatedMessage(player = player, player2 = it, cache = cache).color()) }
     }
 }

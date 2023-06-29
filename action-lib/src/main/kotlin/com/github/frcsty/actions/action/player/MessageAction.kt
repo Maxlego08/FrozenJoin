@@ -9,5 +9,5 @@ object MessageAction : Action {
     override val id = "MESSAGE"
 
     override fun run(player: Player, data: String, cache: PlaceholderCache?) =
-        player.sendTranslatedMessage(data, player, cache)
+        player.sendTranslatedMessage(message = data, player = player, player2 = null, cache = cache)
 }
