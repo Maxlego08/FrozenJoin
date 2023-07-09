@@ -32,9 +32,9 @@ object EquipItemAction : Action {
         }
 
         val meta = item.itemMeta
-        meta.setDisplayName(display.getTranslatedMessage(player, cache).color())
+        meta.setDisplayName(display.getTranslatedMessage(player = player, player2 = null, cache = cache).color())
         if (lore.isNotEmpty()) {
-            meta.lore = lore.map { it.getTranslatedMessage(player, cache).color() }
+            meta.lore = lore.map { it.getTranslatedMessage(player = player, player2 = null, cache = cache).color() }
         }
 
         item.itemMeta = meta

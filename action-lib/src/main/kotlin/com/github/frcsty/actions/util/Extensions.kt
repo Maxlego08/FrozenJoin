@@ -50,32 +50,42 @@ fun String.colorLegacy(): String {
     return translation
 }
 
+fun String.setPAPIPlaceholders(player: Player, player2: Player, cache: PlaceholderCache? = null): String {
+    return PlaceholderAPI.setRelationalPlaceholders(
+        player,
+        player2,
+        PlaceholderAPI.setPlaceholders(player, cache?.setPlaceholders(message = this, player = player, player2 = player2) ?: this)
+    )
+}
+
 fun String.setPAPIPlaceholders(player: Player, cache: PlaceholderCache? = null): String {
-    return PlaceholderAPI.setPlaceholders(player, cache?.setPlaceholders(this, player) ?: this)
+    return PlaceholderAPI.setPlaceholders(player, cache?.setPlaceholders(message = this, player = player) ?: this)
 }
 
 fun String.replacePlaceholder(placeholder: String, value: String): String {
     return this.replace(placeholder, value)
 }
 
-fun Player.sendTranslatedMessage(message: String, cache: PlaceholderCache? = null) {
-    this.spigot().sendMessage(*TextComponent.fromLegacyText(message.getTranslatedMessage(this, cache).color()))
+fun Player.sendTranslatedMessage(message: String, player2: Player?, cache: PlaceholderCache? = null) {
+    this.spigot().sendMessage(*TextComponent.fromLegacyText(message.getTranslatedMessage(player = this, player2 = player2, cache = cache).color()))
 }
 
-fun Player.sendTranslatedMessage(message: String, player: Player, cache: PlaceholderCache? = null) {
-    this.spigot().sendMessage(*TextComponent.fromLegacyText(message.getTranslatedMessage(player, cache).color()))
+fun Player.sendTranslatedMessage(message: String, player: Player, player2: Player?, cache: PlaceholderCache? = null) {
+    this.spigot().sendMessage(*TextComponent.fromLegacyText(message.getTranslatedMessage(player = player, player2 = player2, cache = cache).color()))
 }
 
-fun CommandSender.sendTranslatedMessage(player: Player, message: String, cache: PlaceholderCache? = null) {
-    this.spigot().sendMessage(*TextComponent.fromLegacyText(message.getTranslatedMessage(player, cache).color()))
+fun CommandSender.sendTranslatedMessage(message: String, player: Player, player2: Player?, cache: PlaceholderCache? = null) {
+    this.spigot().sendMessage(*TextComponent.fromLegacyText(message.getTranslatedMessage(player = player, player2 = player2, cache = cache).color()))
 }
 
-fun String.getTranslatedMessage(player: Player, cache: PlaceholderCache? = null): String {
+fun String.getTranslatedMessage(player: Player, player2: Player?, cache: PlaceholderCache? = null): String {
     var message = this
     val daddy: Plugin? = Bukkit.getPluginManager().getPlugin("PlaceholderAPI")
 
     if (daddy != null && daddy.isEnabled) {
-        message = message.setPAPIPlaceholders(player, cache)
+        message =
+            if (player2 == null) message.setPAPIPlaceholders(player = player, cache = cache)
+            else message.setPAPIPlaceholders(player = player, player2 = player2, cache = cache)
     }
 
     return message

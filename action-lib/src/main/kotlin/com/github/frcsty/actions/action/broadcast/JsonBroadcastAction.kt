@@ -14,7 +14,7 @@ object JsonBroadcastAction : Action {
         Bukkit.getServer().onlinePlayers.forEach {
             Bukkit.dispatchCommand(
                 Bukkit.getConsoleSender(),
-                "tellraw ${it.name} ${data.getTranslatedMessage(player, cache)}"
+                "tellraw ${it.name} ${data.getTranslatedMessage(player = player, player2 = it, cache = cache)}"
             )
         }
     }

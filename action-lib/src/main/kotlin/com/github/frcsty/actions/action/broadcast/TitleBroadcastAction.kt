@@ -20,8 +20,8 @@ object TitleBroadcastAction : Action {
 
         Bukkit.getServer().onlinePlayers.forEach {
             it.sendTitle(
-                title.getTranslatedMessage(player, cache).color(),
-                subtitle.getTranslatedMessage(player, cache).color(),
+                title.getTranslatedMessage(player = player, player2 = it, cache = cache).color(),
+                subtitle.getTranslatedMessage(player = player, player2 = it, cache = cache).color(),
                 fadeIn,
                 stay,
                 fadeOut

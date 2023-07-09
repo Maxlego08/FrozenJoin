@@ -10,6 +10,6 @@ object PlayerCommandAction : Action {
     override val id = "PLAYERCOMMAND"
 
     override fun run(player: Player, data: String, cache: PlaceholderCache?) {
-        player.performCommand(data.getTranslatedMessage(player, cache))
+        player.performCommand(data.getTranslatedMessage(player = player, player2 = null, cache = cache))
     }
 }

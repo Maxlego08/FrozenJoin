@@ -14,7 +14,7 @@ object CenterMessageAction : Action {
     override val id = "CENTERMESSAGE"
 
     override fun run(player: Player, data: String, cache: PlaceholderCache?) {
-        var message = data.getTranslatedMessage(player, cache).color()
+        var message = data.getTranslatedMessage(player = player, player2 = null, cache = cache).color()
         var messagePxSize = 0
 
         var previousCode = false

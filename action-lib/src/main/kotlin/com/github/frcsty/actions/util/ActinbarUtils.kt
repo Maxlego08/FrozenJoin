@@ -31,7 +31,7 @@ fun sendPersistentActionbarMessage(
             }
 
             for (recipientPlayer in recipientPlayers) {
-                recipientPlayer.sendActionBar(message.getTranslatedMessage(actionPlayer, cache).color())
+                recipientPlayer.sendActionBar(message.getTranslatedMessage(player = actionPlayer, player2 = recipientPlayer, cache = cache).color())
             }
 
         }

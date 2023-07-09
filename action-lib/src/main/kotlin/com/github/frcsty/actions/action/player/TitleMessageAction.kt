@@ -19,8 +19,8 @@ object TitleMessageAction : Action {
         val fadeOut = args.getOrNull(5)?.toIntOrNull() ?: DEFAULT_FADE_OUT
 
         player.sendTitle(
-            title.getTranslatedMessage(player, cache).color(),
-            subtitle.getTranslatedMessage(player, cache).color(),
+            title.getTranslatedMessage(player = player, player2 = null, cache = cache).color(),
+            subtitle.getTranslatedMessage(player = player, player2 = null, cache = cache).color(),
             fadeIn,
             stay,
             fadeOut

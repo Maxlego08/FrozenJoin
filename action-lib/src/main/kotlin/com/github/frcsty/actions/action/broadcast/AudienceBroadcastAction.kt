@@ -11,6 +11,6 @@ object AudienceBroadcastAction : Action {
 
     override fun run(player: Player, data: String, cache: PlaceholderCache?) = Bukkit.getServer().onlinePlayers.forEach {
         if (player == it) return@forEach
-        it.sendTranslatedMessage(data, player, cache)
+        it.sendTranslatedMessage(message = data, player = player, player2 = it, cache = cache)
     }
 }

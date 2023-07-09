@@ -5,6 +5,7 @@ import java.util.logging.Logger
 interface Settings {
     val cacheUpdateInterval: Long
     var cachedPlaceholders: List<String>
+    var cachedRelationalPlaceholders: List<String>
     val debug: Boolean
     val metrics: Boolean
 

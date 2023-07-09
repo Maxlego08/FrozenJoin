@@ -48,11 +48,12 @@ class FormatCommand(private val messageLoader: MessageLoader, private val loader
         }
 
         sender.sendTranslatedMessage(
-            player,
-            messageLoader.getMessage("customMessageSetTargetMessage")
+            message = messageLoader.getMessage("customMessageSetTargetMessage")
                 .replacePlaceholder("%type%", argument.lowercase())
                 .replacePlaceholder("%message%", message.color()),
-            loader.placeholderCache
+            player = player,
+            player2 = null,
+            cache = loader.placeholderCache
         )
     }
 
@@ -75,7 +76,12 @@ class FormatCommand(private val messageLoader: MessageLoader, private val loader
             }
         }
 
-        sender.sendTranslatedMessage(player, messageLoader.getMessage("customMessageRemoveTargetMessage")
-                .replacePlaceholder("%type%", argument.lowercase()), loader.placeholderCache)
+        sender.sendTranslatedMessage(
+            message = messageLoader.getMessage("customMessageRemoveTargetMessage")
+                .replacePlaceholder("%type%", argument.lowercase()),
+            player = player,
+            player2 = null,
+            cache = loader.placeholderCache
+        )
     }
 }

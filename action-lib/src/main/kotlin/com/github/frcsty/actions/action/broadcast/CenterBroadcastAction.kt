@@ -12,6 +12,6 @@ object CenterBroadcastAction : Action {
     override val id = "CENTERBROADCAST"
 
     override fun run(player: Player, data: String, cache: PlaceholderCache?) {
-        Bukkit.getServer().onlinePlayers.forEach { CenterMessageAction.run(it, data.getTranslatedMessage(player, cache), cache) }
+        Bukkit.getServer().onlinePlayers.forEach { CenterMessageAction.run(player = it, data = data.getTranslatedMessage(player = player, player2 = it, cache = cache), cache = cache) }
     }
 }

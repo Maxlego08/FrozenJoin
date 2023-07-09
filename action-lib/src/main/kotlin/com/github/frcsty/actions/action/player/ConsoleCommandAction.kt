@@ -11,6 +11,6 @@ object ConsoleCommandAction : Action {
     override val id = "CONSOLECOMMAND"
 
     override fun run(player: Player, data: String, cache: PlaceholderCache?) {
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), data.getTranslatedMessage(player, cache))
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), data.getTranslatedMessage(player = player, player2 = null, cache = cache))
     }
 }
