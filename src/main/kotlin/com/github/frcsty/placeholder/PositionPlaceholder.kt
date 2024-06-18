@@ -8,7 +8,7 @@ import org.bukkit.entity.Player
 class PositionPlaceholder(private val loader: Loader) : PlaceholderExpansion() {
 
     companion object {
-        private val FORMAT = DecimalFormat("###,##")
+        private val FORMAT = DecimalFormat("#,###")
     }
 
     override fun getIdentifier(): String {
